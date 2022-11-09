@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Prosjektoppgave &mdash; Rube Goldberg Maskin</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start</title>
     <link href="style.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./style.css">
+    <style >
+        body{margin: 0;}
+        canvas{ width: 100%; height: 100%; }
+        #info {
+            font-size: 24px;
+            position: absolute;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
 </head>
-<div style="top:0px; left:15px; width:100%; text-align:left; color:black;" class="ui">
-    <h1>Hello Webpack</h1>
 </div>
 <body>
-<button id="myBtn">Instructions</button>
+<div id="info">
+    <div id="writeup">
+        <p id="student"><p>
+
+<button id="myBtn">Instruksjoner</button>
 
 <!-- The Modal lånt fra github: https://github.com/TheColorPlum/RubeGoldBergMachines/tree/9f3b4c63d7d6c8962d6c9123837cc625d0506d2f -->
 <div id="myModal" class="modal">
@@ -21,6 +37,7 @@
         <p>Velkommen til Rube Goldberg maskinen vår </p>
         <ul align="left">
             <li>Klikk på kontrollpanelet i høyre hjørne for å starte, stoppe og resette animasjonen</li>
+        </ul>
         Mats Sørensen, Irina Balkerova, Tove Mette Linløkken
     </div>
 </div>
