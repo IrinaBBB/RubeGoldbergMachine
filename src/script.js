@@ -3,7 +3,6 @@ import * as THREE from 'three'
 import {GUI} from 'dat.gui'
 import {initStats, initTrackballControls, onResize} from './utils/utils.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import {loadModel} from "./background";
 
 main();
 
@@ -15,84 +14,60 @@ function main() {
     const stats = initStats(0)
 
     window.scene = new THREE.Scene()
-    window.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
+    window.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 5000)
     window.renderer = new THREE.WebGLRenderer()
     renderer.setClearColor(new THREE.Color(0xaaaaaa))
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.shadowMap.enabled = true
-    //scene.background = new THREE.Color(0xdddddd);
+    document.body.appendChild(renderer.domElement);
+    scene.background = new THREE.Color(0xdddddd);
 
-    const light2 = new THREE.PointLight( 0xffffff, 2, 200 );
-    light2.position.set(5, 10, 5);
-    scene.add(light2);
+    //Axeshelper
+    scene.add(new THREE.AxesHelper(500));
 
+    //Load model
     let loadedModel;
     const glftLoader = new GLTFLoader();
     glftLoader.load('./assets/models/Another_bedroom.glb', (gltfScene) => {
         loadedModel = gltfScene;
-        // console.log(loadedModel);
+        console.log(loadedModel);
 
-        //gltfScene.scene.rotation.y = Math.PI / 8;
+        //gltfScene.scene.rotation.y = 50;
         //gltfScene.scene.position.y = 3;
-        //gltfScene.scene.scale.set(10, 10, 10);
+       // gltfScene.scene.scale.set(10, 10, 10);
         scene.add(gltfScene.scene);
     });
 
-    /*const gltfLoader = new GLTFLoader();
-    gltfLoader.load('assets/models/Another_bedroom.glb', (gltf) => {
-        const root = gltf.scene;
-        scene.add(root);
-        root.traverse((obj) => {
-            if (obj.castShadow !== undefined) {
-                obj.castShadow = true;
-                obj.receiveShadow = true;
-            }
-        });})*/
-    // Load background model
-    /*const loader = new GLTFLoader();
+    loadedModel.traverse(n => { if ( n.isMesh ) {
+        n.castShadow = true;
+        n.receiveShadow = true;
+        if(n.material.map) n.material.map.anisotropy = 16;
+    }});
 
-    loader.load( 'assets/models/Another_bedroom.glb', function ( gltf ) {
+    const heimLight = new THREE.HemisphereLight(0xffeeb1, 0x080820,2);
+    heimLight.position.set(-50,25,25)
+    heimLight.castShadow = true;
+    scene.add(heimLight);
 
-        scene.add( gltf.scene );
-
-    }, undefined, function ( error ) {
-
-        console.error( error );
-
-    } );*/
-    /*const loader = new GLTFLoader()
-    loader.load('./assets/models/Another_bedroom.glb', function (glb){
-        console.log(glb)
-        const root = glb.scene;
-        root.scale.set(0.5, 0.5, 0.5)
-
-        scene.add(root);
-    }, function (error){
-        console.log('An error occured, WHAT IS HAPPENING!')
-    })
-
-    const loader = new GLTFLoader();
-    loader.load('./assets/models/Another_bedroom.glb', function (gltf){
-        scene.add(gltf.scene);
-        }
-    );
-
-
-    /*const lights = []
-    lightHolder.children.forEach(child => {
-        if (child.name === 'light') {
-            lights.push(child)
-        }
-    })*/
-
-    const light = new THREE.PointLight(0xffffff, 2, 200);
-    light.position.set(4.5, 10, 4.5);
+    const light =new THREE.SpotLight(0xffa95c,1);
+    light.position.set(-100,100,50);
+    light.castShadow = true;
     scene.add(light);
 
+    light.shadow.bias = -0.0001;
+    light.shadow.mapSize.width = 1024*4;
+    light.shadow.mapSize.height = 1024*4;
+
+
+    //const light = new THREE.PointLight(0xffffff, 2, 200);
+    //light.position.set(4.5, 10, 4.5);
+    //scene.add(light);
+
     // CAMERA //
-    //camera.position.x = 10
-    camera.position.y = 1
-    camera.position.z = 3
+    //camera.position.set(7,4,1);
+    camera.position.x = 6
+    camera.position.y = 4
+    camera.position.z = -4
     camera.lookAt(scene.position)
 
 
@@ -120,8 +95,15 @@ function main() {
 
         requestAnimationFrame(renderScene)
         renderer.render(scene, camera)
+        renderer.shadowMap.enabled = true;
+
     }
 
+    function animate() {
+        light.position.set(camera.position.x + 10,
+            camera.position.y + 10,
+            camera.position.z + 10,);
+    }
 
 
 
