@@ -20,9 +20,25 @@ function main() {
     renderer.setClearColor(new THREE.Color(0xaaaaaa))
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.shadowMap.enabled = true
-    scene.background = new THREE.Color(0xdddddd);
+    //scene.background = new THREE.Color(0xdddddd);
 
-    const gltfLoader = new GLTFLoader();
+    const light2 = new THREE.PointLight( 0xffffff, 2, 200 );
+    light2.position.set(5, 10, 5);
+    scene.add(light2);
+
+    let loadedModel;
+    const glftLoader = new GLTFLoader();
+    glftLoader.load('./assets/models/Another_bedroom.glb', (gltfScene) => {
+        loadedModel = gltfScene;
+        // console.log(loadedModel);
+
+        //gltfScene.scene.rotation.y = Math.PI / 8;
+        //gltfScene.scene.position.y = 3;
+        //gltfScene.scene.scale.set(10, 10, 10);
+        scene.add(gltfScene.scene);
+    });
+
+    /*const gltfLoader = new GLTFLoader();
     gltfLoader.load('assets/models/Another_bedroom.glb', (gltf) => {
         const root = gltf.scene;
         scene.add(root);
@@ -31,9 +47,9 @@ function main() {
                 obj.castShadow = true;
                 obj.receiveShadow = true;
             }
-        });})
-    /*// Load background model
-    const loader = new GLTFLoader();
+        });})*/
+    // Load background model
+    /*const loader = new GLTFLoader();
 
     loader.load( 'assets/models/Another_bedroom.glb', function ( gltf ) {
 
@@ -44,48 +60,23 @@ function main() {
         console.error( error );
 
     } );*/
+    /*const loader = new GLTFLoader()
+    loader.load('./assets/models/Another_bedroom.glb', function (glb){
+        console.log(glb)
+        const root = glb.scene;
+        root.scale.set(0.5, 0.5, 0.5)
 
-    // LIGHTS //
-    // taken from https://codepen.io/prisoner849/pen/RwbjwgZ?editors=0010
-    // light holder
-    const carProfileShape = new THREE.Shape([
-        new THREE.Vector2(1, 0),
-        new THREE.Vector2(1, 0.25),
-        new THREE.Vector2(0.65, 0.25),
-        new THREE.Vector2(0.35, 0.5),
-        new THREE.Vector2(-0.25, 0.5),
-        new THREE.Vector2(-0.95, 0.25),
-        new THREE.Vector2(-1, 0.25),
-        new THREE.Vector2(-1, 0)
-    ]);
-    const carProfileGeometry = new THREE.ExtrudeBufferGeometry(carProfileShape, {depth: 1, bevelEnabled: false});
-    carProfileGeometry.translate(0, 0, -0.5);
-    carProfileGeometry.rotateY(-Math.PI * 0.5);
-    const lightHolder = new THREE.Mesh(carProfileGeometry, new THREE.MeshLambertMaterial({color: "black"}));
-    lightHolder.position.y = 2
-    lightHolder.position.x = 15
+        scene.add(root);
+    }, function (error){
+        console.log('An error occured, WHAT IS HAPPENING!')
+    })
 
-    lightHolder.rotation.y = Math.PI / 2
-    lightHolder.scale.x = 5
+    const loader = new GLTFLoader();
+    loader.load('./assets/models/Another_bedroom.glb', function (gltf){
+        scene.add(gltf.scene);
+        }
+    );
 
-    // lights
-    createLight(lightHolder, -0.3)
-    createLight(lightHolder, 0.3)
-
-    function createLight(base, shift) {
-        let bulb = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshBasicMaterial())
-        bulb.scale.setScalar(0.1)
-        bulb.position.set(shift, 0.125, 1)
-        base.add(bulb)
-        let light = new THREE.SpotLight(0xff0000, 100, 50, THREE.MathUtils.degToRad(10), 0.5)
-        light.name = 'light'
-        light.position.set(shift, 0.125, 1)
-        base.add(light)
-        let lightTarget = new THREE.Object3D()
-        lightTarget.position.set(shift, 0.125, 1 + 0.1)
-        base.add(lightTarget)
-        light.target = lightTarget
-    }
 
     /*const lights = []
     lightHolder.children.forEach(child => {
@@ -94,22 +85,15 @@ function main() {
         }
     })*/
 
+    const light = new THREE.PointLight(0xffffff, 2, 200);
+    light.position.set(4.5, 10, 4.5);
+    scene.add(light);
+
     // CAMERA //
-    camera.position.x = 10
-    camera.position.y = 10
-    camera.position.z = 50
+    //camera.position.x = 10
+    camera.position.y = 1
+    camera.position.z = 3
     camera.lookAt(scene.position)
-
-    // SUBTLE AMBIENT LIGHTNING //
-    const ambientLight = new THREE.AmbientLight(0x3c3c3c, 1)
-    scene.add(ambientLight)
-
-    // SPOTLIGHT FOR THE SHADOWS //
-    const spotLight = new THREE.SpotLight(0xffffff, 3, 500, 120)
-    spotLight.position.set(-20, 100, -10)
-    spotLight.castShadow = true
-    scene.add(spotLight)
-
 
 
     //document.getElementById('webgl-output').appendChild(renderer.domElement)
