@@ -21,6 +21,7 @@ function main() {
     renderer.shadowMap.enabled = true
     document.body.appendChild(renderer.domElement);
     scene.background = new THREE.Color(0xdddddd);
+    renderer.physicallyCorrectLights = true;
 
     //Axeshelper
     scene.add(new THREE.AxesHelper(500));
@@ -38,11 +39,11 @@ function main() {
         scene.add(gltfScene.scene);
     });
 
-    loadedModel.traverse(n => { if ( n.isMesh ) {
+    /*loadedModel.traverse(n => { if ( n.isMesh ) {
         n.castShadow = true;
         n.receiveShadow = true;
         if(n.material.map) n.material.map.anisotropy = 16;
-    }});
+    }});*/
 
     const heimLight = new THREE.HemisphereLight(0xffeeb1, 0x080820,2);
     heimLight.position.set(-50,25,25)
@@ -57,6 +58,11 @@ function main() {
     light.shadow.bias = -0.0001;
     light.shadow.mapSize.width = 1024*4;
     light.shadow.mapSize.height = 1024*4;
+
+    const light2 = new THREE.DirectionalLight('white',8);
+    light2.position.set(20,10,50);
+    light2.castShadow = true;
+    scene.add(light2);
 
 
     //const light = new THREE.PointLight(0xffffff, 2, 200);
