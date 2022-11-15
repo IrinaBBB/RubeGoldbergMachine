@@ -1,31 +1,16 @@
-
 canvas {
     border: 2px solid black;
     background-color: black;
 }
-
-.selectable {
-    -webkit-touch-callout: text;
-    -webkit-user-select: text;
-    -khtml-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
+video {
+    display: none;
 }
-
 body {
-    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    font-size: 20px;
-    color: #eee;
-    background: #222;
+    overflow: hidden;
     margin: 0;
     background: #dddddd;
 }
-
-#main_div {
-    margin: 0 auto;
-    max-width: 55em;
-
+.ui {
     position: absolute;
     padding-left: 15px;
     padding-right: 15px;
@@ -42,104 +27,74 @@ body {
 /*    font-size: 16px;*/
 /*}*/
 
-
-.top {
-    margin: 30px;
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
 }
 
-img {
-    max-width: 640px;
-    margin-left: 30px;
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.assignment {
-    font-size: 100%;
-    color: #ddd;
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
-.image {
-    display:inline;
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
-#loading {
-    position:absolute;
-    top:  200px;
-    left: 200px;
-    font-size:47px;
-    font-weight:bold;
-    font-color:#ddd;
-}
-#alert_div {
-    position:absolute;
-    top:  50px;
-    left: 50px;
-    height:100px;
-    width: 340px;
-    font-size:14px;
-    font-weight:bold;
-    text-align: center;
-    align: center;
-    font-color:#ddd;
-    background-color:#422;
-    border:1px solid #333;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    display: none;
-
-}
-#result_div {
-    margin: 0 auto;
-    text-align: center;
-    font-color:#FF0;
+input:checked + .slider {
+    background-color: #2196F3;
 }
 
-h1, h2, h3 {
-    font-weight: 700;
-    margin: 0em 0em 0em;
-    letter-spacing: 2px;
-    opacity: 0.5;
-    text-shadow:
-            -1px -1px 1px #000,
-            1px -1px 1px #000,
-            -1px 1px 1px #000,
-            1px 1px 1px #000;
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
 }
 
-h1 {
-    font-size: 100%;
-}
-h2 {
-    margin-top:10px;
-    font-size: 70%;
-}
-h3 {
-    font-size: 60%;
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }
 
-a, a:visited, a:active {
-    text-decoration: none;
-    color: #8CE;
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
 }
 
-a:hover {
-    text-decoration: underline;
+.slider.round:before {
+    border-radius: 50%;
 }
 
-button {
-    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    font-size: 14px;
-    color: #eee;
-    background: #222;
-    text-align:center;
-    margin:auto auto auto auto;
-    border:1px solid #c4c5c6;  -webkit-border-radius: 8px; -moz-border-radius: 8px;border-radius: 8px;
-    text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
-    background-color: #f2f5f6; background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#222));
-    background-image: -webkit-linear-gradient(top, #333, #222);
-    background-image: -moz-linear-gradient(top, #333, #222);
-    background-image: -ms-linear-gradient(top, #333, #222);
-    background-image: -o-linear-gradient(top, #333, #222);
-    background-image: linear-gradient(to bottom, #333, #222);
-    filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#333, endColorstr=#222);
+label {
+    display: inline;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input, label {
+    margin: .4rem 0;
 }
