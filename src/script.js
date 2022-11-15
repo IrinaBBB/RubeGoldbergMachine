@@ -1,117 +1,203 @@
-import './style.css'
-import * as THREE from 'three'
-import {GUI} from 'dat.gui'
-import {initStats, initTrackballControls, onResize} from './utils/utils.js'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import './style.css';
+import * as THREE from 'three';
+import Stats from 'stats.js';
+import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-main();
+import {
+    createThreeScene,
+    handleKeys,
+    onWindowResize,
+    renderScene,
+    updateThree,
+} from './helpers/myThreeHelper.js';
 
-function main() {
-    const loadManager = new THREE.LoadingManager()
-    window.loader = new THREE.TextureLoader(loadManager)
+import { createAmmoWorld, updatePhysics } from './helpers/myAmmoHelper.js';
 
-    window.addEventListener('resize', onResize, false)
-    const stats = initStats(0)
+import {
+    createAmmoCube,
+    createAmmoSpheres,
+    createAmmoXZPlane,
+    createMovable,
+} from './helpers/threeAmmoShapes.js';
 
-    window.scene = new THREE.Scene()
-    window.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 5000)
-    window.renderer = new THREE.WebGLRenderer()
-    renderer.setClearColor(new THREE.Color(0xaaaaaa))
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.shadowMap.enabled = true
-    document.body.appendChild(renderer.domElement);
-    scene.background = new THREE.Color(0xdddddd);
-    renderer.physicallyCorrectLights = true;
+/**
+ * Global variables
+ */
+let g_clock;
+let g_models;
+let g_scene;
+const g_currentlyPressedKeys = [];
+const XZ_PLANE_SIDE_LENGTH = 100;
+const stats = Stats();
 
-    //Axeshelper
-    scene.add(new THREE.AxesHelper(500));
+/**
+ * Ammo.js Initialization
+ */
+Ammo().then(async function (AmmoLib) {
+    Ammo = AmmoLib;
+    await main();
+});
 
-    //Load model
-    let loadedModel;
-    const glftLoader = new GLTFLoader();
-    glftLoader.load('./assets/models/Another_bedroom.glb', (gltfScene) => {
-        loadedModel = gltfScene;
-        console.log(loadedModel);
+/**
+ * Main function
+ */
+export async function main() {
+    stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(stats.dom);
 
-        //gltfScene.scene.rotation.y = 50;
-        //gltfScene.scene.position.y = 3;
-       // gltfScene.scene.scale.set(10, 10, 10);
-        scene.add(gltfScene.scene);
+    /**
+     * Call handleKeyUp and handleKeyDown on keyUp/keyDown
+     */
+    document.addEventListener('keyup', handleKeyUp, false);
+    document.addEventListener('keydown', handleKeyDown, false);
+
+    /**
+     *  Create Three Scene
+     */
+    g_scene = createThreeScene();
+
+    /**
+     * Create Ammo World
+     */
+    createAmmoWorld(true);
+
+    /**
+     *  Add three/ammo-objects
+     */
+    loadModelsAndSceneObjects();
+
+    /**
+     * Clock for animation
+     */
+    g_clock = new THREE.Clock();
+
+    /**
+     * Handle windows resize
+     */
+    window.addEventListener('resize', onWindowResize, false);
+
+    /**
+     * Handle keystrokes
+     */
+    document.addEventListener('keyup', handleKeyUp, false);
+    document.addEventListener('keydown', handleKeyDown, false);
+
+    /**
+     * Start animation loop
+     */
+    animate(0);
+}
+
+function addSceneObjects() {
+    createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
+    createAmmoSpheres(20);
+    createAmmoCube();
+    createMovable();
+}
+
+function handleKeyUp(event) {
+    g_currentlyPressedKeys[event.code] = false;
+}
+
+function handleKeyDown(event) {
+    g_currentlyPressedKeys[event.code] = true;
+}
+
+/**
+ * Load models function
+ */
+function loadModelsAndSceneObjects() {
+    const progressBarElement = document.querySelector('#progress-bar');
+    const manager = new THREE.LoadingManager();
+    manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        progressBarElement.style.width = `${
+            ((itemsLoaded / itemsTotal) * 100) | 0
+        }%`;
+    };
+    manager.onLoad = () => {
+        initModels();
+        addSceneObjects();
+    };
+    g_models = {
+        bedroom: {
+            url: '../../../assets/models/bedroom/bedroom.glb',
+            scale: { x: 13, y: 13, z: 13 },
+            position: { x: 0, y: 5, z: 0 },
+            rotation: { x: 0, y: -Math.PI / 2, z: 0 },
+        },
+        pc_nightmare_mushroom: {
+            url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
+            scale: { x: 1, y: 1, z: 1 },
+            position: { x: 40, y: 30, z: 0 },
+            rotation: { x: 0, y: 0, z: 0 },
+        },
+    };
+    /**
+     * Use GLTFLoader to load each .gltf / .glb file
+     */
+    const gltfLoader = new GLTFLoader(manager);
+    for (const model of Object.values(g_models)) {
+        gltfLoader.load(model.url, (gltf) => {
+            model.gltf = gltf;
+        });
+    }
+}
+
+/**
+ * Initialize models function
+ */
+function initModels() {
+    const loadingElement = document.querySelector('#loading');
+    loadingElement.style.display = 'none';
+
+    Object.values(g_models).forEach((model, ndx) => {
+        model.gltf.scene.traverse(function (child) {
+            if (child.type === 'SkinnedMesh') {
+                console.log(child);
+            }
+        });
+
+        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
+        const root = new THREE.Object3D();
+        /**
+         * Scale and position
+         */
+        root.scale.set(model.scale.x, model.scale.y, model.scale.z);
+        root.position.set(model.position.x, model.position.y, model.position.z);
+        root.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
+        root.add(clonedScene);
+        g_scene.add(root);
     });
+}
 
-    /*loadedModel.traverse(n => { if ( n.isMesh ) {
-        n.castShadow = true;
-        n.receiveShadow = true;
-        if(n.material.map) n.material.map.anisotropy = 16;
-    }});*/
+function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
+    window.requestAnimationFrame((currentTime) => {
+        animate(currentTime, myThreeScene, myAmmoPhysicsWorld);
+    });
+    let deltaTime = g_clock.getDelta();
 
-    const heimLight = new THREE.HemisphereLight(0xffeeb1, 0x080820,2);
-    heimLight.position.set(-50,25,25)
-    heimLight.castShadow = true;
-    scene.add(heimLight);
+    stats.begin();
 
-    const light =new THREE.SpotLight(0xffa95c,1);
-    light.position.set(-100,100,50);
-    light.castShadow = true;
-    scene.add(light);
+    /**
+     * Update graphics
+     */
+    updateThree(deltaTime);
 
-    light.shadow.bias = -0.0001;
-    light.shadow.mapSize.width = 1024*4;
-    light.shadow.mapSize.height = 1024*4;
+    /**
+     * Update physics
+     */
+    updatePhysics(deltaTime);
 
-    const light2 = new THREE.DirectionalLight('white',8);
-    light2.position.set(20,10,50);
-    light2.castShadow = true;
-    scene.add(light2);
+    /**
+     * Check input
+     */
+    handleKeys(deltaTime, g_currentlyPressedKeys);
 
+    /**
+     * Draw scene with a given camera
+     */
+    renderScene();
 
-    //const light = new THREE.PointLight(0xffffff, 2, 200);
-    //light.position.set(4.5, 10, 4.5);
-    //scene.add(light);
-
-    // CAMERA //
-    //camera.position.set(7,4,1);
-    camera.position.x = 6
-    camera.position.y = 4
-    camera.position.z = -4
-    camera.lookAt(scene.position)
-
-
-    //document.getElementById('webgl-output').appendChild(renderer.domElement)
-
-    // TRACKBALL CONTROLS //
-    const trackballControls = initTrackballControls(camera, renderer)
-    const clock = new THREE.Clock()
-
-    // GUI //
-    const gui = new GUI()
-    const parameters = {
-        color: 0xff0000,
-        }
-
-
-
-    renderScene()
-
-    window.trackStarted = false
-
-    function renderScene() {
-        stats.update()
-        trackballControls.update(clock.getDelta())
-
-        requestAnimationFrame(renderScene)
-        renderer.render(scene, camera)
-        renderer.shadowMap.enabled = true;
-
-    }
-
-    function animate() {
-        light.position.set(camera.position.x + 10,
-            camera.position.y + 10,
-            camera.position.z + 10,);
-    }
-
-
-
-
+    stats.end();
 }
