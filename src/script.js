@@ -65,7 +65,7 @@ export async function main() {
     /**
      *  Add three/ammo-objects
      */
-    addSceneObjects();
+    loadModelsAndSceneObjects();
 
     /**
      * Clock for animation
@@ -91,10 +91,9 @@ export async function main() {
 
 function addSceneObjects() {
     createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
-    // createAmmoSpheres(20);
-    // createAmmoCube();
-    // createMovable();
-    loadModels();
+    createAmmoSpheres(20);
+    createAmmoCube();
+    createMovable();
 }
 
 function handleKeyUp(event) {
@@ -108,7 +107,7 @@ function handleKeyDown(event) {
 /**
  * Load models function
  */
-function loadModels() {
+function loadModelsAndSceneObjects() {
     const progressBarElement = document.querySelector('#progressbar');
     const manager = new THREE.LoadingManager();
     manager.onProgress = (url, itemsLoaded, itemsTotal) => {
@@ -118,11 +117,12 @@ function loadModels() {
     };
     manager.onLoad = () => {
         initModels();
+        addSceneObjects();
     };
     g_models = {
         bedroom: {
             url: '../../../assets/models/bedroom/bedroom.glb',
-            scale: { x: 15, y: 15, z: 15 },
+            scale: { x: 13, y: 13, z: 13 },
             position: { x: 0, y: 5, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },

@@ -15,7 +15,7 @@ const COLLISION_GROUP_BOX = 8; //..osv. legg til etter behov.
 
 export function createAmmoXZPlane(xzPlaneSideLength) {
     const mass = 0;
-    const position = { x: 0, y: 0, z: 0 };
+    const position = { x: 0, y: 7.5, z: 0 };
     g_xzPlaneSideLength = xzPlaneSideLength;
     // THREE:
     let geometry = new THREE.PlaneGeometry(
@@ -26,7 +26,7 @@ export function createAmmoXZPlane(xzPlaneSideLength) {
     );
     geometry.rotateX(-Math.PI / 2);
     let material = new THREE.MeshStandardMaterial({
-        color: 0xa8a8f8,
+        color: 0xffffff,
         side: THREE.DoubleSide,
     });
     let mesh = new THREE.Mesh(geometry, material);
