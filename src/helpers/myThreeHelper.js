@@ -49,6 +49,8 @@ export function createThreeScene() {
     // TrackballControls:
     g_controls = new TrackballControls(g_camera, g_renderer.domElement);
     g_controls.addEventListener('change', renderScene);
+
+    return g_scene;
 }
 
 export function addLights() {
@@ -77,7 +79,7 @@ export function addLights() {
         0xff0000
     );
     directionalLightHelper.visible = true;
-    g_scene.add(directionalLightHelper);
+    //g_scene.add(directionalLightHelper);
     directionalLight.castShadow = true; //Merk!
     directionalLight.shadow.mapSize.width = 1024;
     directionalLight.shadow.mapSize.height = 1024;
@@ -89,12 +91,12 @@ export function addLights() {
     directionalLight.shadow.camera.bottom = -50;
     g_scene.add(directionalLight);
     // Viser lyskildekamera (hva lyskilden "ser")
-    const directionalLightCameraHelper = new THREE.CameraHelper(
-        directionalLight.shadow.camera
-    );
-    directionalLightCameraHelper.visible = true;
-
-    g_scene.add(directionalLightCameraHelper);
+    // const directionalLightCameraHelper = new THREE.CameraHelper(
+    //     directionalLight.shadow.camera
+    // );
+    // directionalLightCameraHelper.visible = true;
+    //
+    // g_scene.add(directionalLightCameraHelper);
 
     //lil-gui:
     const directionalFolder = g_lilGui.addFolder('Directional Light');
