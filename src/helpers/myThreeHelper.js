@@ -42,9 +42,9 @@ export function createThreeScene() {
         0.1,
         10000
     );
-    g_camera.position.x = 30;
-    g_camera.position.y = 160;
-    g_camera.position.z = 100;
+    g_camera.position.x = 40;
+    g_camera.position.y = 70;
+    g_camera.position.z = 50;
 
     // TrackballControls:
     g_controls = new TrackballControls(g_camera, g_renderer.domElement);
@@ -67,12 +67,18 @@ export function addLights() {
         .step(0.01)
         .name('Intensity');
     ambientFolder.addColor(ambientLight1, 'color').name('Color');
+    ambientFolder.close();
 
-    //** RETNINGSORIENTERT LYS (som gir skygge):
+    /**
+     * Directional light (creates shadow)
+     */
     let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
     directionalLight.visible = true;
     directionalLight.position.set(0, 105, 0);
-    // Viser lyskilden:
+
+    /**
+     * Shows light source
+     */
     const directionalLightHelper = new THREE.DirectionalLightHelper(
         directionalLight,
         10,
@@ -108,6 +114,7 @@ export function addLights() {
         .step(0.01)
         .name('Intensity');
     directionalFolder.addColor(directionalLight, 'color').name('Color');
+    directionalFolder.close();
 }
 
 /**

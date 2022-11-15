@@ -120,15 +120,17 @@ function loadModels() {
         initModels();
     };
     g_models = {
-        mantis: {
-            url: '../../../assets/models/mantis/scene.gltf',
-            scale: { x: 0.3, y: 0.3, z: 0.3 },
-            position: { x: 0, y: 0, z: 0 },
+        bedroom: {
+            url: '../../../assets/models/bedroom/bedroom.glb',
+            scale: { x: 15, y: 15, z: 15 },
+            position: { x: 0, y: 5, z: 0 },
+            rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
         pc_nightmare_mushroom: {
             url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
             scale: { x: 1, y: 1, z: 1 },
-            position: { x: 40, y: 20, z: 0 },
+            position: { x: 40, y: 30, z: 0 },
+            rotation: { x: 0, y: 0, z: 0 },
         },
     };
     /**
@@ -163,6 +165,7 @@ function initModels() {
          */
         root.scale.set(model.scale.x, model.scale.y, model.scale.z);
         root.position.set(model.position.x, model.position.y, model.position.z);
+        root.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
         root.add(clonedScene);
         g_scene.add(root);
     });
