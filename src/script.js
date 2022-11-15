@@ -108,7 +108,7 @@ function handleKeyDown(event) {
  * Load models function
  */
 function loadModelsAndSceneObjects() {
-    const progressBarElement = document.querySelector('#progressbar');
+    const progressBarElement = document.querySelector('#progress-bar');
     const manager = new THREE.LoadingManager();
     manager.onProgress = (url, itemsLoaded, itemsTotal) => {
         progressBarElement.style.width = `${
