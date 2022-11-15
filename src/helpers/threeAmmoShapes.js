@@ -149,7 +149,7 @@ export function createAmmoCube(
 
 export function createMovable(
     color = 0x00a6e5,
-    position = { x: -10, y: 0, z: -30 }
+    position = { x: -10, y: 20, z: -30 }
 ) {
     const sideLength = 5;
     const mass = 0; //Merk!
