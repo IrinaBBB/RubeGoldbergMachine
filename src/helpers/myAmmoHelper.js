@@ -1,9 +1,14 @@
+// noinspection DuplicatedCode
+
 let g_transform;
 
 export const IMPULSE_FORCE = 10;
 export let g_ammoPhysicsWorld;
 export let g_rigidBodies = [];
 
+/**
+ * Create Ammo World
+ */
 export function createAmmoWorld() {
     /**
      * Helper object

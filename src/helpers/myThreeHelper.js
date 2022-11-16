@@ -26,11 +26,14 @@ export function createThreeScene() {
     g_scene = new THREE.Scene();
     g_scene.background = new THREE.Color(0xdddddd);
 
-    // lil-gui kontroller:
+    /**
+     * Lil-gui controller
+     */
     g_lilGui = new GUI();
 
-    // Sceneobjekter
-    //await addSceneObjects();
+    /**
+     * Lights
+     */
     addLights();
 
     /**
@@ -46,7 +49,9 @@ export function createThreeScene() {
     g_camera.position.y = 70;
     g_camera.position.z = 50;
 
-    // TrackballControls:
+    /**
+     * Trackball controls
+     */
     g_controls = new TrackballControls(g_camera, g_renderer.domElement);
     g_controls.addEventListener('change', renderScene);
 
@@ -54,7 +59,9 @@ export function createThreeScene() {
 }
 
 export function addLights() {
-    // Ambient:
+    /**
+     * Ambient Light
+     */
     let ambientLight1 = new THREE.AmbientLight(0xffffff, 0.7);
     ambientLight1.visible = true;
     g_scene.add(ambientLight1);
@@ -77,7 +84,7 @@ export function addLights() {
     directionalLight.position.set(0, 105, 0);
 
     /**
-     * Shows light source
+     * Shows light source (helper)
      */
     const directionalLightHelper = new THREE.DirectionalLightHelper(
         directionalLight,
@@ -86,6 +93,10 @@ export function addLights() {
     );
     directionalLightHelper.visible = true;
     //g_scene.add(directionalLightHelper);
+
+    /**
+     * Sets directional light
+     */
     directionalLight.castShadow = true; //Merk!
     directionalLight.shadow.mapSize.width = 1024;
     directionalLight.shadow.mapSize.height = 1024;
@@ -96,15 +107,19 @@ export function addLights() {
     directionalLight.shadow.camera.top = 50;
     directionalLight.shadow.camera.bottom = -50;
     g_scene.add(directionalLight);
-    // Viser lyskildekamera (hva lyskilden "ser")
-    // const directionalLightCameraHelper = new THREE.CameraHelper(
-    //     directionalLight.shadow.camera
-    // );
-    // directionalLightCameraHelper.visible = true;
-    //
-    // g_scene.add(directionalLightCameraHelper);
 
-    //lil-gui:
+    /**
+     * Shows light source camera (what light source "sees")
+     */
+    const directionalLightCameraHelper = new THREE.CameraHelper(
+        directionalLight.shadow.camera
+    );
+    directionalLightCameraHelper.visible = true;
+    //g_scene.add(directionalLightCameraHelper);
+
+    /**
+     * Put light controls in lil-gui
+     */
     const directionalFolder = g_lilGui.addFolder('Directional Light');
     directionalFolder.add(directionalLight, 'visible').name('On/Off');
     directionalFolder

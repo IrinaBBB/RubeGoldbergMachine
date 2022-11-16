@@ -12,10 +12,15 @@ import {
     updateThree,
 } from './helpers/myThreeHelper.js';
 
-import { createAmmoWorld, updatePhysics } from './helpers/myAmmoHelper.js';
+import {
+    createAmmoRigidBody,
+    createAmmoWorld,
+    updatePhysics,
+} from './helpers/myAmmoHelper.js';
 
 import {
     createAmmoCube,
+    createAmmoCubeOfMesh,
     createAmmoSpheres,
     createAmmoXZPlane,
     createMovable,
@@ -90,10 +95,10 @@ export async function main() {
 }
 
 function addSceneObjects() {
-    createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
+    //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
     createAmmoSpheres(20);
-    createAmmoCube();
-    createMovable();
+    // createAmmoCube();
+    // createMovable();
 }
 
 function handleKeyUp(event) {
@@ -123,13 +128,13 @@ function loadModelsAndSceneObjects() {
         bedroom: {
             url: '../../../assets/models/bedroom/bedroom.glb',
             scale: { x: 13, y: 13, z: 13 },
-            position: { x: 0, y: 5, z: 0 },
+            position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
         pc_nightmare_mushroom: {
             url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
             scale: { x: 1, y: 1, z: 1 },
-            position: { x: 40, y: 30, z: 0 },
+            position: { x: 40, y: 25, z: 0 },
             rotation: { x: 0, y: 0, z: 0 },
         },
     };
@@ -150,11 +155,17 @@ function loadModelsAndSceneObjects() {
 function initModels() {
     const loadingElement = document.querySelector('#loading');
     loadingElement.style.display = 'none';
+    const meshes = [];
 
     Object.values(g_models).forEach((model, ndx) => {
         model.gltf.scene.traverse(function (child) {
-            if (child.type === 'SkinnedMesh') {
-                console.log(child);
+            if (child.name === 'Floor') {
+                child.customScale = model.scale;
+                meshes.push(child);
+            }
+            if (child.name === 'Bookshelf') {
+                child.customScale = model.scale;
+                meshes.push(child);
             }
         });
 
@@ -169,6 +180,12 @@ function initModels() {
         root.add(clonedScene);
         g_scene.add(root);
     });
+    meshes.forEach((mesh) => {
+        if (mesh.name === 'Floor') {
+            createAmmoCubeOfMesh(mesh, 0);
+        }
+    });
+    console.log(meshes);
 }
 
 function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {

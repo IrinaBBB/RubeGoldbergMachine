@@ -5,19 +5,22 @@ import {
     g_ammoPhysicsWorld,
     g_rigidBodies,
 } from './myAmmoHelper.js';
+import { cloneUniformsGroups } from 'three/src/renderers/shaders/UniformsUtils';
 
 let g_xzPlaneSideLength = 100;
 
 const COLLISION_GROUP_PLANE = 1;
 const COLLISION_GROUP_SPHERE = 2;
-const COLLISION_GROUP_MOVEABLE = 4;
+const COLLISION_GROUP_MOVABLE = 4;
 const COLLISION_GROUP_BOX = 8; //..osv. legg til etter behov.
 
 export function createAmmoXZPlane(xzPlaneSideLength) {
     const mass = 0;
     const position = { x: 0, y: 7.5, z: 0 };
     g_xzPlaneSideLength = xzPlaneSideLength;
-    // THREE:
+    /**
+     * Three.js
+     */
     let geometry = new THREE.PlaneGeometry(
         g_xzPlaneSideLength,
         g_xzPlaneSideLength,
@@ -33,7 +36,9 @@ export function createAmmoXZPlane(xzPlaneSideLength) {
     mesh.receiveShadow = true;
     mesh.name = 'xzplane';
 
-    // AMMO:
+    /**
+     * Ammo.js
+     */
     let shape = new Ammo.btBoxShape(
         new Ammo.btVector3(g_xzPlaneSideLength / 2, 0, g_xzPlaneSideLength / 2)
     );
@@ -42,7 +47,9 @@ export function createAmmoXZPlane(xzPlaneSideLength) {
 
     mesh.userData.physicsBody = rigidBody;
 
-    // Legger til physics world:
+    /**
+     * Adds rigid body to the world
+     */
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
         COLLISION_GROUP_PLANE,
@@ -93,7 +100,43 @@ export function createAmmoSphere(
         COLLISION_GROUP_SPHERE,
         COLLISION_GROUP_SPHERE |
             COLLISION_GROUP_BOX |
-            COLLISION_GROUP_MOVEABLE |
+            COLLISION_GROUP_MOVABLE |
+            COLLISION_GROUP_PLANE
+    );
+
+    addMeshToScene(mesh);
+    g_rigidBodies.push(mesh);
+    rigidBody.threeMesh = mesh;
+}
+
+export function createAmmoCubeOfMesh(mesh, mass = 1) {
+    let width = mesh.customScale.x;
+    let height = mesh.customScale.y;
+    let depth = mesh.customScale.z;
+
+    console.log(width);
+    console.log(height);
+    console.log(depth);
+
+    let shape = new Ammo.btBoxShape(new Ammo.btVector3(width, height, depth));
+    let rigidBody = createAmmoRigidBody(
+        shape,
+        mesh,
+        0.7,
+        0.8,
+        mesh.position,
+        mass
+    );
+    mesh.userData.physicsBody = rigidBody;
+    /**
+     * Add to physics world
+     */
+    g_ammoPhysicsWorld.addRigidBody(
+        rigidBody,
+        COLLISION_GROUP_BOX,
+        COLLISION_GROUP_BOX |
+            COLLISION_GROUP_SPHERE |
+            COLLISION_GROUP_MOVABLE |
             COLLISION_GROUP_PLANE
     );
 
@@ -109,7 +152,9 @@ export function createAmmoCube(
 ) {
     const sideLength = 0.2 * mass;
 
-    //THREE
+    /**
+     * Three.js
+     */
     let mesh = new THREE.Mesh(
         new THREE.BoxGeometry(sideLength, sideLength, sideLength, 1, 1),
         new THREE.MeshStandardMaterial({ color: color })
@@ -119,7 +164,9 @@ export function createAmmoCube(
     mesh.castShadow = true;
     mesh.receiveShadow = true;
 
-    //AMMO
+    /**
+     * Ammo.js
+     */
     let width = mesh.geometry.parameters.width;
     let height = mesh.geometry.parameters.height;
     let depth = mesh.geometry.parameters.depth;
@@ -132,13 +179,15 @@ export function createAmmoCube(
 
     mesh.userData.physicsBody = rigidBody;
 
-    // Legger til physics world:
+    /**
+     * Add to physics world
+     */
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
         COLLISION_GROUP_BOX,
         COLLISION_GROUP_BOX |
             COLLISION_GROUP_SPHERE |
-            COLLISION_GROUP_MOVEABLE |
+            COLLISION_GROUP_MOVABLE |
             COLLISION_GROUP_PLANE
     );
 
@@ -184,7 +233,7 @@ export function createMovable(
     // Legger til physics world:
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
-        COLLISION_GROUP_MOVEABLE,
+        COLLISION_GROUP_MOVABLE,
         COLLISION_GROUP_SPHERE | COLLISION_GROUP_PLANE | COLLISION_GROUP_BOX
     );
 
