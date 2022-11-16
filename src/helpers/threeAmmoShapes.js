@@ -62,7 +62,7 @@ export function createAmmoXZPlane(xzPlaneSideLength) {
 }
 
 export function createAmmoSphere(
-    mass = 10,
+    mass = 1,
     color = 0x00ff00,
     position = { x: 0, y: 50, z: 0 }
 ) {
@@ -110,15 +110,32 @@ export function createAmmoSphere(
 }
 
 export function createAmmoCubeOfMesh(mesh, mass = 1) {
-    let width = mesh.customScale.x;
-    let height = mesh.customScale.y;
-    let depth = mesh.customScale.z;
+    let width =
+        (mesh.geometry.boundingBox.max.x - mesh.geometry.boundingBox.min.x) *
+        mesh.customScale.x;
+    let height =
+        (mesh.geometry.boundingBox.max.y - mesh.geometry.boundingBox.min.y) *
+        mesh.customScale.y;
+    let depth =
+        (mesh.geometry.boundingBox.max.z - mesh.geometry.boundingBox.min.z) *
+        mesh.customScale.z;
+
+    // mesh.castShadow = true;
+    // mesh.receiveShadow = true;
+
+    // mesh.position.x *= mesh.customScale.x;
+    // mesh.position.y *= mesh.customScale.y;
+    // mesh.position.z *= mesh.customScale.z;
+
+    // mesh.rotation.y = -Math.PI / 2;
 
     console.log(width);
     console.log(height);
     console.log(depth);
 
-    let shape = new Ammo.btBoxShape(new Ammo.btVector3(width, height, depth));
+    let shape = new Ammo.btBoxShape(
+        new Ammo.btVector3(width / 2, height / 2, depth / 2)
+    );
     let rigidBody = createAmmoRigidBody(
         shape,
         mesh,
@@ -140,7 +157,7 @@ export function createAmmoCubeOfMesh(mesh, mass = 1) {
             COLLISION_GROUP_PLANE
     );
 
-    addMeshToScene(mesh);
+    //addMeshToScene(mesh);
     g_rigidBodies.push(mesh);
     rigidBody.threeMesh = mesh;
 }
@@ -164,6 +181,8 @@ export function createAmmoCube(
     mesh.castShadow = true;
     mesh.receiveShadow = true;
 
+    console.log(mesh);
+
     /**
      * Ammo.js
      */
@@ -174,7 +193,7 @@ export function createAmmoCube(
     let shape = new Ammo.btBoxShape(
         new Ammo.btVector3(width / 2, height / 2, depth / 2)
     );
-    shape.setMargin(0.05);
+    //shape.setMargin(0.05);
     let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.8, position, mass);
 
     mesh.userData.physicsBody = rigidBody;

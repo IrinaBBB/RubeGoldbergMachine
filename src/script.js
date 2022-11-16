@@ -127,16 +127,16 @@ function loadModelsAndSceneObjects() {
     g_models = {
         bedroom: {
             url: '../../../assets/models/bedroom/bedroom.glb',
-            scale: { x: 13, y: 13, z: 13 },
+            scale: { x: 15, y: 15, z: 15 },
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
-        pc_nightmare_mushroom: {
-            url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
-            scale: { x: 1, y: 1, z: 1 },
-            position: { x: 40, y: 25, z: 0 },
-            rotation: { x: 0, y: 0, z: 0 },
-        },
+        // pc_nightmare_mushroom: {
+        //     url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
+        //     scale: { x: 1, y: 1, z: 1 },
+        //     position: { x: 40, y: 25, z: 0 },
+        //     rotation: { x: 0, y: 0, z: 0 },
+        // },
     };
     /**
      * Use GLTFLoader to load each .gltf / .glb file
@@ -157,35 +157,28 @@ function initModels() {
     loadingElement.style.display = 'none';
     const meshes = [];
 
+    const root = new THREE.Object3D();
     Object.values(g_models).forEach((model, ndx) => {
         model.gltf.scene.traverse(function (child) {
-            if (child.name === 'Floor') {
-                child.customScale = model.scale;
-                meshes.push(child);
-            }
-            if (child.name === 'Bookshelf') {
-                child.customScale = model.scale;
+            if (child.name === 'Scene') {
+                //console.log(child);
                 meshes.push(child);
             }
         });
 
-        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
-        const root = new THREE.Object3D();
         /**
          * Scale and position
          */
+        meshes.forEach((mesh) => {
+            const floor = mesh.getObjectByName('Floor');
+            floor.customScale = model.scale;
+            console.log(floor);
+            createAmmoCubeOfMesh(floor, 0);
+            root.add(mesh);
+        });
         root.scale.set(model.scale.x, model.scale.y, model.scale.z);
-        root.position.set(model.position.x, model.position.y, model.position.z);
-        root.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
-        root.add(clonedScene);
         g_scene.add(root);
     });
-    meshes.forEach((mesh) => {
-        if (mesh.name === 'Floor') {
-            createAmmoCubeOfMesh(mesh, 0);
-        }
-    });
-    console.log(meshes);
 }
 
 function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
