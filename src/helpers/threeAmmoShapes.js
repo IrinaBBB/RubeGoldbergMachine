@@ -14,16 +14,16 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVABLE = 4;
 const COLLISION_GROUP_BOX = 8; //..osv. legg til etter behov.
 
-export function createAmmoXZPlane(xzPlaneSideLength) {
+export function createAmmoXZPlane(xzPlaneSideLength, xzPlaneSideWidth) {
     const mass = 0;
-    const position = { x: 0, y: 7.5, z: 0 };
+    const position = { x: 41, y: 50, z: 55 };
     g_xzPlaneSideLength = xzPlaneSideLength;
     /**
      * Three.js
      */
     let geometry = new THREE.PlaneGeometry(
-        g_xzPlaneSideLength,
-        g_xzPlaneSideLength,
+        xzPlaneSideLength,
+        xzPlaneSideWidth,
         1,
         1
     );
@@ -40,7 +40,7 @@ export function createAmmoXZPlane(xzPlaneSideLength) {
      * Ammo.js
      */
     let shape = new Ammo.btBoxShape(
-        new Ammo.btVector3(g_xzPlaneSideLength / 2, 0, g_xzPlaneSideLength / 2)
+        new Ammo.btVector3(xzPlaneSideLength / 2, 0, xzPlaneSideWidth / 2)
     );
     //shape.setMargin( 0.05 );
     let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.8, position, mass);
@@ -120,22 +120,10 @@ export function createAmmoCubeOfMesh(mesh, mass = 1) {
         (mesh.geometry.boundingBox.max.z - mesh.geometry.boundingBox.min.z) *
         mesh.customScale.z;
 
-    // mesh.castShadow = true;
-    // mesh.receiveShadow = true;
-
-    // mesh.position.x *= mesh.customScale.x;
-    // mesh.position.y *= mesh.customScale.y;
-    // mesh.position.z *= mesh.customScale.z;
-
-    // mesh.rotation.y = -Math.PI / 2;
-
-    console.log(width);
-    console.log(height);
-    console.log(depth);
-
     let shape = new Ammo.btBoxShape(
         new Ammo.btVector3(width / 2, height / 2, depth / 2)
     );
+
     let rigidBody = createAmmoRigidBody(
         shape,
         mesh,
@@ -180,6 +168,60 @@ export function createAmmoCube(
     mesh.position.set(position.x, position.y, position.z);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
+
+    console.log(mesh);
+
+    /**
+     * Ammo.js
+     */
+    let width = mesh.geometry.parameters.width;
+    let height = mesh.geometry.parameters.height;
+    let depth = mesh.geometry.parameters.depth;
+
+    let shape = new Ammo.btBoxShape(
+        new Ammo.btVector3(width / 2, height / 2, depth / 2)
+    );
+    //shape.setMargin(0.05);
+    let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.8, position, mass);
+
+    mesh.userData.physicsBody = rigidBody;
+
+    /**
+     * Add to physics world
+     */
+    g_ammoPhysicsWorld.addRigidBody(
+        rigidBody,
+        COLLISION_GROUP_BOX,
+        COLLISION_GROUP_BOX |
+            COLLISION_GROUP_SPHERE |
+            COLLISION_GROUP_MOVABLE |
+            COLLISION_GROUP_PLANE
+    );
+
+    addMeshToScene(mesh);
+    g_rigidBodies.push(mesh);
+    rigidBody.threeMesh = mesh;
+}
+
+export function createAmmoBox(
+    mass = 17,
+    color = 0xf00fe0,
+    dimensions = { x: 1, y: 1, z: 1 },
+    position = { x: 20, y: 50, z: 30 },
+    visible = true
+) {
+    /**
+     * Three.js
+     */
+    let mesh = new THREE.Mesh(
+        new THREE.BoxGeometry(dimensions.x, dimensions.y, dimensions.z, 1, 1),
+        new THREE.MeshStandardMaterial({ color: color })
+    );
+    mesh.name = 'cube';
+    mesh.position.set(position.x, position.y, position.z);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.visible = visible;
 
     console.log(mesh);
 

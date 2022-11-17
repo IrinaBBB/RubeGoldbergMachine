@@ -22,9 +22,11 @@ import {
     createAmmoCube,
     createAmmoCubeOfMesh,
     createAmmoSpheres,
+    createAmmoBox,
     createAmmoXZPlane,
     createMovable,
 } from './helpers/threeAmmoShapes.js';
+import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 
 /**
  * Global variables
@@ -33,7 +35,7 @@ let g_clock;
 let g_models;
 let g_scene;
 const g_currentlyPressedKeys = [];
-const XZ_PLANE_SIDE_LENGTH = 100;
+const XZ_PLANE_SIDE_LENGTH = 300;
 const stats = Stats();
 
 /**
@@ -97,7 +99,13 @@ export async function main() {
 function addSceneObjects() {
     //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
     createAmmoSpheres(20);
-    // createAmmoCube();
+    createAmmoBox(
+        0,
+        0x00ffff,
+        { x: 10, y: 54, z: 39 },
+        { x: -55, y: 23, z: 39.5 },
+        false
+    );
     // createMovable();
 }
 
@@ -131,12 +139,6 @@ function loadModelsAndSceneObjects() {
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
-        // pc_nightmare_mushroom: {
-        //     url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
-        //     scale: { x: 1, y: 1, z: 1 },
-        //     position: { x: 40, y: 25, z: 0 },
-        //     rotation: { x: 0, y: 0, z: 0 },
-        // },
     };
     /**
      * Use GLTFLoader to load each .gltf / .glb file
@@ -161,7 +163,7 @@ function initModels() {
     Object.values(g_models).forEach((model, ndx) => {
         model.gltf.scene.traverse(function (child) {
             if (child.name === 'Scene') {
-                //console.log(child);
+                console.log(child);
                 meshes.push(child);
             }
         });
@@ -172,11 +174,11 @@ function initModels() {
         meshes.forEach((mesh) => {
             const floor = mesh.getObjectByName('Floor');
             floor.customScale = model.scale;
-            console.log(floor);
             createAmmoCubeOfMesh(floor, 0);
             root.add(mesh);
         });
         root.scale.set(model.scale.x, model.scale.y, model.scale.z);
+        root.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
         g_scene.add(root);
     });
 }
