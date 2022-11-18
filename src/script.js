@@ -19,13 +19,11 @@ import {
 } from './helpers/myAmmoHelper.js';
 
 import {
-    createAmmoCube,
-    createAmmoCubeOfMesh,
     createAmmoSpheres,
     createAmmoBox,
     createGLTFDomino,
     createAmmoXZPlane,
-    createMovable,
+    createMovable, createGLTFMushroom,
 } from './helpers/threeAmmoShapes.js';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader';
@@ -111,7 +109,7 @@ function handleKeyDown(event) {
  */
 function addSceneObjects() {
     //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
-    createAmmoSpheres(20);
+   // createAmmoSpheres(20);
     /**
      * Floor and Walls
      */
@@ -133,12 +131,30 @@ function addSceneObjects() {
         { x: -55, y: 23, z: 39.5 },
         false
     );
-    createMovable(0x550099, { x: -55, y: 50, z: 55 });
+    createMovable(0, 0x550099, { x: -55, y: 50, z: 55 });
+
+    /** Small Bed */
+    createAmmoBox(
+        0,
+        0x00ffff,
+        { x: 20, y: 10, z: 40 },
+        { x: -55, y: 11, z: 0 },
+        false
+    );
+
+    /** Big Bed */
+    createAmmoBox(
+        0,
+        0xffff00,
+        { x: 100, y: 10, z: 35 },
+        { x: -55, y: 11, z: -40 },
+        false
+    );
 
     /** Dominoes **/
     createGLTFDomino(
         100,
-        { x: -55, y: 50, z: 40 },
+        { x: -55, y: 60, z: 40 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
@@ -146,7 +162,7 @@ function addSceneObjects() {
 
     createGLTFDomino(
         100,
-        { x: -55, y: 50, z: 43 },
+        { x: -55, y: 60, z: 43 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
@@ -154,11 +170,21 @@ function addSceneObjects() {
 
     createGLTFDomino(
         100,
-        { x: -55, y: 50, z: 46 },
+        { x: -55, y: 60, z: 46 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
     );
+
+    /** Nightmare Mushroom */
+    createGLTFMushroom();
+    // createGLTFDomino(
+    //     100,
+    //     { x: -55, y: 60, z: 48 },
+    //     { x: 0.02, y: 0.02, z: 0.02 },
+    //     { x: 0, y: 0, z: 0, w: 1 },
+    //     { x: 0, y: Math.PI / 2, z: 0 }
+    // );
 }
 
 /**
@@ -182,12 +208,6 @@ function loadModelsAndSceneObjects() {
             scale: { x: 15, y: 15, z: 15 },
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
-        },
-        pc_nightmare_mushroom: {
-            url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
-            scale: { x: 1, y: 1, z: 1 },
-            position: { x: 40, y: 30, z: 0 },
-            rotation: { x: 0, y: 0, z: 0 },
         },
         ball: {
             url: '../../../assets/models/pokeball/model.gltf',
@@ -250,7 +270,6 @@ function initModels() {
             if (mesh.name === 'Floor') {
                 console.log(mesh);
                 mesh.customScale = model.scale;
-                createAmmoCubeOfMesh(mesh);
             }
         });
 

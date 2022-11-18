@@ -26,7 +26,7 @@ export function createGLTFDomino(
         z: 0.01,
     },
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
-    rotation = {x: 0, y: Math.PI / 2, z: 0}
+    rotation = { x: 0, y: Math.PI / 2, z: 0 }
 ) {
     loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
@@ -52,8 +52,6 @@ export function createGLTFDomino(
                 quaternion.w
             )
         );
-        let motionState = new Ammo.btDefaultMotionState(transform);
-        let localInertia = new Ammo.btVector3(0, 0, 0);
 
         let verticesPosition = [];
         const cube = domino.getObjectByName('Cube');
@@ -98,31 +96,25 @@ export function createGLTFDomino(
         Ammo.destroy(vecB);
         Ammo.destroy(vecC);
 
-        const shape = new Ammo.btConvexTriangleMeshShape(triangle_mesh, true);
-        cube.children.forEach((child) => {
-            child.geometry.verticesNeedUpdate = true;
-        });
-        //mesh.getObjectByName('Cube_White_0').geometry.verticesNeedUpdate = true;
-        shape.getMargin(0.05);
+        /**
+         * Shape created from vertices (is not used for now)
+         */
+        // const shape = new Ammo.btConvexTriangleMeshShape(triangle_mesh, true);
+        // cube.children.forEach((child) => {
+        //     child.geometry.verticesNeedUpdate = true;
+        // });
+
+        const shape = new Ammo.btBoxShape(new Ammo.btVector3(30, 40, 30));
+        //shape.getMargin(0.05);
 
         let rigidBody = createAmmoRigidBody(
             shape,
             domino,
-            0.7,
-            0.8,
+            0.1,
+            1,
             position,
             mass
         );
-
-        //shape.calculateLocalInertia(1, localInertia);
-
-        // const rigidBodyInfo = new Ammo.btRigidBodyConstructionInfo(
-        //     mass,
-        //     motionState,
-        //     shape,
-        //     localInertia
-        // );
-        // const rigidBody = new Ammo.btRigidBody(rigidBodyInfo);
 
         g_ammoPhysicsWorld.addRigidBody(
             rigidBody,
@@ -133,14 +125,75 @@ export function createGLTFDomino(
                 COLLISION_GROUP_PLANE
         );
 
-        // cube.children.forEach((child) => {
-        //     child.userData.physicsBody = rigidBody;
-        //     g_rigidBodies.push(child);
-        // });
         domino.userData.physicsBody = rigidBody;
         g_rigidBodies.push(domino);
     });
 }
+
+export function createGLTFMushroom(
+    mass = 1,
+    position = { x: -55, y: 62, z: 30 },
+    scale = {
+        x: 0.5,
+        y: 0.5,
+        z: 0.5,
+    },
+    quaternion = { x: 0, y: 0, z: 0, w: 1 },
+    rotation = { x: 0, y: Math.PI / 2, z: 0 }
+) {
+    loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('/draco/');
+    loader.setDRACOLoader(dracoLoader);
+    loader.load('../../../../assets/models/pc_nightmare_mushroom/scene.gltf', (gltf) => {
+        const mushroom = gltf.scene;
+        mushroom.scale.set(scale.x, scale.y, scale.z);
+        mushroom.position.set(position.x, position.y, position.z);
+        mushroom.rotation.set(rotation.x, rotation.y, rotation.z);
+        addMeshToScene(mushroom);
+
+        let transform = new Ammo.btTransform();
+        transform.setIdentity();
+        transform.setOrigin(
+            new Ammo.btVector3(position.x, position.y, position.z)
+        );
+        transform.setRotation(
+            new Ammo.btQuaternion(
+                quaternion.x,
+                quaternion.y,
+                quaternion.z,
+                quaternion.w
+            )
+        );
+
+
+        const shape = new Ammo.btBoxShape(new Ammo.btVector3(10, 23, 10));
+        //const shape = new Ammo.btSphereShape(25);
+        //shape.getMargin(0.05);
+
+        let rigidBody = createAmmoRigidBody(
+            shape,
+            mushroom,
+            0.1,
+            0.1,
+            position,
+            mass
+        );
+
+        g_ammoPhysicsWorld.addRigidBody(
+            rigidBody,
+            COLLISION_GROUP_SPHERE,
+            COLLISION_GROUP_SPHERE |
+            COLLISION_GROUP_BOX |
+            COLLISION_GROUP_MOVABLE |
+            COLLISION_GROUP_PLANE
+        );
+
+        mushroom.userData.physicsBody = rigidBody;
+        g_rigidBodies.push(mushroom);
+    });
+}
+
 
 export function createAmmoXZPlane(xzPlaneSideLength, xzPlaneSideWidth) {
     const mass = 0;
@@ -237,127 +290,6 @@ export function createAmmoSphere(
     rigidBody.threeMesh = mesh;
 }
 
-export function createAmmoCubeOfMesh(mesh, mass = 1) {
-    let width =
-        (mesh.geometry.boundingBox.max.x - mesh.geometry.boundingBox.min.x) *
-        mesh.customScale.x;
-    let height =
-        (mesh.geometry.boundingBox.max.y - mesh.geometry.boundingBox.min.y) *
-        mesh.customScale.y;
-    let depth =
-        (mesh.geometry.boundingBox.max.z - mesh.geometry.boundingBox.min.z) *
-        mesh.customScale.z;
-
-    let shape = new Ammo.btBoxShape(
-        new Ammo.btVector3(width / 2, height / 2, depth / 2)
-    );
-
-    let rigidBody = createAmmoRigidBody(
-        shape,
-        mesh,
-        0.7,
-        0.8,
-        mesh.position,
-        mass
-    );
-    mesh.userData.physicsBody = rigidBody;
-    /**
-     * Add to physics world
-     */
-    g_ammoPhysicsWorld.addRigidBody(
-        rigidBody,
-        COLLISION_GROUP_BOX,
-        COLLISION_GROUP_BOX |
-            COLLISION_GROUP_SPHERE |
-            COLLISION_GROUP_MOVABLE |
-            COLLISION_GROUP_PLANE
-    );
-
-    //addMeshToScene(mesh);
-    g_rigidBodies.push(mesh);
-    rigidBody.threeMesh = mesh;
-}
-
-export function createAmmoCubeOfMesh_2(
-    mesh,
-    mass = 1,
-    dimensions = { x: 1, y: 1, z: 1 },
-    position = { x: 0, y: 0, z: 0 }
-) {
-    let shape = new Ammo.btBoxShape(
-        new Ammo.btVector3(dimensions.x / 2, dimensions.y / 2, dimensions.z / 2)
-    );
-
-    let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.8, position, mass);
-    mesh.userData.physicsBody = rigidBody;
-    /**
-     * Add to physics world
-     */
-    g_ammoPhysicsWorld.addRigidBody(
-        rigidBody,
-        COLLISION_GROUP_BOX,
-        COLLISION_GROUP_BOX |
-            COLLISION_GROUP_SPHERE |
-            COLLISION_GROUP_MOVABLE |
-            COLLISION_GROUP_PLANE
-    );
-
-    //addMeshToScene(mesh);
-    g_rigidBodies.push(mesh);
-    rigidBody.threeMesh = mesh;
-}
-
-export function createAmmoCube(
-    mass = 17,
-    color = 0xf00fe0,
-    position = { x: 20, y: 50, z: 30 }
-) {
-    const sideLength = 0.2 * mass;
-
-    /**
-     * Three.js
-     */
-    let mesh = new THREE.Mesh(
-        new THREE.BoxGeometry(sideLength, sideLength, sideLength, 1, 1),
-        new THREE.MeshStandardMaterial({ color: color })
-    );
-    mesh.name = 'cube';
-    mesh.position.set(position.x, position.y, position.z);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-
-    /**
-     * Ammo.js
-     */
-    let width = mesh.geometry.parameters.width;
-    let height = mesh.geometry.parameters.height;
-    let depth = mesh.geometry.parameters.depth;
-
-    let shape = new Ammo.btBoxShape(
-        new Ammo.btVector3(width / 2, height / 2, depth / 2)
-    );
-    //shape.setMargin(0.05);
-    let rigidBody = createAmmoRigidBody(shape, mesh, 0.7, 0.8, position, mass);
-
-    mesh.userData.physicsBody = rigidBody;
-
-    /**
-     * Add to physics world
-     */
-    g_ammoPhysicsWorld.addRigidBody(
-        rigidBody,
-        COLLISION_GROUP_BOX,
-        COLLISION_GROUP_BOX |
-            COLLISION_GROUP_SPHERE |
-            COLLISION_GROUP_MOVABLE |
-            COLLISION_GROUP_PLANE
-    );
-
-    addMeshToScene(mesh);
-    g_rigidBodies.push(mesh);
-    rigidBody.threeMesh = mesh;
-}
-
 export function createAmmoBox(
     mass = 17,
     color = 0xf00fe0,
@@ -411,15 +343,17 @@ export function createAmmoBox(
 }
 
 export function createMovable(
+    mass = 0,
     color = 0x00a6e5,
-    position = { x: -10, y: 20, z: -30 }
+    position = { x: -10, y: 20, z: -30 },
+    dimensions = { x: 5, y: 5, z: 5 }
 ) {
-    const sideLength = 5;
-    const mass = 0; //Merk!
+    const sideLength = dimensions.y;
+
 
     //THREE
     let mesh = new THREE.Mesh(
-        new THREE.BoxGeometry(sideLength, sideLength, sideLength, 1, 1),
+        new THREE.BoxGeometry(dimensions.x, dimensions.y, dimensions.z, 1, 1),
         new THREE.MeshStandardMaterial({ color: color })
     );
     mesh.name = 'movable';
