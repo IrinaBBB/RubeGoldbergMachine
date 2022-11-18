@@ -23,10 +23,12 @@ import {
     createAmmoCubeOfMesh,
     createAmmoSpheres,
     createAmmoBox,
+    createGLTFDomino,
     createAmmoXZPlane,
     createMovable,
 } from './helpers/threeAmmoShapes.js';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader';
 
 /**
  * Global variables
@@ -96,9 +98,34 @@ export async function main() {
     animate(0);
 }
 
+function handleKeyUp(event) {
+    g_currentlyPressedKeys[event.code] = false;
+}
+
+function handleKeyDown(event) {
+    g_currentlyPressedKeys[event.code] = true;
+}
+
+/**
+ * Add Scene objects function
+ */
 function addSceneObjects() {
     //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
     createAmmoSpheres(20);
+    /**
+     * Floor and Walls
+     */
+    createAmmoBox(
+        0,
+        0x0044ff,
+        { x: 120, y: 6, z: 120 },
+        { x: 0, y: 0, z: 0 },
+        false
+    );
+
+    /**
+     * Bookshelf physics
+     */
     createAmmoBox(
         0,
         0x00ffff,
@@ -106,15 +133,32 @@ function addSceneObjects() {
         { x: -55, y: 23, z: 39.5 },
         false
     );
-    // createMovable();
-}
+    createMovable(0x550099, { x: -55, y: 50, z: 55 });
 
-function handleKeyUp(event) {
-    g_currentlyPressedKeys[event.code] = false;
-}
+    /** Dominoes **/
+    createGLTFDomino(
+        100,
+        { x: -55, y: 50, z: 40 },
+        { x: 0.02, y: 0.02, z: 0.02 },
+        { x: 0, y: 0, z: 0, w: 1 },
+        { x: 0, y: Math.PI / 2, z: 0 }
+    );
 
-function handleKeyDown(event) {
-    g_currentlyPressedKeys[event.code] = true;
+    createGLTFDomino(
+        100,
+        { x: -55, y: 50, z: 43 },
+        { x: 0.02, y: 0.02, z: 0.02 },
+        { x: 0, y: 0, z: 0, w: 1 },
+        { x: 0, y: Math.PI / 2, z: 0 }
+    );
+
+    createGLTFDomino(
+        100,
+        { x: -55, y: 50, z: 46 },
+        { x: 0.02, y: 0.02, z: 0.02 },
+        { x: 0, y: 0, z: 0, w: 1 },
+        { x: 0, y: Math.PI / 2, z: 0 }
+    );
 }
 
 /**
@@ -139,6 +183,36 @@ function loadModelsAndSceneObjects() {
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
+        pc_nightmare_mushroom: {
+            url: '../../../assets/models/pc_nightmare_mushroom/scene.gltf',
+            scale: { x: 1, y: 1, z: 1 },
+            position: { x: 40, y: 30, z: 0 },
+            rotation: { x: 0, y: 0, z: 0 },
+        },
+        ball: {
+            url: '../../../assets/models/pokeball/model.gltf',
+            scale: { x: 0.1, y: 0.1, z: 0.1 },
+            position: { x: 0, y: 0, z: 0 },
+            rotation: { x: 0, y: 0, z: 0 },
+        },
+        wooden_wheel: {
+            url: '../../../assets/models/wooden_wheel/scene.gltf',
+            scale: { x: 0.3, y: 0.3, z: 0.3 },
+            position: { x: 5, y: 20, z: 5 },
+            rotation: { x: 0, y: 0, z: 0 },
+        },
+        golf_ball: {
+            url: '../../../assets/models/golf_ball/scene.gltf',
+            scale: { x: 0.05, y: 0.05, z: 0.05 },
+            position: { x: 30, y: 20, z: 5 },
+            rotation: { x: 0, y: 0, z: 0 },
+        },
+        domino: {
+            url: '../../../assets/models/domino/scene.gltf',
+            scale: { x: 0.01, y: 0.01, z: 0.01 },
+            position: { x: 0, y: 30, z: 0 },
+            rotation: { x: 0, y: 0, z: 0 },
+        },
     };
     /**
      * Use GLTFLoader to load each .gltf / .glb file
@@ -159,26 +233,31 @@ function initModels() {
     loadingElement.style.display = 'none';
     const meshes = [];
 
-    const root = new THREE.Object3D();
     Object.values(g_models).forEach((model, ndx) => {
         model.gltf.scene.traverse(function (child) {
-            if (child.name === 'Scene') {
-                console.log(child);
+            if (child.name === 'Floor') {
                 meshes.push(child);
             }
         });
+
+        const clonedScene = SkeletonUtils.clone(model.gltf.scene);
+        const root = new THREE.Object3D();
 
         /**
          * Scale and position
          */
         meshes.forEach((mesh) => {
-            const floor = mesh.getObjectByName('Floor');
-            floor.customScale = model.scale;
-            createAmmoCubeOfMesh(floor, 0);
-            root.add(mesh);
+            if (mesh.name === 'Floor') {
+                console.log(mesh);
+                mesh.customScale = model.scale;
+                createAmmoCubeOfMesh(mesh);
+            }
         });
+
         root.scale.set(model.scale.x, model.scale.y, model.scale.z);
+        root.position.set(model.position.x, model.position.y, model.position.z);
         root.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
+        root.add(clonedScene);
         g_scene.add(root);
     });
 }
