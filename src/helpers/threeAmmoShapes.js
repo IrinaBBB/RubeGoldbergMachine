@@ -295,6 +295,7 @@ export function createAmmoBox(
     color = 0xf00fe0,
     dimensions = { x: 1, y: 1, z: 1 },
     position = { x: 20, y: 50, z: 30 },
+    rotation = { x: 0, y: 0, z: 0 },
     visible = true
 ) {
     /**
@@ -306,6 +307,7 @@ export function createAmmoBox(
     );
     mesh.name = 'cube';
     mesh.position.set(position.x, position.y, position.z);
+    mesh.rotation.set(rotation.x, rotation.y, rotation.z);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     mesh.visible = visible;

@@ -149,11 +149,11 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
     const movable = g_scene.getObjectByName('movable');
     if (g_currentlyPressedKeys['KeyA']) {
         //A
-        moveRigidBody(movable, { x: -0.2, y: 0, z: 0 });
+        //moveRigidBody(movable, { x: -0.2, y: 0, z: 0 });
     }
     if (g_currentlyPressedKeys['KeyD']) {
         //D
-        moveRigidBody(movable, { x: 0.2, y: 0, z: 0 });
+        //moveRigidBody(movable, { x: 0.2, y: 0, z: 0 });
     }
     if (g_currentlyPressedKeys['KeyW']) {
         //W
@@ -161,7 +161,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
     }
     if (g_currentlyPressedKeys['KeyS']) {
         //S
-        moveRigidBody(movable, { x: 0, y: 0, z: 0.2 });
+        //moveRigidBody(movable, { x: 0, y: 0, z: 0.2 });
     }
 }
 
