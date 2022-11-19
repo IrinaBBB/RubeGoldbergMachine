@@ -51,7 +51,7 @@ Ammo().then(async function (AmmoLib) {
  */
 function addSceneObjects() {
     //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
-   // createAmmoSpheres(20);
+   createAmmoSpheres(20);
     /**
      * Floor
      */
@@ -118,7 +118,7 @@ function addSceneObjects() {
     );
 
     /** Purple cube that starts chain reaction */
-    createMovable(0, 0x550099, { x: -55, y: 50, z: 55 });
+    createMovable(0x550099, { x: -55, y: 50, z: 55 });
 
     /** Small Bed */
     createAmmoBox(
@@ -227,7 +227,6 @@ function loadModelsAndSceneObjects() {
 function initModels() {
     const loadingElement = document.querySelector('#loading');
     loadingElement.style.display = 'none';
-    const meshes = [];
 
     Object.values(g_models).forEach((model, ndx) => {
         model.gltf.scene.traverse(function (child) {
@@ -240,15 +239,6 @@ function initModels() {
         const clonedScene = SkeletonUtils.clone(model.gltf.scene);
         const root = new THREE.Object3D();
 
-        /**
-         * Scale and position
-         */
-        meshes.forEach((mesh) => {
-            if (mesh.isGroup) {
-                console.log(mesh);
-            }
-
-        });
 
         root.scale.set(model.scale.x, model.scale.y, model.scale.z);
         root.position.set(model.position.x, model.position.y, model.position.z);
