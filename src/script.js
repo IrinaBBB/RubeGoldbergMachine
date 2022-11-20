@@ -53,7 +53,7 @@ Ammo().then(async function (AmmoLib) {
  */
 function addSceneObjects() {
     //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
-    createAmmoSpheres(20);
+    //createAmmoSpheres(20);
     /**
      * Floor
      */
@@ -203,12 +203,12 @@ function loadModelsAndSceneObjects() {
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
-        // ball: {
-        //     url: '../../../assets/models/pokeball/model.gltf',
-        //     scale: { x: 0.1, y: 0.1, z: 0.1 },
-        //     position: { x: 0, y: 0, z: 0 },
-        //     rotation: { x: 0, y: 0, z: 0 },
-        // },
+        fish_tank: {
+            url: '../../../assets/models/fishless_aquarium/scene.gltf',
+            scale: { x: 320, y: 300, z: 250 },
+            position: { x: -55, y: 16, z: 0 },
+            rotation: { x: 0, y: -Math.PI / 2, z: 0 },
+        },
         wooden_wheel: {
             url: '../../../assets/models/wooden_wheel/scene.gltf',
             scale: { x: 0.3, y: 0.3, z: 0.3 },

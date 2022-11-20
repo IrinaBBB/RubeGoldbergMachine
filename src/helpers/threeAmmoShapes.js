@@ -39,7 +39,6 @@ export function createGLTFDomino(
         domino.position.set(position.x, position.y, position.z);
         domino.rotation.set(rotation.x, rotation.y, rotation.z);
         domino.collisionResponse = (mesh) => {
-            console.log('ih');
             const audio = new Audio('../../../../assets/sounds/chips.mp3');
             audio.play().then();
         };
