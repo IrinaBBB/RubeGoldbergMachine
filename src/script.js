@@ -67,6 +67,19 @@ function addSceneObjects() {
     );
 
     /**
+     * Ceiling
+     */
+
+    createAmmoBox(
+        0,
+        0x0022ee,
+        { x: 120, y: 6, z: 120 },
+        { x: 0, y: 80, z: 0 },
+        { x: 0, y: 0, z: 0 },
+        false
+    );
+    
+    /**
      * Walls
      */
 
