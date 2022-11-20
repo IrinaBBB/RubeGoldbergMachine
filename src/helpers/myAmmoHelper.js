@@ -128,7 +128,7 @@ export function moveRigidBody(movableMesh, direction) {
     motionState.setWorldTransform(transform);
 }
 
-/** For rigid bodies that are NOT kinematic  */
+/** For rigid bodies that are NOT kinetic  */
 export function applyImpulse(
     rigidBody,
     force = IMPULSE_FORCE,
@@ -170,33 +170,15 @@ function checkCollisions(deltaTime) {
                         // kun interessert i kollisjon mellom kulene:
                         if ((threeMesh0.name === 'sphere' && threeMesh1.name === 'sphere') ||
                             threeMesh1.name === 'sphere' && threeMesh0.name === 'sphere') {
-                            console.log(threeMesh0);
-                            console.log(threeMesh1);
-                            // Debuginfo:
-                            let velocity0 = rbObject0.getLinearVelocity();
-                            let velocity1 = rbObject1.getLinearVelocity();
-                            let worldPos0 = contactPoint.get_m_positionWorldOnA();
-                            let worldPos1 = contactPoint.get_m_positionWorldOnB();
-                            let localPos0 = contactPoint.get_m_localPointA();
-                            let localPos1 = contactPoint.get_m_localPointB();
-                            //console.log('Kollisjon mellom ' + threeMesh0.name + " og " + threeMesh1.name);
-                            console.log({
-                                manifoldIndex: i,
-                                contactIndex: j,
-                                distance: distance,
-                                object0: {
-                                    tag: threeMesh0.name,
-                                    velocity: {x: velocity0.x(), y: velocity0.y(), z: velocity0.z()},
-                                    worldPos: {x: worldPos0.x(), y: worldPos0.y(), z: worldPos0.z()},
-                                    localPos: {x: localPos0.x(), y: localPos0.y(), z: localPos0.z()}
-                                },
-                                object1: {
-                                    tag: threeMesh1.name,
-                                    velocity: {x: velocity1.x(), y: velocity1.y(), z: velocity1.z()},
-                                    worldPos: {x: worldPos1.x(), y: worldPos1.y(), z: worldPos1.z()},
-                                    localPos: {x: localPos1.x(), y: localPos1.y(), z: localPos1.z()}
-                                }
-                            });
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
+
+                        if ((threeMesh0.name === 'movable' && threeMesh1.name === 'domino') ||
+                            threeMesh1.name === 'domino' && threeMesh0.name === 'movable') {
+                            console.log('shroom');
                             if (typeof threeMesh0.collisionResponse === 'function')
                                 threeMesh0.collisionResponse(threeMesh0);
                             if (typeof threeMesh1.collisionResponse === 'function')

@@ -141,9 +141,9 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
         createRandomSpheres(200);
     }
     if (g_currentlyPressedKeys['KeyU']) {
-        //H
-        const cube = g_scene.getObjectByName('cube');
-        applyImpulse(cube.userData.physicsBody, 50, { x: 0, y: 1, z: 0 });
+        // U
+        const cube = g_scene.getObjectByName('shroom');
+        applyImpulse(cube.userData.physicsBody, 1, { x: 0, y: 1, z: 0 });
     }
 
     const movable = g_scene.getObjectByName('movable');

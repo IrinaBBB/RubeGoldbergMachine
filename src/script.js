@@ -19,11 +19,13 @@ import {
 } from './helpers/myAmmoHelper.js';
 
 import {
+    g_animationMixers,
     createAmmoSpheres,
     createAmmoBox,
     createGLTFDomino,
     createAmmoXZPlane,
-    createMovable, createGLTFMushroom,
+    createMovable,
+    createGLTFMushroom,
 } from './helpers/threeAmmoShapes.js';
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader';
@@ -33,7 +35,7 @@ import { OBJLoader } from 'three/addons/loaders/OBJLoader';
  */
 let g_clock;
 let g_models;
-let g_scene;
+export let g_scene;
 const g_currentlyPressedKeys = [];
 const XZ_PLANE_SIDE_LENGTH = 300;
 const stats = Stats();
@@ -51,7 +53,7 @@ Ammo().then(async function (AmmoLib) {
  */
 function addSceneObjects() {
     //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
-   createAmmoSpheres(20);
+    createAmmoSpheres(20);
     /**
      * Floor
      */
@@ -72,7 +74,7 @@ function addSceneObjects() {
         0,
         0xff44ee,
         { x: 120, y: 6, z: 80 },
-        { x: 0, y: 40, z: -63},
+        { x: 0, y: 40, z: -63 },
         { x: Math.PI / 2, y: 0, z: 0 },
         false
     );
@@ -81,7 +83,7 @@ function addSceneObjects() {
         0,
         0x1144ee,
         { x: 120, y: 6, z: 80 },
-        { x: -63, y: 40, z: 0},
+        { x: -63, y: 40, z: 0 },
         { x: Math.PI / 2, y: 0, z: Math.PI / 2 },
         false
     );
@@ -90,7 +92,7 @@ function addSceneObjects() {
         0,
         0xff44ee,
         { x: 120, y: 6, z: 80 },
-        { x: 0, y: 38, z: 63},
+        { x: 0, y: 38, z: 63 },
         { x: Math.PI / 2, y: 0, z: 0 },
         false
     );
@@ -99,10 +101,20 @@ function addSceneObjects() {
         0,
         0x1144ee,
         { x: 120, y: 6, z: 80 },
-        { x: 63, y: 40, z: 0},
+        { x: 63, y: 40, z: 0 },
         { x: Math.PI / 2, y: 0, z: Math.PI / 2 },
         false
     );
+
+    /** Test */
+    // createAmmoBox(
+    //     0,
+    //     0x1144ee,
+    //     { x: 5, y: 9, z: 1 },
+    //     { x: -55, y: 64, z: 40 },
+    //     { x: 0, y: 0, z: 0 },
+    //     true
+    // );
 
 
     /**
@@ -191,12 +203,12 @@ function loadModelsAndSceneObjects() {
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
-        ball: {
-            url: '../../../assets/models/pokeball/model.gltf',
-            scale: { x: 0.1, y: 0.1, z: 0.1 },
-            position: { x: 0, y: 0, z: 0 },
-            rotation: { x: 0, y: 0, z: 0 },
-        },
+        // ball: {
+        //     url: '../../../assets/models/pokeball/model.gltf',
+        //     scale: { x: 0.1, y: 0.1, z: 0.1 },
+        //     position: { x: 0, y: 0, z: 0 },
+        //     rotation: { x: 0, y: 0, z: 0 },
+        // },
         wooden_wheel: {
             url: '../../../assets/models/wooden_wheel/scene.gltf',
             scale: { x: 0.3, y: 0.3, z: 0.3 },
@@ -239,7 +251,6 @@ function initModels() {
         const clonedScene = SkeletonUtils.clone(model.gltf.scene);
         const root = new THREE.Object3D();
 
-
         root.scale.set(model.scale.x, model.scale.y, model.scale.z);
         root.position.set(model.position.x, model.position.y, model.position.z);
         root.rotation.set(model.rotation.x, model.rotation.y, model.rotation.z);
@@ -256,6 +267,11 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
 
     stats.begin();
 
+    if (g_animationMixers.length > 0) {
+        for (const mixer of g_animationMixers) {
+            mixer.update(deltaTime);
+        }
+    }
     /**
      * Update graphics
      */

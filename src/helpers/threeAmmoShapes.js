@@ -16,6 +16,7 @@ const COLLISION_GROUP_SPHERE = 2;
 const COLLISION_GROUP_MOVABLE = 4;
 const COLLISION_GROUP_BOX = 8; //..osv. legg til etter behov.
 let loader;
+export const g_animationMixers = [];
 
 export function createGLTFDomino(
     mass = 100,
@@ -37,6 +38,13 @@ export function createGLTFDomino(
         domino.scale.set(scale.x, scale.y, scale.z);
         domino.position.set(position.x, position.y, position.z);
         domino.rotation.set(rotation.x, rotation.y, rotation.z);
+        domino.collisionResponse = (mesh) => {
+            console.log('ih');
+            const audio = new Audio('../../../../assets/sounds/chips.mp3');
+            audio.play().then();
+        };
+        domino.name = 'domino';
+
         addMeshToScene(domino);
 
         let transform = new Ammo.btTransform();
@@ -105,7 +113,7 @@ export function createGLTFDomino(
         // });
 
         const shape = new Ammo.btBoxShape(new Ammo.btVector3(30, 40, 30));
-        //shape.getMargin(0.05);
+        shape.getMargin(0.05);
 
         let rigidBody = createAmmoRigidBody(
             shape,
@@ -127,6 +135,7 @@ export function createGLTFDomino(
 
         domino.userData.physicsBody = rigidBody;
         g_rigidBodies.push(domino);
+        rigidBody.threeMesh = domino;
     });
 }
 
@@ -149,11 +158,31 @@ export function createGLTFMushroom(
         '../../../../assets/models/pc_nightmare_mushroom/scene.gltf',
         (gltf) => {
             const mushroom = gltf.scene;
+            mushroom.name = 'shroom';
             mushroom.scale.set(scale.x, scale.y, scale.z);
             mushroom.position.set(position.x, position.y, position.z);
             mushroom.rotation.set(rotation.x, rotation.y, rotation.z);
+            mushroom.collisionResponse = (mesh) => {
+                console.log('ih');
+                const audio = new Audio('../../../../assets/sounds/chips.mp3');
+                audio.play().then();
+            };
             addMeshToScene(mushroom);
+            console.log(gltf.scene.animations);
 
+            const mixer = new THREE.AnimationMixer(gltf.scene);
+            g_animationMixers.push(mixer);
+
+            let clips = gltf.animations;
+            for (let i = 0; i < clips.length; i++) {
+                console.log(clips[i].name);
+            }
+
+            const animation0 = gltf.animations[0];
+            const action0 = mixer.clipAction(animation0);
+            action0.setLoop(THREE.LoopRepeat);
+            //action0.setDuration(10);
+            action0.play();
             let transform = new Ammo.btTransform();
             transform.setIdentity();
             transform.setOrigin(
@@ -192,6 +221,7 @@ export function createGLTFMushroom(
 
             mushroom.userData.physicsBody = rigidBody;
             g_rigidBodies.push(mushroom);
+            rigidBody.threeMesh = mushroom;
         }
     );
 }
@@ -263,6 +293,7 @@ export function createAmmoSphere(
     mesh.receiveShadow = true;
     mesh.collisionResponse = (mesh1) => {
         mesh1.material.color.setHex(Math.random() * 0xffffff);
+
     };
 
     /**
@@ -312,6 +343,7 @@ export function createAmmoBox(
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     mesh.visible = visible;
+
 
     /**
      * Ammo.js
@@ -419,8 +451,8 @@ export function createRandomSpheres(height = 50) {
         -(g_xzPlaneSideLength / 2) + Math.random() * g_xzPlaneSideLength;
     const zPos =
         -(g_xzPlaneSideLength / 2) + Math.random() * g_xzPlaneSideLength;
-    const pos = {x: xPos, y: height, z: zPos};
+    //const pos = {x: xPos, y: height, z: zPos};
     const mass = 5 + Math.random() * 20;
 
-    createAmmoSphere(mass, 0x00ff00, {x: xPos, y: 50, z: zPos});
+    createAmmoSphere(mass, 0x00ff00, { x: xPos, y: 50, z: zPos });
 }
