@@ -12,23 +12,18 @@ import {
     updateThree,
 } from './helpers/myThreeHelper.js';
 
-import {
-    createAmmoRigidBody,
-    createAmmoWorld,
-    updatePhysics,
-} from './helpers/myAmmoHelper.js';
+import { createAmmoWorld, updatePhysics } from './helpers/myAmmoHelper.js';
 
 import {
     g_animationMixers,
     createAmmoSpheres,
     createAmmoBox,
-    createGLTFDomino,
     createAmmoXZPlane,
     createMovable,
-    createGLTFMushroom,
 } from './helpers/threeAmmoShapes.js';
-import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js';
-import { OBJLoader } from 'three/addons/loaders/OBJLoader';
+import { createGLTFMushroom } from './shapes/mushroom.js';
+import { createGLTFFish } from './shapes/fish';
+import { createGLTFDomino } from './shapes/domino';
 
 /**
  * Global variables
@@ -74,11 +69,11 @@ function addSceneObjects() {
         0,
         0x0022ee,
         { x: 120, y: 6, z: 120 },
-        { x: 0, y: 80, z: 0 },
+        { x: 0, y: 100, z: 0 },
         { x: 0, y: 0, z: 0 },
         false
     );
-    
+
     /**
      * Walls
      */
@@ -119,16 +114,26 @@ function addSceneObjects() {
         false
     );
 
-    /** Test */
-    // createAmmoBox(
-    //     0,
-    //     0x1144ee,
-    //     { x: 5, y: 9, z: 1 },
-    //     { x: -55, y: 64, z: 40 },
-    //     { x: 0, y: 0, z: 0 },
-    //     true
-    // );
+    /**
+     * Fish tank walls
+     */
+    createAmmoBox(
+        0,
+        0x00ffff,
+        { x: 1, y: 54, z: 39 },
+        { x: -44, y: 23, z: 0 },
+        { x: 0, y: 0, z: 0 },
+        false
+    );
 
+    createAmmoBox(
+        0,
+        0x00ffff,
+        { x: 20, y: 25, z: 1 },
+        { x: -55, y: 20, z: -20 },
+        { x: 0, y: 0, z: 0 },
+        false
+    );
 
     /**
      * Bookshelf physics
@@ -192,6 +197,9 @@ function addSceneObjects() {
 
     /** Nightmare Mushroom */
     createGLTFMushroom();
+
+    /** Fish */
+    createGLTFFish();
 }
 
 /**
@@ -222,6 +230,12 @@ function loadModelsAndSceneObjects() {
             position: { x: -55, y: 16, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
+        // fish: {
+        //     url: '../../../assets/models/red_betta_fish/scene.gltf',
+        //     scale: { x: 0.015, y: 0.015, z: 0.015 },
+        //     position: { x: -56, y: 25, z: -10 },
+        //     rotation: { x: 0, y: Math.PI, z: 0 },
+        // },
         wooden_wheel: {
             url: '../../../assets/models/wooden_wheel/scene.gltf',
             scale: { x: 0.3, y: 0.3, z: 0.3 },

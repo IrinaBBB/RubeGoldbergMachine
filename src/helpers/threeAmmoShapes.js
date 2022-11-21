@@ -9,221 +9,15 @@ import { cloneUniformsGroups } from 'three/src/renderers/shaders/UniformsUtils';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
-let g_xzPlaneSideLength = 200;
+window.loader = new GLTFLoader();
 
-const COLLISION_GROUP_PLANE = 1;
-const COLLISION_GROUP_SPHERE = 2;
-const COLLISION_GROUP_MOVABLE = 4;
-const COLLISION_GROUP_BOX = 8; //..osv. legg til etter behov.
-let loader;
+let g_xzPlaneSideLength = 200;
+export const COLLISION_GROUP_PLANE = 1;
+export const COLLISION_GROUP_SPHERE = 2;
+export const COLLISION_GROUP_MOVABLE = 4;
+export const COLLISION_GROUP_BOX = 8; //..osv. legg til etter behov.
 export const g_animationMixers = [];
 
-export function createGLTFDomino(
-    mass = 100,
-    position = { x: -55, y: 50, z: 40 },
-    scale = {
-        x: 0.01,
-        y: 0.01,
-        z: 0.01,
-    },
-    quaternion = { x: 0, y: 0, z: 0, w: 1 },
-    rotation = { x: 0, y: Math.PI / 2, z: 0 }
-) {
-    loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('/draco/');
-    loader.setDRACOLoader(dracoLoader);
-    loader.load('../../../../assets/models/domino/scene.gltf', (gltf) => {
-        const domino = gltf.scene;
-        domino.scale.set(scale.x, scale.y, scale.z);
-        domino.position.set(position.x, position.y, position.z);
-        domino.rotation.set(rotation.x, rotation.y, rotation.z);
-        domino.collisionResponse = (mesh) => {
-            const audio = new Audio('../../../../assets/sounds/chips.mp3');
-            audio.play().then();
-        };
-        domino.name = 'domino';
-
-        addMeshToScene(domino);
-
-        let transform = new Ammo.btTransform();
-        transform.setIdentity();
-        transform.setOrigin(
-            new Ammo.btVector3(position.x, position.y, position.z)
-        );
-        transform.setRotation(
-            new Ammo.btQuaternion(
-                quaternion.x,
-                quaternion.y,
-                quaternion.z,
-                quaternion.w
-            )
-        );
-
-        let verticesPosition = [];
-        const cube = domino.getObjectByName('Cube');
-        cube.children.forEach((child) => {
-            const array = Array.from(
-                child.geometry.getAttribute('position').array
-            );
-            verticesPosition.push(...array);
-        });
-
-        const triangles = [];
-        for (let i = 0; i < verticesPosition.length; i += 3) {
-            triangles.push({
-                x: verticesPosition[i],
-                y: verticesPosition[i + 2],
-                z: verticesPosition[i + 3],
-            });
-        }
-
-        let triangle_mesh = new Ammo.btTriangleMesh();
-        let vecA = new Ammo.btVector3(0, 0, 0);
-        let vecB = new Ammo.btVector3(0, 0, 0);
-        let vecC = new Ammo.btVector3(0, 0, 0);
-
-        for (let i = 0; i < triangles.length - 3; i++) {
-            vecA.setX(triangles[i].x);
-            vecA.setY(triangles[i].y);
-            vecA.setZ(triangles[i].z);
-
-            vecB.setX(triangles[i + 1].x);
-            vecB.setY(triangles[i + 1].y);
-            vecB.setZ(triangles[i + 1].z);
-
-            vecC.setX(triangles[i + 2].x);
-            vecC.setY(triangles[i + 2].y);
-            vecC.setZ(triangles[i + 2].z);
-
-            triangle_mesh.addTriangle(vecA, vecB, vecC, true);
-        }
-
-        Ammo.destroy(vecA);
-        Ammo.destroy(vecB);
-        Ammo.destroy(vecC);
-
-        /**
-         * Shape created from vertices (is not used for now)
-         */
-        // const shape = new Ammo.btConvexTriangleMeshShape(triangle_mesh, true);
-        // cube.children.forEach((child) => {
-        //     child.geometry.verticesNeedUpdate = true;
-        // });
-
-        const shape = new Ammo.btBoxShape(new Ammo.btVector3(30, 40, 30));
-        shape.getMargin(0.05);
-
-        let rigidBody = createAmmoRigidBody(
-            shape,
-            domino,
-            0.1,
-            100,
-            position,
-            mass
-        );
-
-        g_ammoPhysicsWorld.addRigidBody(
-            rigidBody,
-            COLLISION_GROUP_BOX,
-            COLLISION_GROUP_SPHERE |
-                COLLISION_GROUP_BOX |
-                COLLISION_GROUP_MOVABLE |
-                COLLISION_GROUP_PLANE
-        );
-
-        domino.userData.physicsBody = rigidBody;
-        g_rigidBodies.push(domino);
-        rigidBody.threeMesh = domino;
-    });
-}
-
-export function createGLTFMushroom(
-    mass = 1,
-    position = { x: -55, y: 62, z: 30 },
-    scale = {
-        x: 0.5,
-        y: 0.5,
-        z: 0.5,
-    },
-    quaternion = { x: 0, y: 0, z: 0, w: 1 },
-    rotation = { x: 0, y: Math.PI / 2, z: 0 }
-) {
-    loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('/draco/');
-    loader.setDRACOLoader(dracoLoader);
-    loader.load(
-        '../../../../assets/models/pc_nightmare_mushroom/scene.gltf',
-        (gltf) => {
-            const mushroom = gltf.scene;
-            mushroom.name = 'shroom';
-            mushroom.scale.set(scale.x, scale.y, scale.z);
-            mushroom.position.set(position.x, position.y, position.z);
-            mushroom.rotation.set(rotation.x, rotation.y, rotation.z);
-            mushroom.collisionResponse = (mesh) => {
-                console.log('ih');
-                const audio = new Audio('../../../../assets/sounds/chips.mp3');
-                audio.play().then();
-            };
-            addMeshToScene(mushroom);
-            console.log(gltf.scene.animations);
-
-            const mixer = new THREE.AnimationMixer(gltf.scene);
-            g_animationMixers.push(mixer);
-
-            let clips = gltf.animations;
-            for (let i = 0; i < clips.length; i++) {
-                console.log(clips[i].name);
-            }
-
-            const animation0 = gltf.animations[0];
-            const action0 = mixer.clipAction(animation0);
-            action0.setLoop(THREE.LoopRepeat);
-            //action0.setDuration(10);
-            action0.play();
-            let transform = new Ammo.btTransform();
-            transform.setIdentity();
-            transform.setOrigin(
-                new Ammo.btVector3(position.x, position.y, position.z)
-            );
-            transform.setRotation(
-                new Ammo.btQuaternion(
-                    quaternion.x,
-                    quaternion.y,
-                    quaternion.z,
-                    quaternion.w
-                )
-            );
-
-            const shape = new Ammo.btBoxShape(new Ammo.btVector3(10, 23, 10));
-            //const shape = new Ammo.btSphereShape(25);
-            //shape.getMargin(0.05);
-
-            let rigidBody = createAmmoRigidBody(
-                shape,
-                mushroom,
-                0.1,
-                0.1,
-                position,
-                mass
-            );
-
-            g_ammoPhysicsWorld.addRigidBody(
-                rigidBody,
-                COLLISION_GROUP_BOX,
-                COLLISION_GROUP_SPHERE |
-                    COLLISION_GROUP_BOX |
-                    COLLISION_GROUP_MOVABLE |
-                    COLLISION_GROUP_PLANE
-            );
-
-            mushroom.userData.physicsBody = rigidBody;
-            g_rigidBodies.push(mushroom);
-            rigidBody.threeMesh = mushroom;
-        }
-    );
-}
 
 export function createAmmoXZPlane(xzPlaneSideLength, xzPlaneSideWidth) {
     const mass = 0;
@@ -292,7 +86,6 @@ export function createAmmoSphere(
     mesh.receiveShadow = true;
     mesh.collisionResponse = (mesh1) => {
         mesh1.material.color.setHex(Math.random() * 0xffffff);
-
     };
 
     /**
@@ -342,7 +135,6 @@ export function createAmmoBox(
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     mesh.visible = visible;
-
 
     /**
      * Ammo.js

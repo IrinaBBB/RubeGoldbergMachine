@@ -184,6 +184,15 @@ function checkCollisions(deltaTime) {
                             if (typeof threeMesh1.collisionResponse === 'function')
                                 threeMesh1.collisionResponse(threeMesh1);
                         }
+
+                        if ((threeMesh0.name === 'fish' && threeMesh1.name === 'mushroom') ||
+                            threeMesh1.name === 'mushroom' && threeMesh0.name === 'fish') {
+                            console.log('fish');
+                            if (typeof threeMesh0.collisionResponseSplash === 'function')
+                                threeMesh0.collisionResponseSplash(threeMesh0);
+                            if (typeof threeMesh1.collisionResponseSplash === 'function')
+                                threeMesh1.collisionResponseSplash(threeMesh1);
+                        }
                     }
                 }
             }

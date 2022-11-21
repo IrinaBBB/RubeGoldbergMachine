@@ -142,7 +142,7 @@ export function handleKeys(delta, g_currentlyPressedKeys) {
     }
     if (g_currentlyPressedKeys['KeyU']) {
         // U
-        const cube = g_scene.getObjectByName('shroom');
+        const cube = g_scene.getObjectByName('mushroom');
         applyImpulse(cube.userData.physicsBody, 1, { x: 0, y: 1, z: 0 });
     }
 
