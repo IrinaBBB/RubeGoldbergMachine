@@ -1,4 +1,4 @@
-import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
+import {OBJLoader} from "three/addons/loaders/OBJLoader.js";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../helpers/myAmmoHelper";
 import {addMeshToScene} from "../helpers/myThreeHelper";
@@ -9,9 +9,9 @@ import {
     COLLISION_GROUP_SPHERE
 } from "../helpers/threeAmmoShapes";
 
-export function createGLTFDomino(
+export function createOBJCoffeMug(
     mass = 100,
-    position = { x: -55, y: 50, z: 40 },
+    position = { x: -20, y: 50, z: 40 },
     scale = {
         x: 0.01,
         y: 0.01,
@@ -20,13 +20,43 @@ export function createGLTFDomino(
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
     rotation = { x: 0, y: Math.PI / 2, z: 0 }
 ) {
-    window.dominoSoundCount = 0;
-    window.loader = new GLTFLoader();
+    window.coffeSoundCount = 0;
+    window.loader = new OBJLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('/draco/');
     loader.setDRACOLoader(dracoLoader);
-    loader.load('../../../../assets/models/domino/scene.gltf', (gltf) => {
-        const domino = gltf.scene;
+
+    const manager = new THREE.LoadingManager( loadModel );
+
+    // texture
+
+    const textureLoader = new THREE.TextureLoader( manager );
+    const texture = textureLoader.load( 'textures/uv_grid_opengl.jpg' );
+
+    // model
+
+    function onProgress( xhr ) {
+
+        if ( xhr.lengthComputable ) {
+
+            const percentComplete = xhr.loaded / xhr.total * 100;
+            console.log( 'model ' + Math.round( percentComplete, 2 ) + '% downloaded' );
+
+        }
+
+    }
+
+    function onError() {}
+
+    const loader = new OBJLoader( manager );
+    loader.load( '\'../../../../assets/models/', function ( obj ) {
+
+        let object = obj;
+
+    }, onProgress, onError );
+
+
+    const coffeMug = gltf.scene;
         domino.scale.set(scale.x, scale.y, scale.z);
         domino.position.set(position.x, position.y, position.z);
         domino.rotation.set(rotation.x, rotation.y, rotation.z);
