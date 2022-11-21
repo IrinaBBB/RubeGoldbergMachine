@@ -24,6 +24,8 @@ import {
 import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
 import { createGLTFDomino } from './shapes/domino';
+import { createGLTFSportsbil } from './shapes/sportsbil';
+import { createGLTFSykkel } from './shapes/sykkel';
 
 /**
  * Global variables
@@ -200,7 +202,15 @@ function addSceneObjects() {
 
     /** Fish */
     createGLTFFish();
+
+    /** Taxi */
+    createGLTFSportsbil()
+
+    /** Sykkel */
+    createGLTFSykkel();
+
 }
+
 
 /**
  * Load models function
@@ -236,12 +246,12 @@ function loadModelsAndSceneObjects() {
         //     position: { x: -56, y: 25, z: -10 },
         //     rotation: { x: 0, y: Math.PI, z: 0 },
         // },
-        wooden_wheel: {
+        /*wooden_wheel: {
             url: '../../../assets/models/wooden_wheel/scene.gltf',
             scale: { x: 0.3, y: 0.3, z: 0.3 },
             position: { x: 5, y: 20, z: 5 },
             rotation: { x: 0, y: 0, z: 0 },
-        },
+        },*/
         golf_ball: {
             url: '../../../assets/models/golf_ball/scene.gltf',
             scale: { x: 0.05, y: 0.05, z: 0.05 },
