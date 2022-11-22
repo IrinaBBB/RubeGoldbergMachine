@@ -1,5 +1,6 @@
-import {OBJLoader} from "three/addons/loaders/OBJLoader.js";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../helpers/myAmmoHelper";
 import {addMeshToScene} from "../helpers/myThreeHelper";
 import {
@@ -8,104 +9,122 @@ import {
     COLLISION_GROUP_PLANE,
     COLLISION_GROUP_SPHERE
 } from "../helpers/threeAmmoShapes";
+import * as THREE from "three";
 
 export function createOBJCoffeMug(
     mass = 100,
-    position = { x: -20, y: 50, z: 40 },
+    position = { x: 0.1, y: 0.1, z: 0.1 },
     scale = {
-        x: 0.01,
-        y: 0.01,
-        z: 0.01,
+        x: 1,
+        y: 1,
+        z: 1,
     },
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
     rotation = { x: 0, y: Math.PI / 2, z: 0 }
 ) {
     window.coffeSoundCount = 0;
     window.loader = new OBJLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('/draco/');
-    loader.setDRACOLoader(dracoLoader);
 
-    const manager = new THREE.LoadingManager( loadModel );
-
-    // texture
-
-    const textureLoader = new THREE.TextureLoader( manager );
-    const texture = textureLoader.load( 'textures/uv_grid_opengl.jpg' );
-
-    // model
-
-    function onProgress( xhr ) {
-
-        if ( xhr.lengthComputable ) {
-
-            const percentComplete = xhr.loaded / xhr.total * 100;
-            console.log( 'model ' + Math.round( percentComplete, 2 ) + '% downloaded' );
-
-        }
-
+    //Bruker OBJLoader:
+    function loadModel() {
+        loadGeoOnlyModel();
+        //loadGeoAndMaterialModel();
     }
 
-    function onError() {}
+    function loadGeoOnlyModel() {
+        let loader = new OBJLoader();
 
-    const loader = new OBJLoader( manager );
-    loader.load( '\'../../../../assets/models/', function ( obj ) {
+        //Laster kun geometrien dvs. obj-fila:
+        loader.load('../../../../assets/models/coffe_cup-obj/coffe_cup.obj', function (loadedMesh) {
+            let material = new THREE.MeshLambertMaterial({color: 0x5C3A21});
+            // loadedMesh er en gruppe med mesh.
+            // Setter samme materiale på alle disse.
+            // Beregn normaler på nytt for korrekt shading.
+            loadedMesh.children.forEach(function (child) {
+                child.material = material;
+            });
+            loadedMesh.scale.set(2, 2, 2);
+            //g_scene.add(loadedMesh);
+        });
+    }
 
-        let object = obj;
+//Bruker MTLLoader & OBJLoader
+    function loadGeoAndMaterialModel() {
+        let mesh = null;
+        let mtlLoader = new MTLLoader();
+        let modelName = 'coffe';  //gubbe, male, ant1, ftorso
 
-    }, onProgress, onError );
+        //Laster først materiale:
+        mtlLoader.load('../../../../assets/models/coffe_cup-obj/' + modelName + '.mtl', function (materials) {
+            materials.preload();
+            let objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+
+            //...deretter geometrien:
+            objLoader.load('../../../../assets/models/coffe_cup-obj/' + modelName + '.obj', function (object) {
+                mesh = object;
+                mesh.position.y = 0;
+                mesh.scale.set(1, 1, 1);
+
+                //Plukker ut deler av modellen, for animasjon f.eks.:
+                if (modelName === 'coffe') {
+                    mesh.scale.set(1, 1, 1);
+                    /* LA STÅ!
+                    let  arm = mesh.getObjectByName("BOPED_L_arm_fore"); //.children[2].children[0];
+                    arm.rotation.y = Math.PI / 3;
+                    arm.material.opacity = 0.6;
+                    arm.material.transparent = true;
+                    arm.material.depthTest = false;
+                    arm.material.side = THREE.DoubleSide;
+                    let  finger = mesh.getObjectByName("BOPED_R_hand_finger11");
+                    finger.material.opacity = 0.6;
+                    finger.material.transparent = true;
+                    finger.rotation.z = Math.PI / 4;
+                     */
+                }
+            });
+
+        });
+    }
 
 
-    const coffeMug = gltf.scene;
-        domino.scale.set(scale.x, scale.y, scale.z);
-        domino.position.set(position.x, position.y, position.z);
-        domino.rotation.set(rotation.x, rotation.y, rotation.z);
-        domino.collisionResponse = (mesh) => {
-            if (window.dominoSoundCount < 1) {
-                const audio = new Audio('../../../../assets/sounds/chips.mp3');
-                audio.play().then();
-                window.dominoSoundCount++;
-            }
-        };
-        domino.name = 'domino';
 
-        let transform = new Ammo.btTransform();
-        transform.setIdentity();
-        transform.setOrigin(
-            new Ammo.btVector3(position.x, position.y, position.z)
-        );
-        transform.setRotation(
-            new Ammo.btQuaternion(
-                quaternion.x,
-                quaternion.y,
-                quaternion.z,
-                quaternion.w
-            )
-        );
+    let transform = new Ammo.btTransform();
+    transform.setIdentity();
+    transform.setOrigin(
+        new Ammo.btVector3(position.x, position.y, position.z)
+    );
+    transform.setRotation(
+        new Ammo.btQuaternion(
+            quaternion.x,
+            quaternion.y,
+            quaternion.z,
+            quaternion.w
+        )
+    );
 
-        const shape = new Ammo.btBoxShape(new Ammo.btVector3(30, 40, 30));
-        shape.getMargin(0.05);
+    const shape = new Ammo.btBoxShape(new Ammo.btVector3(30, 40, 30));
+    shape.getMargin(0.05);
 
-        let rigidBody = createAmmoRigidBody(
-            shape,
-            domino,
-            0.5,
-            50,
-            position,
-            mass
-        );
-        domino.userData.physicsBody = rigidBody;
-        g_ammoPhysicsWorld.addRigidBody(
-            rigidBody,
-            COLLISION_GROUP_BOX,
-            COLLISION_GROUP_SPHERE |
-            COLLISION_GROUP_BOX |
-            COLLISION_GROUP_MOVABLE |
-            COLLISION_GROUP_PLANE
-        );
+    let rigidBody = createAmmoRigidBody(
+        shape,
+        'coffe',
+        0.5,
+        50,
+        position,
+        mass
+    );
+    'coffe'.userData.physicsBody = rigidBody;
+    g_ammoPhysicsWorld.addRigidBody(
+        rigidBody,
+        COLLISION_GROUP_BOX,
+        COLLISION_GROUP_SPHERE |
+        COLLISION_GROUP_BOX |
+        COLLISION_GROUP_MOVABLE |
+        COLLISION_GROUP_PLANE
+    );
 
-        addMeshToScene(domino);
-        g_rigidBodies.push(domino);
-        rigidBody.threeMesh = domino;
-    });
+    addMeshToScene('coffe');
+    g_rigidBodies.push('coffe');
+    rigidBody.threeMesh = 'coffe';
 }

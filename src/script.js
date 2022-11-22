@@ -26,6 +26,7 @@ import { createGLTFFish } from './shapes/fish';
 import { createGLTFDomino } from './shapes/domino';
 import { createGLTFSportsbil } from './shapes/sportsbil';
 import { createGLTFSykkel } from './shapes/sykkel';
+import {createOBJCoffeMug} from "./shapes/coffe_mug";
 
 /**
  * Global variables
@@ -207,8 +208,10 @@ function addSceneObjects() {
     createGLTFSportsbil()
 
     /** Sykkel */
-    createGLTFSykkel();
+    //createGLTFSykkel();
 
+    /** kaffekopp */
+    //createOBJCoffeMug()
 }
 
 
