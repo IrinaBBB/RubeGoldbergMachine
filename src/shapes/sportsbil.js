@@ -19,12 +19,12 @@ window.splashCount = 0;
 
 export function createGLTFSportsbil(
     mass = 1,
-    position = {x: 0.03, y: 0.03, z: 0.04},
+    position = {x: 8, y: 23, z: -38},
     scale = {
-        x: 0.05, y: 0.05, z: 0.05
+        x: 0.015, y: 0.015, z: 0.015
     },
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
-    rotation = { x: 0, y: Math.PI, z: 0 }
+    rotation = { x: 0, y: Math.PI*4, z: 0 }
 ) {
     window.loader = new GLTFLoader();
     //const dracoLoader = new DRACOLoader();

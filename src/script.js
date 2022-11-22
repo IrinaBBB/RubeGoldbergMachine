@@ -173,6 +173,26 @@ function addSceneObjects() {
         false
     );
 
+    /** Desk */
+    createAmmoBox(
+        0,
+        0xffff00,
+        { x: 42, y: 2, z: 25 },
+        { x: 23, y: 21, z: -47 },
+        { x: 0, y: 0, z: 0 },
+        false
+    );
+
+    /** Track for car */
+    createAmmoBox(
+        0,
+        0xffff00,
+        { x: 30, y: 0.2, z: 2 },
+        { x: 8, y: 11.5, z: -25.5 },
+        { x: Math.PI/4, y: Math.PI/2, z: 0 },
+        true
+    );
+
     /** Dominoes **/
     createGLTFDomino(
         100,
