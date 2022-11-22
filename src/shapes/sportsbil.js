@@ -19,7 +19,7 @@ window.splashCount = 0;
 
 export function createGLTFSportsbil(
     mass = 1,
-    position = {x: 8, y: 23, z: -38},
+    position = {x: 8, y: 23, z: -35},
     scale = {
         x: 0.015, y: 0.015, z: 0.015
     },
@@ -60,15 +60,15 @@ export function createGLTFSportsbil(
                 )
             );
 
-            const shape = new Ammo.btBoxShape(new Ammo.btVector3(10, 10, 10));
+            const shape = new Ammo.btBoxShape(new Ammo.btVector3(70, 70, 70));
             //const shape = new Ammo.btSphereShape(25);
             //shape.getMargin(0.05);
 
             let rigidBody = createAmmoRigidBody(
                 shape,
                 sportsbil,
-                0.5,
-                50,
+                0.8,
+                100,
                 position,
                 mass
             );

@@ -61,7 +61,7 @@ function addSceneObjects() {
         { x: 120, y: 6, z: 120 },
         { x: 0, y: 0, z: 0 },
         { x: 0, y: 0, z: 0 },
-        false
+        true
     );
 
     /**
@@ -178,7 +178,7 @@ function addSceneObjects() {
         0,
         0xffff00,
         { x: 42, y: 2, z: 25 },
-        { x: 23, y: 21, z: -47 },
+        { x: 23, y: 21, z: -49 },
         { x: 0, y: 0, z: 0 },
         false
     );
