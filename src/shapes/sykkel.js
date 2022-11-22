@@ -19,7 +19,7 @@ window.splashCount = 0;
 
 export function createGLTFSykkel(
     mass = 1,
-    position = { x: 1, y: 1, z: 1 },
+    position = { x: 1, y: 1, z: 1.1 },
     scale = {
         x: 15,
         y: 15,
