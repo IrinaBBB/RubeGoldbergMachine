@@ -193,6 +193,15 @@ function checkCollisions(deltaTime) {
                             if (typeof threeMesh1.collisionResponseSplash === 'function')
                                 threeMesh1.collisionResponseSplash(threeMesh1);
                         }
+
+                        if ((threeMesh0.name === 'pendulumWeight' && threeMesh1.name === 'pendulumWeight') ||
+                            threeMesh1.name === 'pendulumWeight' && threeMesh0.name === 'pendulumWeight') {
+                            console.log('shroom');
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
                     }
                 }
             }
