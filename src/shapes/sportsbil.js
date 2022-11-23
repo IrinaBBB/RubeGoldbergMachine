@@ -18,7 +18,7 @@ import {
 window.splashCount = 0;
 
 export function createGLTFSportsbil(
-    mass = 1,
+    mass = 50,
     position = {x: 8, y: 23, z: -35},
     scale = {
         x: 0.015, y: 0.015, z: 0.015
@@ -59,8 +59,11 @@ export function createGLTFSportsbil(
                     quaternion.w
                 )
             );
+            let motionState = new Ammo.btDefaultMotionState( transform );
 
-            const shape = new Ammo.btBoxShape(new Ammo.btVector3(70, 70, 70));
+
+            let shape = new Ammo.btBoxShape(new Ammo.btVector3(70, 70, 70 )); //70, 70, 70
+            shape.setMargin( 0.05 );
             //const shape = new Ammo.btSphereShape(25);
             //shape.getMargin(0.05);
 

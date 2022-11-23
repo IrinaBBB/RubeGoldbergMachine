@@ -61,7 +61,7 @@ function addSceneObjects() {
         { x: 120, y: 6, z: 120 },
         { x: 0, y: 0, z: 0 },
         { x: 0, y: 0, z: 0 },
-        true
+        false
     );
 
     /**
@@ -195,7 +195,7 @@ function addSceneObjects() {
 
     /** Dominoes **/
     createGLTFDomino(
-        100,
+        50,
         { x: -55, y: 60, z: 40 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
@@ -203,7 +203,7 @@ function addSceneObjects() {
     );
 
     createGLTFDomino(
-        100,
+        50,
         { x: -55, y: 60, z: 43 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
@@ -211,7 +211,7 @@ function addSceneObjects() {
     );
 
     createGLTFDomino(
-        100,
+        50,
         { x: -55, y: 60, z: 46 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
