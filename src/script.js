@@ -24,6 +24,9 @@ import {
 import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
 import { createGLTFDomino } from './shapes/domino';
+import {createPendulum} from './shapes/pendulum';
+import {createPlank} from './shapes/plankSphere.js';
+
 
 /**
  * Global variables
@@ -198,6 +201,45 @@ function addSceneObjects() {
     /** Nightmare Mushroom */
     createGLTFMushroom();
 
+    /**Pendulum */
+    createPendulum({x:-55,y:77,z:-40},50,1);
+    createPendulum({x:-53,y:77,z:-40},40,2);
+    createPendulum({x:-51,y:77,z:-40},30,3);
+    createPendulum({x:-49,y:77,z:-40},25,4);
+    createPendulum({x:-47,y:77,z:-40},28,2);
+    createPendulum({x:-49,y:77,z:-38},30,3);
+    createPendulum({x:-51,y:77,z:-38},35,1);
+    createPendulum({x:-53,y:77,z:-38},21,4);
+    createPendulum({x:-55,y:77,z:-38},34,3);
+
+    for(var z = 30 ; z > 15 ; z -= 5)
+    {
+        for(var j = 0 ; j < 10 ; j += 2.2)
+        {
+            for(var i = 0 ; i < 30 ; i += 2.1)
+            {
+                createAmmoBox(0,
+                    0xffff00,
+                    new THREE.Vector3(2, 2, 1.5) ,
+                    new THREE.Vector3(i, j, z) ,
+                    { x: 1, y: 0, z: 0 } ,
+                    0xffffff,
+                    null);
+            }
+        }
+    }
+
+
+    createPlank({ x: 10, y: 20, z: 30},{x:0,y:0,z:0},50,{ x: 0, y: 0, z: 0 });
+
+    createAmmoBox(
+        0,
+        0xffff00,
+        { x: 10, y: 1, z: 30},
+        { x: -20, y: 18, z: -15 },
+        { x: 10, y: 0, z: 0 },
+        true
+    );
     /** Fish */
     createGLTFFish();
 }
