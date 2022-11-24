@@ -13,6 +13,7 @@ import {
     COLLISION_GROUP_PENDULUM_SPHERE,
     g_animationMixers,
 } from '../helpers/threeAmmoShapes';
+import {texture} from "three/nodes";
 
 export async function createPendulum(
     position = {x:0,y: 0,z: 0},
@@ -108,21 +109,22 @@ async function createPendulumArm(width = 50, radius = 0.5) {
     armMesh.receiveShadow = true;
 
     //Ballen
+    const cubeTextureLoader = new THREE.TextureLoader();
+    const texture = cubeTextureLoader.load([
+        '../../../assets/textures/mars.jpg']);
     const weightMesh = new THREE.Mesh(
         new THREE.SphereGeometry(radius, 8, 8),
-        new THREE.MeshStandardMaterial(
-            {color: 0x8c8c8c,
-                roughness: 1,
-                transparent: false,
-                metalness: 0.2,
-                opacity: 0.5}));
+        new THREE.MeshBasicMaterial(
+            { map: texture
+            }));
 
     weightMesh.name = 'pendulumWeight';
     weightMesh.position.set(width/2, 0, 0);
     weightMesh.castShadow = true;
     weightMesh.receiveShadow = true;
-    weightMesh.collisionResponse = (weightMesh) => {
-        weightMesh.material.color.setHex(Math.random() * 0xffffff);
+    weightMesh.collisionResponse = (mesh) => {
+        const audio = new Audio('../../../../assets/sounds/chips.mp3');
+        audio.play().then();;
     };
     armMesh.add(weightMesh);
 
@@ -170,14 +172,14 @@ async function getPendulumMaterial() {
 
     const color=0x0000ff;
     const cubeTextureLoader = new THREE.CubeTextureLoader();
-    const environmentMapTexture = await cubeTextureLoader.load([
-        '../../../assets/textures/bird1.png']);
+    const texture = await cubeTextureLoader.load([
+        '../../../assets/textures/mars.jpg']);
 
 
-    let material = new THREE.MeshStandardMaterial();
+    let material = new THREE.MeshBasicMaterial({map: texture});
     material.metalness =0.7;
     material.roughness=0.2;
-    material.envMap = environmentMapTexture;
+    //material.envMap = map;
 
     if (material === undefined)
         material = new THREE.MeshBasicMaterial({color: color})
