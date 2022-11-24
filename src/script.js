@@ -63,9 +63,9 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0x0022ee,
-        { x: 120, y: 6, z: 120 },
-        { x: 0, y: 0, z: 0 },
-        { x: 0, y: 0, z: 0 },
+        {x: 120, y: 6, z: 120},
+        {x: 0, y: 0, z: 0},
+        {x: 0, y: 0, z: 0},
         false
     );
 
@@ -76,9 +76,9 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0x0022ee,
-        { x: 120, y: 6, z: 120 },
-        { x: 0, y: 80, z: 0 },
-        { x: 0, y: 0, z: 0 },
+        {x: 120, y: 6, z: 120},
+        {x: 0, y: 80, z: 0},
+        {x: 0, y: 0, z: 0},
         false
     );
 
@@ -89,36 +89,36 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xff44ee,
-        { x: 120, y: 6, z: 80 },
-        { x: 0, y: 40, z: -63 },
-        { x: Math.PI / 2, y: 0, z: 0 },
+        {x: 120, y: 6, z: 80},
+        {x: 0, y: 40, z: -63},
+        {x: Math.PI / 2, y: 0, z: 0},
         false
     );
 
     createAmmoBox(
         0,
         0x1144ee,
-        { x: 120, y: 6, z: 80 },
-        { x: -63, y: 40, z: 0 },
-        { x: Math.PI / 2, y: 0, z: Math.PI / 2 },
+        {x: 120, y: 6, z: 80},
+        {x: -63, y: 40, z: 0},
+        {x: Math.PI / 2, y: 0, z: Math.PI / 2},
         false
     );
 
     createAmmoBox(
         0,
         0xff44ee,
-        { x: 120, y: 6, z: 80 },
-        { x: 0, y: 38, z: 63 },
-        { x: Math.PI / 2, y: 0, z: 0 },
+        {x: 120, y: 6, z: 80},
+        {x: 0, y: 38, z: 63},
+        {x: Math.PI / 2, y: 0, z: 0},
         false
     );
 
     createAmmoBox(
         0,
         0x1144ee,
-        { x: 120, y: 6, z: 80 },
-        { x: 63, y: 40, z: 0 },
-        { x: Math.PI / 2, y: 0, z: Math.PI / 2 },
+        {x: 120, y: 6, z: 80},
+        {x: 63, y: 40, z: 0},
+        {x: Math.PI / 2, y: 0, z: Math.PI / 2},
         false
     );
 
@@ -128,18 +128,18 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0x00ffff,
-        { x: 1, y: 150, z: 39 },
-        { x: -44, y: 23, z: 0 },
-        { x: 0, y: 0, z: 0 },
+        {x: 1, y: 150, z: 39},
+        {x: -44, y: 23, z: 0},
+        {x: 0, y: 0, z: 0},
         false
     );
 
     createAmmoBox(
         0,
         0x00ffff,
-        { x: 20, y: 25, z: 1 },
-        { x: -55, y: 20, z: -20 },
-        { x: 0, y: 0, z: 0 },
+        {x: 20, y: 25, z: 1},
+        {x: -55, y: 20, z: -20},
+        {x: 0, y: 0, z: 0},
         false
     );
 
@@ -149,22 +149,22 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0x00ffff,
-        { x: 10, y: 54, z: 39 },
-        { x: -55, y: 23, z: 39.5 },
-        { x: 0, y: 0, z: 0 },
+        {x: 10, y: 54, z: 39},
+        {x: -55, y: 23, z: 39.5},
+        {x: 0, y: 0, z: 0},
         false
     );
 
     /** Purple cube that starts chain reaction */
-    createMovable(0x550099, { x: -55, y: 55, z: 55 });
+    createMovable(0x550099, {x: -55, y: 55, z: 55});
 
     /** Small Bed */
     createAmmoBox(
         0,
         0x00ffff,
-        { x: 20, y: 10, z: 40 },
-        { x: -55, y: 11, z: 0 },
-        { x: 0, y: 0, z: 0 },
+        {x: 20, y: 10, z: 40},
+        {x: -55, y: 11, z: 0},
+        {x: 0, y: 0, z: 0},
         false
     );
 
@@ -172,9 +172,9 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xffff00,
-        { x: 100, y: 10, z: 35 },
-        { x: -55, y: 11, z: -40 },
-        { x: 0, y: 0, z: 0 },
+        {x: 100, y: 10, z: 35},
+        {x: -55, y: 11, z: -40},
+        {x: 0, y: 0, z: 0},
         false
     );
 
@@ -182,9 +182,9 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xffff00,
-        { x: 42, y: 2, z: 25 },
-        { x: 23, y: 21, z: -49 },
-        { x: 0, y: 0, z: 0 },
+        {x: 42, y: 2, z: 25},
+        {x: 23, y: 21, z: -49},
+        {x: 0, y: 0, z: 0},
         false
     );
 
@@ -192,64 +192,61 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xffff00,
-        { x: 30, y: 0.2, z: 2 },
-        { x: 8, y: 11.5, z: -25.5 },
-        { x: Math.PI/4, y: Math.PI/2, z: 0 },
+        {x: 30, y: 0.2, z: 2},
+        {x: 8, y: 11.5, z: -25.5},
+        {x: Math.PI / 4, y: Math.PI / 2, z: 0},
         true
     );
 
     /** Dominoes **/
     createGLTFDomino(
         50,
-        { x: -55, y: 50, z: 40 },
-        { x: 0.02, y: 0.02, z: 0.02 },
-        { x: 0, y: 0, z: 0, w: 1 },
-        { x: 0, y: Math.PI / 2, z: 0 }
+        {x: -55, y: 50, z: 40},
+        {x: 0.02, y: 0.02, z: 0.02},
+        {x: 0, y: 0, z: 0, w: 1},
+        {x: 0, y: Math.PI / 2, z: 0}
     );
 
     createGLTFDomino(
         50,
-        { x: -55, y: 50, z: 43 },
-        { x: 0.02, y: 0.02, z: 0.02 },
-        { x: 0, y: 0, z: 0, w: 1 },
-        { x: 0, y: Math.PI / 2, z: 0 }
+        {x: -55, y: 50, z: 43},
+        {x: 0.02, y: 0.02, z: 0.02},
+        {x: 0, y: 0, z: 0, w: 1},
+        {x: 0, y: Math.PI / 2, z: 0}
     );
 
     createGLTFDomino(
         50,
-        { x: -55, y: 50, z: 46 },
-        { x: 0.02, y: 0.02, z: 0.02 },
-        { x: 0, y: 0, z: 0, w: 1 },
-        { x: 0, y: Math.PI / 2, z: 0 }
+        {x: -55, y: 50, z: 46},
+        {x: 0.02, y: 0.02, z: 0.02},
+        {x: 0, y: 0, z: 0, w: 1},
+        {x: 0, y: Math.PI / 2, z: 0}
     );
 
     /** Nightmare Mushroom */
     createGLTFMushroom();
 
     /**Pendulum */
-    createPendulum({x:-55,y:77,z:-40},50,1);
-    createPendulum({x:-53,y:77,z:-40},40,2);
-    createPendulum({x:-51,y:77,z:-40},30,3);
-    createPendulum({x:-49,y:77,z:-40},25,4);
-    createPendulum({x:-47,y:77,z:-40},28,2);
-    createPendulum({x:-49,y:77,z:-38},30,3);
-    createPendulum({x:-51,y:77,z:-38},35,1);
-    createPendulum({x:-53,y:77,z:-38},21,4);
-    createPendulum({x:-55,y:77,z:-38},34,3);
+    createPendulum({x: -55, y: 77, z: -40}, 50, 1);
+    createPendulum({x: -53, y: 77, z: -40}, 40, 2);
+    createPendulum({x: -51, y: 77, z: -40}, 30, 3);
+    createPendulum({x: -49, y: 77, z: -40}, 25, 4);
+    createPendulum({x: -47, y: 77, z: -40}, 28, 2);
+    createPendulum({x: -49, y: 77, z: -38}, 30, 3);
+    createPendulum({x: -51, y: 77, z: -38}, 35, 1);
+    createPendulum({x: -53, y: 77, z: -38}, 21, 4);
+    createPendulum({x: -55, y: 77, z: -38}, 34, 3);
 
 
- //Vegg med klosser
-    for(var z = 12 ; z > 6; z -= 2)
-    {
-        for(var j = 0 ; j < 20 ; j += 2.2)
-        {
-            for(var i = -40 ; i < -10; i += 2.1)
-            {
+    //Vegg med klosser
+    for (var z = 12; z > 6; z -= 2) {
+        for (var j = 0; j < 20; j += 2.2) {
+            for (var i = -40; i < -10; i += 2.1) {
                 createAmmoBox(17,
                     0xffff00,
-                    new THREE.Vector3(2, 2, 1.5) ,
-                    new THREE.Vector3(i, j, z) ,
-                    { x: 0, y: 0, z: 0 } ,
+                    new THREE.Vector3(2, 2, 1.5),
+                    new THREE.Vector3(i, j, z),
+                    {x: 0, y: 0, z: 0},
                     0xffffff,
                     null);
             }
@@ -258,18 +255,19 @@ function addSceneObjects() {
 
 
     createPlank({
-        x: 6, y: 6, z: 6},
-        {x: -17,y:50,z:-19},
+            x: 6, y: 6, z: 6
+        },
+        {x: -17, y: 50, z: -19},
         1000,
-        { x: 0, y: 0, z: 0 },
-        { x: 0, y: 0, z: 0, w: 1 });
+        {x: 0, y: 0, z: 0},
+        {x: 0, y: 0, z: 0, w: 1});
 
     createAmmoBox(
         0,
         0xffff00,
-        { x: 10, y: 1, z: 30},
-        { x: -20, y: 12, z: -15 },
-        { x: 10, y: 0, z: 0 },
+        {x: 10, y: 1, z: 30},
+        {x: -20, y: 12, z: -15},
+        {x: 10, y: 0, z: 0},
         true
     );
     /** Fish */
@@ -386,6 +384,9 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
             mixer.update(deltaTime);
         }
     }
+
+    TWEEN.update(currentTime);
+
     /**
      * Update graphics
      */

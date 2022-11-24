@@ -8,6 +8,7 @@ import {
     COLLISION_GROUP_PLANE,
     COLLISION_GROUP_SPHERE
 } from "../helpers/threeAmmoShapes";
+import {TWEEN} from "three/addons/libs/tween.module.min";
 
 export function createGLTFRakett(
     mass = 50,
@@ -86,11 +87,11 @@ export function createGLTFRakett(
         g_rigidBodies.push(rocket);
         rigidBody.threeMesh = rocket;
     });
-    let tween1 = new TWEEN.Tween({x: 3})
-        .to({x: 10}, 4000)
+    let tween1 = new TWEEN.Tween({x: 10, y: 10, z: 20})
+        .to({x: 20, y: 30, z: 50}, 10000)
         .easing(TWEEN.Easing.Bounce.Out)
         .onUpdate( function (position) {
-            rocket.position.x = position.x;
+            rocket.position.x = position.x, rocket.position.y = position.y, rocket.position.z = position.z ;
         });
     tween1.start();
 }
