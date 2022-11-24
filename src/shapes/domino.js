@@ -10,7 +10,7 @@ import {
 } from "../helpers/threeAmmoShapes";
 
 export function createGLTFDomino(
-    mass = 100,
+    mass = 50,
     position = { x: -55, y: 50, z: 40 },
     scale = {
         x: 0.01,
@@ -37,7 +37,11 @@ export function createGLTFDomino(
                 window.dominoSoundCount++;
             }
         };
+        addMeshToScene(domino);
+        console.log(gltf.scene.animations);
         domino.name = 'domino';
+
+
 
         let transform = new Ammo.btTransform();
         transform.setIdentity();
@@ -53,8 +57,8 @@ export function createGLTFDomino(
             )
         );
 
-        const shape = new Ammo.btBoxShape(new Ammo.btVector3(30, 40, 30));
-        shape.getMargin(0.05);
+        const shape = new Ammo.btBoxShape(new Ammo.btVector3(70, 130, 50));
+        //shape.getMargin(0.05);
 
         let rigidBody = createAmmoRigidBody(
             shape,
@@ -64,7 +68,7 @@ export function createGLTFDomino(
             position,
             mass
         );
-        domino.userData.physicsBody = rigidBody;
+        //domino.userData.physicsBody = rigidBody;
         g_ammoPhysicsWorld.addRigidBody(
             rigidBody,
             COLLISION_GROUP_BOX,
@@ -74,7 +78,8 @@ export function createGLTFDomino(
             COLLISION_GROUP_PLANE
         );
 
-        addMeshToScene(domino);
+        domino.userData.physicsBody = rigidBody;
+        //addMeshToScene(domino);
         g_rigidBodies.push(domino);
         rigidBody.threeMesh = domino;
     });

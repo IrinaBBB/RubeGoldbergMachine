@@ -154,7 +154,7 @@ function addSceneObjects() {
     );
 
     /** Purple cube that starts chain reaction */
-    createMovable(0x550099, { x: -55, y: 50, z: 55 });
+    createMovable(0x550099, { x: -55, y: 55, z: 55 });
 
     /** Small Bed */
     createAmmoBox(
@@ -199,7 +199,7 @@ function addSceneObjects() {
     /** Dominoes **/
     createGLTFDomino(
         50,
-        { x: -55, y: 60, z: 40 },
+        { x: -55, y: 50, z: 40 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
@@ -207,7 +207,7 @@ function addSceneObjects() {
 
     createGLTFDomino(
         50,
-        { x: -55, y: 60, z: 43 },
+        { x: -55, y: 50, z: 43 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
@@ -215,7 +215,7 @@ function addSceneObjects() {
 
     createGLTFDomino(
         50,
-        { x: -55, y: 60, z: 46 },
+        { x: -55, y: 50, z: 46 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
