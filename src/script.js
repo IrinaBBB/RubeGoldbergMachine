@@ -29,6 +29,7 @@ import { createGLTFSykkel } from './shapes/sykkel';
 import {createOBJCoffeMug} from "./shapes/coffe_mug";
 import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
+import {createGLTFRakett} from "./shapes/rakett";
 
 
 /**
@@ -281,6 +282,9 @@ function addSceneObjects() {
 
     /** kaffekopp */
     //createOBJCoffeMug()
+
+    /** Rakett */
+    createGLTFRakett()
 }
 
 
