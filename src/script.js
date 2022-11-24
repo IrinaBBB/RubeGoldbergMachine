@@ -24,6 +24,9 @@ import {
 import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
 import { createGLTFDomino } from './shapes/domino';
+import { createGLTFSportsbil } from './shapes/sportsbil';
+import { createGLTFSykkel } from './shapes/sykkel';
+import {createOBJCoffeMug} from "./shapes/coffe_mug";
 import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
 
@@ -151,7 +154,7 @@ function addSceneObjects() {
     );
 
     /** Purple cube that starts chain reaction */
-    createMovable(0x550099, { x: -55, y: 50, z: 55 });
+    createMovable(0x550099, { x: -55, y: 55, z: 55 });
 
     /** Small Bed */
     createAmmoBox(
@@ -173,26 +176,46 @@ function addSceneObjects() {
         false
     );
 
+    /** Desk */
+    createAmmoBox(
+        0,
+        0xffff00,
+        { x: 42, y: 2, z: 25 },
+        { x: 23, y: 21, z: -49 },
+        { x: 0, y: 0, z: 0 },
+        false
+    );
+
+    /** Track for car */
+    createAmmoBox(
+        0,
+        0xffff00,
+        { x: 30, y: 0.2, z: 2 },
+        { x: 8, y: 11.5, z: -25.5 },
+        { x: Math.PI/4, y: Math.PI/2, z: 0 },
+        true
+    );
+
     /** Dominoes **/
     createGLTFDomino(
-        100,
-        { x: -55, y: 60, z: 40 },
+        50,
+        { x: -55, y: 50, z: 40 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
     );
 
     createGLTFDomino(
-        100,
-        { x: -55, y: 60, z: 43 },
+        50,
+        { x: -55, y: 50, z: 43 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
     );
 
     createGLTFDomino(
-        100,
-        { x: -55, y: 60, z: 46 },
+        50,
+        { x: -55, y: 50, z: 46 },
         { x: 0.02, y: 0.02, z: 0.02 },
         { x: 0, y: 0, z: 0, w: 1 },
         { x: 0, y: Math.PI / 2, z: 0 }
@@ -249,7 +272,17 @@ function addSceneObjects() {
     );
     /** Fish */
     createGLTFFish();
+
+    /** Taxi */
+    createGLTFSportsbil()
+
+    /** Sykkel */
+    //createGLTFSykkel();
+
+    /** kaffekopp */
+    //createOBJCoffeMug()
 }
+
 
 /**
  * Load models function
@@ -285,12 +318,12 @@ function loadModelsAndSceneObjects() {
         //     position: { x: -56, y: 25, z: -10 },
         //     rotation: { x: 0, y: Math.PI, z: 0 },
         // },
-        wooden_wheel: {
+        /*wooden_wheel: {
             url: '../../../assets/models/wooden_wheel/scene.gltf',
             scale: { x: 0.3, y: 0.3, z: 0.3 },
             position: { x: 5, y: 20, z: 5 },
             rotation: { x: 0, y: 0, z: 0 },
-        },
+        },*/
         golf_ball: {
             url: '../../../assets/models/golf_ball/scene.gltf',
             scale: { x: 0.05, y: 0.05, z: 0.05 },
