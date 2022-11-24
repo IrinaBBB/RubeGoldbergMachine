@@ -21,7 +21,9 @@ export function createGLTFFish(
     mass = 1,
     position = { x: -50, y: 25, z: -10 },
     scale = {
-        x: 0.015, y: 0.015, z: 0.015
+        x: 0.015,
+        y: 0.015,
+        z: 0.015,
     },
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
     rotation = { x: 0, y: Math.PI, z: 0 }
@@ -38,14 +40,7 @@ export function createGLTFFish(
             fish.scale.set(scale.x, scale.y, scale.z);
             fish.position.set(position.x, position.y, position.z);
             fish.rotation.set(rotation.x, rotation.y, rotation.z);
-            fish.collisionResponseSplash = (mesh) => {
-                if (window.splashCount < 1) {
-                    const audio = new Audio('../../../../assets/sounds/splash.mp3');
-                    audio.play().then();
-                    window.splashCount++;
-                }
-                // applyImpulse(fish, 100, { x: 0, y: 1, z: 0 });
-            };
+
 
             let transform = new Ammo.btTransform();
             transform.setIdentity();
@@ -80,10 +75,20 @@ export function createGLTFFish(
                 rigidBody,
                 COLLISION_GROUP_BOX,
                 COLLISION_GROUP_SPHERE |
-                COLLISION_GROUP_BOX |
-                COLLISION_GROUP_MOVABLE |
-                COLLISION_GROUP_PLANE
+                    COLLISION_GROUP_BOX |
+                    COLLISION_GROUP_MOVABLE |
+                    COLLISION_GROUP_PLANE
             );
+            fish.collisionResponseSplash = (mesh) => {
+                if (window.splashCount < 1) {
+                    const audio = new Audio(
+                        '../../../../assets/sounds/splash.mp3'
+                    );
+                    audio.play().then();
+                    window.splashCount++;
+                }
+                applyImpulse(mesh.userData.physicsBody, 100, { x: 0, y: 1, z: 0 });
+            };
 
             addMeshToScene(fish);
             g_rigidBodies.push(fish);

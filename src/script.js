@@ -72,7 +72,7 @@ function addSceneObjects() {
         0,
         0x0022ee,
         { x: 120, y: 6, z: 120 },
-        { x: 0, y: 100, z: 0 },
+        { x: 0, y: 80, z: 0 },
         { x: 0, y: 0, z: 0 },
         false
     );
@@ -123,7 +123,7 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0x00ffff,
-        { x: 1, y: 54, z: 39 },
+        { x: 1, y: 150, z: 39 },
         { x: -44, y: 23, z: 0 },
         { x: 0, y: 0, z: 0 },
         false
