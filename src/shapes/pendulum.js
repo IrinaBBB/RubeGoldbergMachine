@@ -13,6 +13,7 @@ import {
     COLLISION_GROUP_PENDULUM_SPHERE,
     g_animationMixers,
 } from '../helpers/threeAmmoShapes';
+import {texture} from "three/nodes";
 
 export async function createPendulum(
     position = {x:0,y: 0,z: 0},
@@ -31,7 +32,7 @@ export async function createPendulum(
 function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
 
     const anchorPivot = new Ammo.btVector3( 0, -0.05, 0 );
-    const anchorAxis = new Ammo.btVector3(0,0,0.1);
+    const anchorAxis = new Ammo.btVector3(0,0,1);
     const armPivot = new Ammo.btVector3( - armLength/2 , 0, 0 );
     const armAxis = new Ammo.btVector3(0,0,1);
     let hingeConstraint = new Ammo.btHingeConstraint(
@@ -44,15 +45,15 @@ function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
         true
     );
     const lowerLimit = -Math.PI/2;
-    const upperLimit = 0;
+    const upperLimit = -Math.PI/2;
     const softness = 0.9;
     const biasFactor = 0.3;
     const relaxationFactor = 1.0;
     if (hingeConstraint !== undefined) {
         hingeConstraint.setLimit( lowerLimit, upperLimit, softness, biasFactor, relaxationFactor);
-        hingeConstraint.enableAngularMotor(true, 0, 0.5);
+        hingeConstraint.enableAngularMotor(false, 0, 0.5);
 
-        g_ammoPhysicsWorld.addConstraint( hingeConstraint, true);
+        g_ammoPhysicsWorld.addConstraint( hingeConstraint, false);
     }
 }
 
@@ -92,11 +93,11 @@ async function createPendulumAnchor(
 }
 
 async function createPendulumArm(width = 50, radius = 0.5) {
-    const mass=50;
+    const mass=200;
     const color=0x00ff00;
-    //const width=50,
     const height=0.009, depth=0.1;
-    const position={x:0, y:0, z:0}
+    const position={x:0, y:0, z:0};
+    const quaternion = {x:0, y:0, z:0, w:1};
     //THREE
     const geometry = new THREE.BoxGeometry(width,height,depth, 1, 1);
     const material = await getPendulumMaterial();
@@ -108,21 +109,22 @@ async function createPendulumArm(width = 50, radius = 0.5) {
     armMesh.receiveShadow = true;
 
     //Ballen
+    const cubeTextureLoader = new THREE.TextureLoader();
+    const texture = cubeTextureLoader.load([
+        '../../../assets/textures/mars.jpg']);
     const weightMesh = new THREE.Mesh(
         new THREE.SphereGeometry(radius, 8, 8),
-        new THREE.MeshStandardMaterial(
-            {color: 0x8c8c8c,
-                roughness: 1,
-                transparent: false,
-                metalness: 0.2,
-                opacity: 0.5}));
+        new THREE.MeshBasicMaterial(
+            { map: texture
+            }));
 
     weightMesh.name = 'pendulumWeight';
     weightMesh.position.set(width/2, 0, 0);
     weightMesh.castShadow = true;
     weightMesh.receiveShadow = true;
-    weightMesh.collisionResponse = (weightMesh) => {
-        weightMesh.material.color.setHex(Math.random() * 0xffffff);
+    weightMesh.collisionResponse = (mesh) => {
+        const audio = new Audio('../../../../assets/sounds/chips.mp3');
+        audio.play().then();;
     };
     armMesh.add(weightMesh);
 
@@ -131,8 +133,18 @@ async function createPendulumArm(width = 50, radius = 0.5) {
     const mesh_height = armMesh.geometry.parameters.height;  //(er her overflødig)
     const mesh_depth = armMesh.geometry.parameters.depth;    //(er her overflødig)
 
+    let transform = new Ammo.btTransform();
+    transform.setIdentity();
+    transform.setOrigin( new Ammo.btVector3( position.x, position.y, position.z ) );
+    transform.setRotation( new Ammo.btQuaternion( quaternion.x, quaternion.y, quaternion.z, quaternion.w ) );
+
+
+    let localInertia = new Ammo.btVector3( 0, 0, 0 );
+
+
     const shape = new Ammo.btBoxShape( new Ammo.btVector3( mesh_width/2, mesh_height/2, mesh_depth/2) );
     shape.setMargin( 0.05 );
+    shape.calculateLocalInertia( mass, localInertia );
     const rigidBody = createAmmoRigidBody(shape, armMesh, 0.3, 0.0, position, mass);
     rigidBody.setDamping(0.1, 0.5);
     rigidBody.setActivationState(4);
@@ -160,14 +172,14 @@ async function getPendulumMaterial() {
 
     const color=0x0000ff;
     const cubeTextureLoader = new THREE.CubeTextureLoader();
-    const environmentMapTexture = await cubeTextureLoader.load([
-        '../../../assets/textures/bird1.png']);
+    const texture = await cubeTextureLoader.load([
+        '../../../assets/textures/mars.jpg']);
 
 
-    let material = new THREE.MeshStandardMaterial();
+    let material = new THREE.MeshBasicMaterial({map: texture});
     material.metalness =0.7;
     material.roughness=0.2;
-    material.envMap = environmentMapTexture;
+    //material.envMap = map;
 
     if (material === undefined)
         material = new THREE.MeshBasicMaterial({color: color})

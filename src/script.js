@@ -243,7 +243,7 @@ function addSceneObjects() {
         0,
         0xffff00,
         { x: 10, y: 1, z: 30},
-        { x: -20, y: 18, z: -15 },
+        { x: -20, y: 12, z: -15 },
         { x: 10, y: 0, z: 0 },
         true
     );
