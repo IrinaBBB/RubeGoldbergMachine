@@ -41,6 +41,7 @@ export let g_scene;
 const g_currentlyPressedKeys = [];
 const XZ_PLANE_SIDE_LENGTH = 300;
 const stats = Stats();
+const TWEEN = require('@tweenjs/tween.js');
 
 /**
  * Ammo.js Initialization

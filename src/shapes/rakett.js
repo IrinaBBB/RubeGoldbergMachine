@@ -11,7 +11,7 @@ import {
 
 export function createGLTFRakett(
     mass = 50,
-    position = { x: -1, y: 5, z: 5 },
+    position = { x: -15, y: 5, z: 20 },
     scale = {
         x: 0.03,
         y: 0.03,
@@ -86,4 +86,11 @@ export function createGLTFRakett(
         g_rigidBodies.push(rocket);
         rigidBody.threeMesh = rocket;
     });
+    let tween1 = new TWEEN.Tween({x: 3})
+        .to({x: 10}, 4000)
+        .easing(TWEEN.Easing.Bounce.Out)
+        .onUpdate( function (position) {
+            rocket.position.x = position.x;
+        });
+    tween1.start();
 }
