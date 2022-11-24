@@ -20,9 +20,10 @@ export function createPlank(
     y: 1,
     z: 1,
 },
-    position= {x:20, y: 50, z:30},
+    position= {x:0, y: 0, z: 0},
     mass = 17,
-    rotation = { x: 0, y: 0, z: 0 }
+    rotation = { x: 0, y: 0, z: 0 },
+    quaternion =  {x: 0, y: 0, z: 0, w: 1}
 )
 {
 
@@ -32,7 +33,6 @@ export function createPlank(
     let mesh = new THREE.Mesh(geometry, material);
     mesh.name = 'plank';
     mesh.position.set(position.x, position.y, position.z);
-    //mesh.rotation.set(rotation.x, scale.y, scale.z);
     mesh.rotation.set(rotation.x, rotation.y, rotation.z);
 
 
@@ -41,10 +41,20 @@ export function createPlank(
     let height = mesh.geometry.parameters.height;
     let depth = mesh.geometry.parameters.depth;
 
+    let transform = new Ammo.btTransform();
+    transform.setIdentity();
+    transform.setOrigin( new Ammo.btVector3( position.x, position.y, position.z ) );
+    transform.setRotation( new Ammo.btQuaternion( quaternion.x, quaternion.y, quaternion.z, quaternion.w ) );
+
+
+    let localInertia = new Ammo.btVector3( 0, 0, 0 );
+
+
     //gemoetrisk struktur
 
     let shape= new Ammo.btBoxShape( new Ammo.btVector3( width*0.5, height*0.5, depth*0.5 ) );
-    //shape.setMargin( 0.05 );
+    shape.setMargin( 0.05 );
+    shape.calculateLocalInertia( mass, localInertia );
 
 
     let rigidBody = createAmmoRigidBody(
@@ -54,6 +64,7 @@ export function createPlank(
         0,
         position,
         mass
+
     );
     mesh.userData.physicsBody = rigidBody;
     g_ammoPhysicsWorld.addRigidBody(

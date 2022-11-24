@@ -212,17 +212,19 @@ function addSceneObjects() {
     createPendulum({x:-53,y:77,z:-38},21,4);
     createPendulum({x:-55,y:77,z:-38},34,3);
 
-    for(var z = 30 ; z > 15 ; z -= 5)
+
+ //Vegg med klosser
+    for(var z = 12 ; z > 6; z -= 2)
     {
-        for(var j = 0 ; j < 10 ; j += 2.2)
+        for(var j = 0 ; j < 20 ; j += 2.2)
         {
-            for(var i = 0 ; i < 30 ; i += 2.1)
+            for(var i = -40 ; i < -10; i += 2.1)
             {
-                createAmmoBox(0,
+                createAmmoBox(17,
                     0xffff00,
                     new THREE.Vector3(2, 2, 1.5) ,
                     new THREE.Vector3(i, j, z) ,
-                    { x: 1, y: 0, z: 0 } ,
+                    { x: 0, y: 0, z: 0 } ,
                     0xffffff,
                     null);
             }
@@ -230,7 +232,12 @@ function addSceneObjects() {
     }
 
 
-    createPlank({ x: 10, y: 20, z: 30},{x:0,y:0,z:0},50,{ x: 0, y: 0, z: 0 });
+    createPlank({
+        x: 6, y: 6, z: 6},
+        {x: -17,y:50,z:-19},
+        1000,
+        { x: 0, y: 0, z: 0 },
+        { x: 0, y: 0, z: 0, w: 1 });
 
     createAmmoBox(
         0,
