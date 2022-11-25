@@ -1,6 +1,6 @@
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
 import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
-import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../helpers/myAmmoHelper";
+import {applyImpulse, createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../helpers/myAmmoHelper";
 import {addMeshToScene} from "../helpers/myThreeHelper";
 import {
     COLLISION_GROUP_BOX,
@@ -13,7 +13,7 @@ export let rocket;
 
 export function createGLTFRakett(
     mass = 50,
-    position = { x: -15, y: 5, z: 20 },
+    position = { x: -15, y: 5, z: 30 },
     scale = {
         x: 0.03,
         y: 0.03,
@@ -83,6 +83,17 @@ export function createGLTFRakett(
             COLLISION_GROUP_MOVABLE |
             COLLISION_GROUP_PLANE
         );
+
+            rocket.collisionResponseSplash = (mesh) => {
+                if (window.splashCount < 1) {
+                    const audio = new Audio(
+                        '../../../../assets/sounds/splash.mp3'
+                    );
+                    audio.play().then();
+                    window.splashCount++;
+                }
+                applyImpulse(mesh.userData.physicsBody, 100, { x: 10, y: 10, z: 0 });
+            };
 
         rocket.userData.physicsBody = rigidBody;
         g_rigidBodies.push(rocket);

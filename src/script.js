@@ -253,6 +253,35 @@ function addSceneObjects() {
         }
     }
 
+    /** Domino rett bak vegg */
+    createGLTFDomino(
+        50,
+        {x: -15, y: 5, z: 28},
+        {x: 0.02, y: 0.02, z: 0.02},
+        {x: 0, y: 0, z: 0, w: 1},
+        {x: 0, y: Math.PI / 2, z: 0},
+    );
+
+    /** Seasaw */
+    createAmmoBox(
+        50,
+        0xffff00,
+        {x: 10, y: 1, z: 3},
+        {x: -15, y: 8, z: 22},
+        {x: 0, y: Math.PI/2, z: -10},
+        true
+    );
+
+    /** Seasaw del 2 */
+    createAmmoBox(
+        50,
+        0xffff00,
+        {x: 2, y: 1, z: 3},
+        {x: -15, y: 5, z: 22},
+        {x: 0, y: Math.PI/2, z: 0},
+        true
+    );
+
 
     createPlank({
             x: 6, y: 6, z: 6
@@ -285,13 +314,13 @@ function addSceneObjects() {
     /** Rakett */
     createGLTFRakett()
 
-    const tween = new TWEEN.Tween({x: 0, y: 0, z: 0})
-        .to({x: 20, y: 100, z: 50}, 10000)
+    /*const tween = new TWEEN.Tween({x: 0, y: 0, z: 0})
+        .to({x: 30, y: 100, z: 50}, 10000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate( function (position) {
             rocket.position.x = position.x;
         });
-    tween.start();
+    tween.start();*/
 }
 
 

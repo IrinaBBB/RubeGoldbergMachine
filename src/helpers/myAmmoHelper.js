@@ -206,6 +206,13 @@ function checkCollisions(deltaTime) {
                             if (typeof threeMesh1.collisionResponseSplash === 'function')
                                 threeMesh1.collisionResponseSplash(threeMesh1);
                         }
+                        if ((threeMesh0.name === 'rocket' && threeMesh1.name === 'domino') ||
+                            threeMesh1.name === 'domino' && threeMesh0.name === 'rocket') {
+                            if (typeof threeMesh0.collisionResponseSplash === 'function')
+                                threeMesh0.collisionResponseSplash(threeMesh0);
+                            if (typeof threeMesh1.collisionResponseSplash === 'function')
+                                threeMesh1.collisionResponseSplash(threeMesh1);
+                        }
                     }
                 }
             }
