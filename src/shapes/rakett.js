@@ -92,7 +92,8 @@ export function createGLTFRakett(
                     audio.play().then();
                     window.splashCount++;
                 }
-                applyImpulse(mesh.userData.physicsBody, 100, { x: 10, y: 10, z: 0 });
+                applyImpulse(rocket, 100, {x: 0, y: 100, z:0})
+                //applyImpulse(mesh.userData.physicsBody, 100, { x: 10, y: 10, z: 0 });
             };
 
         rocket.userData.physicsBody = rigidBody;
