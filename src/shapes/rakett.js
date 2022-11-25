@@ -9,6 +9,7 @@ import {
     COLLISION_GROUP_SPHERE
 } from "../helpers/threeAmmoShapes";
 import {TWEEN} from "three/addons/libs/tween.module.min";
+export let rocket;
 
 export function createGLTFRakett(
     mass = 50,
@@ -21,9 +22,10 @@ export function createGLTFRakett(
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
     rotation = { x: 0, y: Math.PI / 2, z: 0 }
 ) {
+
     window.dominoSoundCount = 0;
     window.loader = new GLTFLoader();
-    let rocket;
+
     //const dracoLoader = new DRACOLoader();
     //dracoLoader.setDecoderPath('/draco/');
     //loader.setDRACOLoader(dracoLoader);
@@ -86,5 +88,4 @@ export function createGLTFRakett(
         g_rigidBodies.push(rocket);
         rigidBody.threeMesh = rocket;
     });
-    return rocket;
 }
