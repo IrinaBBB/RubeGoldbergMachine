@@ -13,7 +13,7 @@ import {
     COLLISION_GROUP_PENDULUM_SPHERE,
     g_animationMixers,
 } from '../helpers/threeAmmoShapes';
-import {texture} from "three/nodes";
+
 
 export async function createPendulum(
     position = {x:0,y: 0,z: 0},
@@ -42,7 +42,7 @@ function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
         armPivot,
         anchorAxis,
         armAxis,
-        true
+        false
     );
     const lowerLimit = -Math.PI/2;
     const upperLimit = -Math.PI/2;
@@ -143,22 +143,19 @@ async function createPendulumArm(width = 50, radius = 0.5) {
 
 
     const shape = new Ammo.btBoxShape( new Ammo.btVector3( mesh_width/2, mesh_height/2, mesh_depth/2) );
-    shape.setMargin( 0.05 );
+    //shape.setMargin( 0.05 );
     shape.calculateLocalInertia( mass, localInertia );
-    const rigidBody = createAmmoRigidBody(shape, armMesh, 0.3, 0.0, position, mass);
-    rigidBody.setDamping(0.1, 0.5);
-    rigidBody.setActivationState(4);
+    const rigidBody = createAmmoRigidBody(shape, armMesh, 0.3, 5.0, position, mass);
+    //rigidBody.setDamping(0.1, 0.5);
+    //rigidBody.setActivationState(4);
     armMesh.userData.physicsBody = rigidBody;
 
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
-        COLLISION_GROUP_BOX,
-        COLLISION_GROUP_BOX |
+        COLLISION_GROUP_SPHERE,
         COLLISION_GROUP_SPHERE |
         COLLISION_GROUP_PLANE |
-        COLLISION_GROUP_BOX |
-        COLLISION_GROUP_SPHERE |
-        COLLISION_GROUP_PENDULUM_SPHERE
+        COLLISION_GROUP_BOX
 
 
     );
