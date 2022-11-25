@@ -29,7 +29,6 @@ import { createGLTFSykkel } from './shapes/sykkel';
 import {createOBJCoffeMug} from "./shapes/coffe_mug";
 import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
-import {createGLTFRakett} from "./shapes/rakett";
 
 
 /**
@@ -284,6 +283,14 @@ function addSceneObjects() {
 
     /** Rakett */
     createGLTFRakett()
+
+    const tween = new TWEEN.Tween({rocket})
+        .to({x: 20, y: 30, z: 50}, 10000)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate( function (position) {
+            rocket.position.x = position.x;
+        });
+    tween.start();
 }
 
 
@@ -385,7 +392,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
         }
     }
 
-    TWEEN.update(currentTime);
+
 
     /**
      * Update graphics
@@ -402,6 +409,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
      */
     handleKeys(deltaTime, g_currentlyPressedKeys);
 
+    TWEEN.update(currentTime);
     /**
      * Draw scene with a given camera
      */

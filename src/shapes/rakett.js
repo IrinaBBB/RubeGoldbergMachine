@@ -29,7 +29,7 @@ export function createGLTFRakett(
     //loader.setDRACOLoader(dracoLoader);
     loader.load( "https://www.stivaliserna.com/assets/rocket/rocket.gltf",
         (gltf) => {
-            rocket = gltf.scene;
+           rocket = gltf.scene;
             rocket.position.y = 50;
         rocket.scale.set(scale.x, scale.y, scale.z);
         rocket.position.set(position.x, position.y, position.z);
@@ -43,7 +43,7 @@ export function createGLTFRakett(
         };
         addMeshToScene(rocket);
         console.log(gltf.scene.animations);
-        rocket.name = 'domino';
+        rocket.name = 'rocket';
 
 
 
@@ -72,7 +72,7 @@ export function createGLTFRakett(
             position,
             mass
         );
-        //domino.userData.physicsBody = rigidBody;
+
         g_ammoPhysicsWorld.addRigidBody(
             rigidBody,
             COLLISION_GROUP_BOX,
@@ -83,15 +83,8 @@ export function createGLTFRakett(
         );
 
         rocket.userData.physicsBody = rigidBody;
-        //addMeshToScene(domino);
         g_rigidBodies.push(rocket);
         rigidBody.threeMesh = rocket;
     });
-    let tween1 = new TWEEN.Tween({x: 10, y: 10, z: 20})
-        .to({x: 20, y: 30, z: 50}, 10000)
-        .easing(TWEEN.Easing.Bounce.Out)
-        .onUpdate( function (position) {
-            rocket.position.x = position.x, rocket.position.y = position.y, rocket.position.z = position.z ;
-        });
-    tween1.start();
+    return rocket;
 }
