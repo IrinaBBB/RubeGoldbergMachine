@@ -25,8 +25,6 @@ import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
 import { createGLTFDomino } from './shapes/domino';
 import { createGLTFSportsbil } from './shapes/sportsbil';
-import { createGLTFSykkel } from './shapes/sykkel';
-import {createOBJCoffeMug} from "./shapes/coffe_mug";
 import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
 import {createGLTFRakett, rocket} from "./shapes/rakett";
@@ -314,13 +312,20 @@ function addSceneObjects() {
     /** Rakett */
     createGLTFRakett()
 
-    /*const tween = new TWEEN.Tween({x: 0, y: 0, z: 0})
+    const tween = new TWEEN.Tween({rocket, position})
         .to({x: 30, y: 100, z: 50}, 10000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate( function (position) {
             rocket.position.x = position.x;
         });
-    tween.start();*/
+    /*const tween2 = new TWEEN.Tween({x: 0, y: 0, z: 0})
+        .to({x: 30, y: 100, z: 50}, 10000)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate( function (position) {
+            createGLTFDomino().position.x = position.x;
+        });
+    tween.chain(tween2)*/
+    tween.start();
 }
 
 
