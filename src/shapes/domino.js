@@ -8,6 +8,7 @@ import {
     COLLISION_GROUP_PLANE,
     COLLISION_GROUP_SPHERE
 } from "../helpers/threeAmmoShapes";
+export let domino;
 
 export function createGLTFDomino(
     mass = 50,
@@ -26,7 +27,7 @@ export function createGLTFDomino(
     dracoLoader.setDecoderPath('/draco/');
     loader.setDRACOLoader(dracoLoader);
     loader.load('../../../../assets/models/domino/scene.gltf', (gltf) => {
-        const domino = gltf.scene;
+        domino = gltf.scene;
         domino.scale.set(scale.x, scale.y, scale.z);
         domino.position.set(position.x, position.y, position.z);
         domino.rotation.set(rotation.x, rotation.y, rotation.z);

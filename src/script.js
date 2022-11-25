@@ -23,7 +23,7 @@ import {
 } from './helpers/threeAmmoShapes.js';
 import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
-import { createGLTFDomino } from './shapes/domino';
+import {createGLTFDomino, domino} from './shapes/domino';
 import { createGLTFSportsbil } from './shapes/sportsbil';
 import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
@@ -263,7 +263,7 @@ function addSceneObjects() {
     /** Seasaw */
     createAmmoBox(
         50,
-        0xffff00,
+        0x8582f2,
         {x: 10, y: 1, z: 3},
         {x: -15, y: 8, z: 22},
         {x: 0, y: Math.PI/2, z: -10},
@@ -273,7 +273,7 @@ function addSceneObjects() {
     /** Seasaw del 2 */
     createAmmoBox(
         50,
-        0xffff00,
+        0xff461f,
         {x: 2, y: 1, z: 3},
         {x: -15, y: 5, z: 22},
         {x: 0, y: Math.PI/2, z: 0},
@@ -312,19 +312,21 @@ function addSceneObjects() {
     /** Rakett */
     createGLTFRakett()
 
+    /** MÅ jobbe litt mer med denne */
     const tween = new TWEEN.Tween({rocket, position})
         .to({x: 30, y: 100, z: 50}, 10000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate( function (position) {
             rocket.position.x = position.x;
         });
-    /*const tween2 = new TWEEN.Tween({x: 0, y: 0, z: 0})
+    const tween2 = new TWEEN.Tween({x: 0, y: 0, z: 0})
         .to({x: 30, y: 100, z: 50}, 10000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate( function (position) {
-            createGLTFDomino().position.x = position.x;
+            domino.position.x = position.x;
         });
-    tween.chain(tween2)*/
+    tween.chain(tween2)
+    tween2.chain(tween)
     tween.start();
 }
 
