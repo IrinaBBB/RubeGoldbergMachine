@@ -11,6 +11,7 @@ import {
     COLLISION_GROUP_PLANE,
     COLLISION_GROUP_SPHERE,
     COLLISION_GROUP_PENDULUM_SPHERE,
+    COLLISION_GROUP_PENDULUM_SPHERE_BALL,
     g_animationMixers,
 } from '../helpers/threeAmmoShapes';
 
@@ -24,17 +25,17 @@ export async function createPendulum(
 
     const rigidBodyAnchor = await createPendulumAnchor(position);
     const rigidBodyArm = await createPendulumArm(lineLength, ballRadius);
-    const armLength = rigidBodyArm.threeMesh.geometry.parameters.width;
+    const armLength = rigidBodyArm.threeMesh.geometry.parameters.height;
     addPendulumConstraint(rigidBodyAnchor, rigidBodyArm, armLength);
 
 }
 
 function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
 
-    const anchorPivot = new Ammo.btVector3( 0, -0.05, 0 );
-    const anchorAxis = new Ammo.btVector3(0,0,1);
-    const armPivot = new Ammo.btVector3( - armLength/2 , 0, 0 );
-    const armAxis = new Ammo.btVector3(0,0,1);
+    const anchorPivot = new Ammo.btVector3(0, -0.5, 0);
+    const anchorAxis = new Ammo.btVector3(0, 1, 0);
+    const armPivot = new Ammo.btVector3(0,armLength/2 , 0);
+    const armAxis = new Ammo.btVector3(0, 1, 0);
     let hingeConstraint = new Ammo.btHingeConstraint(
         rigidBody1,
         rigidBody2,
@@ -44,23 +45,23 @@ function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
         armAxis,
         false
     );
-    const lowerLimit = -Math.PI/2;
-    const upperLimit = -Math.PI/2;
+    const lowerLimit = -Math.PI / 2;
+    const upperLimit = -Math.PI / 2;
     const softness = 0.9;
-    const biasFactor = 0.3;
+    const biasFactor = 1;
     const relaxationFactor = 1.0;
     if (hingeConstraint !== undefined) {
-        hingeConstraint.setLimit( lowerLimit, upperLimit, softness, biasFactor, relaxationFactor);
-        hingeConstraint.enableAngularMotor(false, 0, 0.5);
+        hingeConstraint.setLimit(lowerLimit, upperLimit, softness, biasFactor, relaxationFactor);
+        hingeConstraint.enableAngularMotor(false, 0, 0);
 
-        g_ammoPhysicsWorld.addConstraint( hingeConstraint, false);
+        g_ammoPhysicsWorld.addConstraint(hingeConstraint, false);
     }
 }
 
 
 
 async function createPendulumAnchor(
-    position ={x:0, y:25, z:0}) {
+    position ={x:0, y:0, z:0}) {
     const mass = 0
     const radius = 1;
 
@@ -76,7 +77,7 @@ async function createPendulumAnchor(
     //AMMO
     const shape = new Ammo.btSphereShape(mesh.geometry.parameters.radius);
     shape.setMargin( 0.05 );
-    const rigidBody = createAmmoRigidBody(shape, mesh, 0.4, 0.6, position, mass);
+    const rigidBody = createAmmoRigidBody(shape, mesh, 0.4, 0, position, mass);
     mesh.userData.physicsBody = rigidBody;
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
@@ -92,10 +93,10 @@ async function createPendulumAnchor(
     return rigidBody;
 }
 
-async function createPendulumArm(width = 50, radius = 0.5) {
-    const mass=200;
+async function createPendulumArm(height = 50, radius = 0.5) {
+    const mass=400;
     const color=0x00ff00;
-    const height=0.009, depth=0.1;
+    const width=0.010, depth=0.1;
     const position={x:0, y:0, z:0};
     const quaternion = {x:0, y:0, z:0, w:1};
     //THREE
@@ -113,13 +114,13 @@ async function createPendulumArm(width = 50, radius = 0.5) {
     const texture = cubeTextureLoader.load([
         '../../../assets/textures/mars.jpg']);
     const weightMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(radius, 8, 8),
+        new THREE.SphereGeometry(radius, 32, 32),
         new THREE.MeshBasicMaterial(
             { map: texture
             }));
 
     weightMesh.name = 'pendulumWeight';
-    weightMesh.position.set(width/2, 0, 0);
+    weightMesh.position.set(0, -height/2, 0);
     weightMesh.castShadow = true;
     weightMesh.receiveShadow = true;
     weightMesh.collisionResponse = (mesh) => {
@@ -134,25 +135,25 @@ async function createPendulumArm(width = 50, radius = 0.5) {
     const mesh_depth = armMesh.geometry.parameters.depth;    //(er her overflødig)
 
     let transform = new Ammo.btTransform();
-    transform.setIdentity();
-    transform.setOrigin( new Ammo.btVector3( position.x, position.y, position.z ) );
-    transform.setRotation( new Ammo.btQuaternion( quaternion.x, quaternion.y, quaternion.z, quaternion.w ) );
+    //transform.setIdentity();
+    //transform.setOrigin( new Ammo.btVector3( position.x, position.y, position.z ) );
+    //transform.setRotation( new Ammo.btQuaternion( quaternion.x, quaternion.y, quaternion.z, quaternion.w ) );
 
 
-    let localInertia = new Ammo.btVector3( 0, 0, 0 );
+    //let localInertia = new Ammo.btVector3( 0, 0, 0 );
 
 
     const shape = new Ammo.btBoxShape( new Ammo.btVector3( mesh_width/2, mesh_height/2, mesh_depth/2) );
     //shape.setMargin( 0.05 );
-    shape.calculateLocalInertia( mass, localInertia );
-    const rigidBody = createAmmoRigidBody(shape, armMesh, 0.3, 5.0, position, mass);
+    //shape.calculateLocalInertia( mass, localInertia );
+    const rigidBody = createAmmoRigidBody(shape, armMesh, 0.3, 5, position, mass);
     //rigidBody.setDamping(0.1, 0.5);
     //rigidBody.setActivationState(4);
     armMesh.userData.physicsBody = rigidBody;
 
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
-        COLLISION_GROUP_SPHERE,
+        COLLISION_GROUP_PENDULUM_SPHERE_BALL,
         COLLISION_GROUP_SPHERE |
         COLLISION_GROUP_PLANE |
         COLLISION_GROUP_BOX

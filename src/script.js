@@ -225,7 +225,7 @@ function addSceneObjects() {
     createGLTFMushroom();
 
     /**Pendulum */
-    createPendulum({x: -55, y: 77, z: -40}, 50, 1);
+    createPendulum({x: -55, y: 77, z: -40}, 20, 1);
     createPendulum({x: -53, y: 77, z: -40}, 40, 2);
     createPendulum({x: -51, y: 77, z: -40}, 30, 3);
     createPendulum({x: -49, y: 77, z: -40}, 25, 4);

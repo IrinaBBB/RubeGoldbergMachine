@@ -16,7 +16,8 @@ export const COLLISION_GROUP_PLANE = 1;
 export const COLLISION_GROUP_SPHERE = 2;
 export const COLLISION_GROUP_MOVABLE = 4;
 export const COLLISION_GROUP_BOX = 8; //..osv. legg til etter behov.
-export const COLLISION_GROUP_PENDULUM_SPHERE = 2;
+export const COLLISION_GROUP_PENDULUM_SPHERE = 10;
+export const COLLISION_GROUP_PENDULUM_SPHERE_BALL = 12;
 export const g_animationMixers = [];
 
 
