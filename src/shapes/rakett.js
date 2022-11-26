@@ -89,13 +89,14 @@ export function createGLTFRakett(
                     audio.play().then();
                     window.splashCount++;
 
-                    const tween = new TWEEN.Tween({x: 0, y: 0, xRotation: 0 })
-                        .to({x: 30, y: 100, z: 50}, 10000)
-                        .easing(TWEEN.Easing.Linear.None)
+                    /*const tween = new TWEEN.Tween({ x: -15, y: 5, z: 30 })
+                        .to({ x: -15, y: 20, z: 10 }, 10000)
+                        .easing(TWEEN.Easing.Exponential.Out)
                         .onUpdate( function (position) {
-                            rocket.position.x = position.x;
+                            rocket.position.y = position.y;
+                            rocket.position.z = position.z;
                         });
-                    tween.start()
+                    tween.start()*/
                 }
                 //applyImpulse(rocket, 100, {x:100})
                 //applyImpulse(mesh.userData.physicsBody, 100, { x: 10, y: 10, z: 0 });

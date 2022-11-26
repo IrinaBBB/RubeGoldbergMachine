@@ -1,5 +1,7 @@
 // noinspection DuplicatedCode
 
+import {rocket} from "../shapes/rakett";
+
 let g_transform;
 
 export const IMPULSE_FORCE = 10;
@@ -212,6 +214,14 @@ function checkCollisions(deltaTime) {
                                 threeMesh0.collisionResponseSplash(threeMesh0);
                             if (typeof threeMesh1.collisionResponseSplash === 'function')
                                 threeMesh1.collisionResponseSplash(threeMesh1);
+                            const tween = new TWEEN.Tween({ x: -15, y: 5, z: 30 })
+                                .to({ x: -15, y: 20, z: 10 }, 10000)
+                                .easing(TWEEN.Easing.Exponential.Out)
+                                .onUpdate( function (position) {
+                                    rocket.position.y = position.y;
+                                    rocket.position.z = position.z;
+                                });
+                            tween.start()
                         }
 
                         if ((threeMesh0.name === 'movable' && threeMesh1.name === 'pendulumArm') ||
@@ -239,6 +249,13 @@ function checkCollisions(deltaTime) {
 
                         if ((threeMesh0.name === 'balloon' && threeMesh1.name === 'plank') ||
                             threeMesh1.name === 'plank' && threeMesh0.name === 'balloon') {
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
+                        if ((threeMesh0.name === 'rocket' && threeMesh1.name === 'explosionMesh') ||
+                            threeMesh1.name === 'explosionMesh' && threeMesh0.name === 'rocket') {
                             if (typeof threeMesh0.collisionResponse === 'function')
                                 threeMesh0.collisionResponse(threeMesh0);
                             if (typeof threeMesh1.collisionResponse === 'function')

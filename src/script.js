@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import Stats from 'stats.js';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {TessellateModifier} from "three/addons/modifiers/TessellateModifier";
+import {vertShader, fragShader, uniforms} from './helpers/shaders.js';
 
 import {
     createThreeScene,
@@ -29,6 +31,7 @@ import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
 import {createGLTFRakett, rocket} from "./shapes/rakett";
 import {createBalloon} from "./shapes/balloon";
+import {createExplosion} from "./shapes/eksplosjon";
 
 
 /**
@@ -398,22 +401,9 @@ function addSceneObjects() {
     /** Rakett */
     createGLTFRakett()
 
-    /** MÅ jobbe litt mer med denne */
-    /*const tween = new TWEEN.Tween({rocket, position})
-        .to({x: 30, y: 100, z: 50}, 10000)
-        .easing(TWEEN.Easing.Linear.None)
-        .onUpdate( function (position) {
-            rocket.position.x = position.x;
-        });
-    const tween2 = new TWEEN.Tween({x: 0, y: 0, z: 0})
-        .to({x: 30, y: 100, z: 50}, 10000)
-        .easing(TWEEN.Easing.Linear.None)
-        .onUpdate( function (position) {
-            domino.position.x = position.x;
-        });
-    tween.chain(tween2)
-    tween2.chain(tween)
-    tween.start();*/
+    /** Testboks for eksplosjon*/
+    createExplosion()
+
 }
 
 
@@ -585,6 +575,14 @@ export async function main() {
     document.addEventListener('keydown', handleKeyDown, false);
 
 
+    /*const tween = new TWEEN.Tween({ x: -15, y: 5, z: 30 })
+        .to({ x: -15, y: 20, z: 10 }, 10000)
+        .easing(TWEEN.Easing.Exponential.Out)
+        .onUpdate( function (position) {
+            rocket.position.y = position.y;
+            rocket.position.z = position.z;
+        });
+    tween.start()*/
 
     /**
      * Start animation loop
