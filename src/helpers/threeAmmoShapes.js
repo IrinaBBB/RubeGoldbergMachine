@@ -224,7 +224,7 @@ export function createMovable(
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
         COLLISION_GROUP_MOVABLE,
-        COLLISION_GROUP_SPHERE | COLLISION_GROUP_PLANE | COLLISION_GROUP_BOX
+        COLLISION_GROUP_SPHERE | COLLISION_GROUP_PLANE | COLLISION_GROUP_BOX | COLLISION_GROUP_PENDULUM_SPHERE_BALL
     );
 
     addMeshToScene(mesh);

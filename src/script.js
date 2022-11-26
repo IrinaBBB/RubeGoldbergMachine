@@ -28,6 +28,7 @@ import { createGLTFSportsbil } from './shapes/sportsbil';
 import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
 import {createGLTFRakett, rocket} from "./shapes/rakett";
+import {createBalloon} from "./shapes/balloon";
 
 
 /**
@@ -186,6 +187,76 @@ function addSceneObjects() {
         false
     );
 
+    /** Hylle over senga */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 15, y: 2, z: 8},
+        {x: -38, y: 55, z: -55},
+        {x: 0, y: 0, z: 0},
+        false
+    );
+
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 19, y: 0.5, z: 8},
+        {x: -39, y: 55, z: -53},
+        {x: Math.PI/2, y: 0, z: 0},
+        false
+    );
+
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 19, y: 0.5, z: 8},
+        {x: -47, y: 55, z: -53},
+        {x: Math.PI/2, y: 0, z: Math.PI/2},
+        false
+    );
+
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 19, y: 0.5, z: 8},
+        {x: -20, y: 50, z: -53},
+        {x: Math.PI/2, y: 0, z: Math.PI/2},
+        false
+    );
+
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 19, y: 0.5, z: 6},
+        {x: -20, y: 50, z: -56},
+        {x: 0, y: 0, z: 0},
+        false
+    );
+
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 19, y: 0.5, z: 6},
+        {x: -20, y: 45, z: -53},
+        {x: Math.PI/4, y: 0, z:0 },
+        false );
+
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 19, y: 0.5, z: 6},
+        {x: -20, y: 47, z: -53},
+        {x: Math.PI/4, y: 0, z:0 },
+        false
+    );
+
+
     /** Track for car */
     createAmmoBox(
         0,
@@ -224,29 +295,31 @@ function addSceneObjects() {
     /** Nightmare Mushroom */
     createGLTFMushroom();
 
-    /**Pendulum */
+    /**Pendulum
     createPendulum({x: -55, y: 77, z: -40}, 20, 1);
     createPendulum({x: -53, y: 77, z: -40}, 40, 2);
     createPendulum({x: -51, y: 77, z: -40}, 30, 3);
     createPendulum({x: -49, y: 77, z: -40}, 25, 4);
-    createPendulum({x: -47, y: 77, z: -40}, 28, 2);
+    createPendulum({x: -47, y: 77, z: -40}, 20, 2);
     createPendulum({x: -49, y: 77, z: -38}, 30, 3);
     createPendulum({x: -51, y: 77, z: -38}, 35, 1);
     createPendulum({x: -53, y: 77, z: -38}, 21, 4);
     createPendulum({x: -55, y: 77, z: -38}, 34, 3);
+    createPendulum({x: -46, y: 77, z: -40}, 19, 3);*/
+    createPendulum({x: -45, y: 77, z: -38}, 20, 2);
 
 
     //Vegg med klosser
     for (var z = 12; z > 6; z -= 2) {
         for (var j = 0; j < 20; j += 2.2) {
             for (var i = -40; i < -10; i += 2.1) {
-                createAmmoBox(17,
-                    0xffff00,
-                    new THREE.Vector3(2, 2, 1.5),
-                    new THREE.Vector3(i, j, z),
+                createAmmoBox(8,
+                    Math.random() * 0xffffff,
+                    {x:2,y: 2,z: 1.5},
+                    {x:i,y: j,z: z},
                     {x: 0, y: 0, z: 0},
-                    0xffffff,
-                    null);
+                    true
+                );
             }
         }
     }
@@ -284,19 +357,32 @@ function addSceneObjects() {
     createPlank({
             x: 6, y: 6, z: 6
         },
-        {x: -17, y: 50, z: -19},
-        1000,
+        {x: -17, y: 20, z: -24},
+        500,
         {x: 0, y: 0, z: 0},
         {x: 0, y: 0, z: 0, w: 1});
 
+    /**Planke fra senga**/
     createAmmoBox(
         0,
         0xffff00,
-        {x: 10, y: 1, z: 30},
-        {x: -20, y: 12, z: -15},
+        {x: 15, y: 0.5, z: 15},
+        {x: -15, y: 12, z: -16},
         {x: 10, y: 0, z: 0},
         true
     );
+
+    createBalloon(1,{x: -45, y: 59, z: -55});
+    createBalloon(1,{x: -46, y: 59, z: -55});
+    createBalloon(1,{x: -43, y: 59, z: -55});
+    createBalloon(1,{x: -4, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
     /** Fish */
     createGLTFFish();
 

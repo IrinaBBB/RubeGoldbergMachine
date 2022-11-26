@@ -9,14 +9,14 @@ import {
 } from '../helpers/myAmmoHelper';
 import {
     COLLISION_GROUP_BOX,
-    COLLISION_GROUP_MOVABLE,
+    COLLISION_GROUP_MOVABLE, COLLISION_GROUP_PENDULUM_SPHERE_BALL,
     COLLISION_GROUP_PLANE,
     COLLISION_GROUP_SPHERE,
     g_animationMixers,
 } from '../helpers/threeAmmoShapes';
 
 export function createGLTFMushroom(
-    mass = 1,
+    mass = 5,
     position = { x: -55, y: 62, z: 30 },
     scale = {
         x: 0.5,
@@ -91,7 +91,8 @@ export function createGLTFMushroom(
                 COLLISION_GROUP_SPHERE |
                     COLLISION_GROUP_BOX |
                     COLLISION_GROUP_MOVABLE |
-                    COLLISION_GROUP_PLANE
+                    COLLISION_GROUP_PLANE |
+                COLLISION_GROUP_PENDULUM_SPHERE_BALL
             );
 
             mushroom.userData.physicsBody = rigidBody;
