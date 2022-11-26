@@ -191,8 +191,8 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xffff00,
-        {x: 15, y: 2, z: 8},
-        {x: -38, y: 55, z: -55},
+        {x: 18, y: 2, z: 8},
+        {x: -40,y: 55, z: -55},
         {x: 0, y: 0, z: 0},
         false
     );
@@ -211,8 +211,8 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xffff00,
-        {x: 19, y: 0.5, z: 8},
-        {x: -47, y: 55, z: -53},
+        {x: 19, y: 0.5, z: 20},
+        {x: -50, y: 55, z: -53},
         {x: Math.PI/2, y: 0, z: Math.PI/2},
         false
     );
@@ -255,6 +255,28 @@ function addSceneObjects() {
         {x: Math.PI/4, y: 0, z:0 },
         false
     );
+
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 19, y: 0.5, z: 6},
+        {x: -28, y: 20, z: -25},
+        {x:Math.PI/2, y: Math.PI, z: -Math.PI/6 },
+        false
+    );
+
+    /**Planke fra senga**/
+    createAmmoBox(
+        0,
+        0xa52a2a,
+        {x: 40, y: 0.5, z: 30},
+        {x: -10, y:11, z: -33},
+        {x: 0, y: 0, z: Math.PI/2},
+        false
+    );
+
+
 
 
     /** Track for car */
@@ -365,7 +387,7 @@ function addSceneObjects() {
     /**Planke fra senga**/
     createAmmoBox(
         0,
-        0xffff00,
+        0xa52a2a,
         {x: 15, y: 0.5, z: 15},
         {x: -15, y: 12, z: -16},
         {x: 10, y: 0, z: 0},
@@ -375,7 +397,20 @@ function addSceneObjects() {
     createBalloon(1,{x: -45, y: 59, z: -55});
     createBalloon(1,{x: -46, y: 59, z: -55});
     createBalloon(1,{x: -43, y: 59, z: -55});
-    createBalloon(1,{x: -4, y: 59, z: -55});
+    createBalloon(1,{x: -40, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
     createBalloon(1,{x: -44, y: 59, z: -55});
     createBalloon(1,{x: -44, y: 59, z: -55});
     createBalloon(1,{x: -44, y: 59, z: -55});
