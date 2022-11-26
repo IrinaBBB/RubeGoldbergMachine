@@ -313,7 +313,7 @@ function addSceneObjects() {
     createGLTFRakett()
 
     /** MÅ jobbe litt mer med denne */
-    const tween = new TWEEN.Tween({rocket, position})
+    /*const tween = new TWEEN.Tween({rocket, position})
         .to({x: 30, y: 100, z: 50}, 10000)
         .easing(TWEEN.Easing.Linear.None)
         .onUpdate( function (position) {
@@ -327,7 +327,7 @@ function addSceneObjects() {
         });
     tween.chain(tween2)
     tween2.chain(tween)
-    tween.start();
+    tween.start();*/
 }
 
 
@@ -421,6 +421,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
     });
     let deltaTime = g_clock.getDelta();
 
+
     stats.begin();
 
     if (g_animationMixers.length > 0) {
@@ -428,8 +429,6 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
             mixer.update(deltaTime);
         }
     }
-
-
 
     /**
      * Update graphics
@@ -498,6 +497,8 @@ export async function main() {
      */
     document.addEventListener('keyup', handleKeyUp, false);
     document.addEventListener('keydown', handleKeyDown, false);
+
+
 
     /**
      * Start animation loop
