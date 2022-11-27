@@ -35,7 +35,7 @@ export async function createPendulum(
 function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
 
     const anchorPivot = new Ammo.btVector3(0.5, 0,0 );
-    const anchorAxis = new Ammo.btVector3(1, 0, 0);
+    const anchorAxis = new Ammo.btVector3(0, 0, 0);
     const armPivot = new Ammo.btVector3(0,armLength/2, 0 );
     const armAxis = new Ammo.btVector3(0, 0,0 );
     let hingeConstraint = new Ammo.btHingeConstraint(
@@ -165,7 +165,7 @@ async function createPendulumArm(height = 50, radius = 0.5) {
         COLLISION_GROUP_PENDULUM_SPHERE_BALL|
         COLLISION_GROUP_SPHERE |
         COLLISION_GROUP_PLANE |
-        COLLISION_GROUP_MOVABLE
+        COLLISION_GROUP_MOVABLE)
 
 
 
