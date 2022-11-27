@@ -12,13 +12,11 @@ import {
     updateThree,
 } from './helpers/myThreeHelper.js';
 
-import {createAmmoRigidBody, createAmmoWorld, updatePhysics} from './helpers/myAmmoHelper.js';
+import {createAmmoWorld, updatePhysics} from './helpers/myAmmoHelper.js';
 
 import {
     g_animationMixers,
-    createAmmoSpheres,
     createAmmoBox,
-    createAmmoXZPlane,
     createMovable,
 } from './helpers/threeAmmoShapes.js';
 import { createGLTFMushroom } from './shapes/mushroom.js';
@@ -39,7 +37,6 @@ let g_clock;
 let g_models;
 export let g_scene;
 const g_currentlyPressedKeys = [];
-const XZ_PLANE_SIDE_LENGTH = 300;
 const stats = Stats();
 const TWEEN = require('@tweenjs/tween.js');
 
@@ -55,8 +52,6 @@ Ammo().then(async function (AmmoLib) {
  * Add Scene objects function
  */
 function addSceneObjects() {
-    //createAmmoXZPlane(XZ_PLANE_SIDE_LENGTH);
-    //createAmmoSpheres(20);
     /**
      * Floor
      */
@@ -197,16 +192,6 @@ function addSceneObjects() {
         {x: 0, y: 0, z: 0},
         false
     );
-
-    /** sperrer til ballene */
-    //createAmmoBox(
-      //  0,
-       // 0xffff00,
-        //{x: 19, y: 0.5, z: 8},
-        //{x: -39, y: 55, z: -53},
-        //{x: Math.PI/2, y: 0, z: 0},
-        //true
-    //);
 
     /** sperrer til ballene */
     createAmmoBox(
@@ -416,24 +401,6 @@ function loadModelsAndSceneObjects() {
             position: { x: -55, y: 16, z: 0 },
             rotation: { x: 0, y: -Math.PI / 2, z: 0 },
         },
-        // fish: {
-        //     url: '../../../assets/models/red_betta_fish/scene.gltf',
-        //     scale: { x: 0.015, y: 0.015, z: 0.015 },
-        //     position: { x: -56, y: 25, z: -10 },
-        //     rotation: { x: 0, y: Math.PI, z: 0 },
-        // },
-        /*wooden_wheel: {
-            url: '../../../assets/models/wooden_wheel/scene.gltf',
-            scale: { x: 0.3, y: 0.3, z: 0.3 },
-            position: { x: 5, y: 20, z: 5 },
-            rotation: { x: 0, y: 0, z: 0 },
-        },*/
-        golf_ball: {
-            url: '../../../assets/models/golf_ball/scene.gltf',
-            scale: { x: 0.05, y: 0.05, z: 0.05 },
-            position: { x: 30, y: 20, z: 5 },
-            rotation: { x: 0, y: 0, z: 0 },
-        },
     };
     /**
      * Use GLTFLoader to load each .gltf / .glb file
@@ -517,9 +484,6 @@ export async function main() {
     stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild(stats.dom);
 
-    //const time = Date.now() * 0.001;
-    //uniforms2.amplitude.value = 1.0 + Math.sin( time * 0.5 );
-
     /**
      * Call handleKeyUp and handleKeyDown on keyUp/keyDown
      */
@@ -556,15 +520,6 @@ export async function main() {
      */
     document.addEventListener('keyup', handleKeyUp, false);
     document.addEventListener('keydown', handleKeyDown, false);
-
-    /*const tween = new TWEEN.Tween({ x: -15, y: 5, z: 30 })
-        .to({ x: -15, y: 20, z: 10 }, 10000)
-        .easing(TWEEN.Easing.Exponential.Out)
-        .onUpdate( function (position) {
-            rocket.position.y = position.y;
-            rocket.position.z = position.z;
-        });
-    tween.start()*/
 
     /**
      * Start animation loop

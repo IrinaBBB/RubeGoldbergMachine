@@ -13,7 +13,7 @@ window.bellCount = 0;
 
 export function createGLTFBell(
     mass = 1,
-    position = {x: -15, y: 6, z: 41},
+    position = {x: -15, y: 6, z: 40.5},
     scale = {x: 70, y: 70, z: 70},
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
     rotation = { x: 0, y: 0, z: 0 }
