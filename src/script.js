@@ -212,8 +212,8 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xffff00,
-        {x: 19, y: 0.5, z: 20},
-        {x: -50, y: 55, z: -53},
+        {x: 6, y: 0.5, z: 12},
+        {x: -52, y: 55, z: -53},
         {x: Math.PI/2, y: 0, z: Math.PI/2},
         false
     );
@@ -283,7 +283,7 @@ function addSceneObjects() {
         {x: 40, y: 0.5, z: 30},
         {x: -10, y:11, z: -33},
         {x: 0, y: 0, z: Math.PI/2},
-        false
+        true
     );
 
 
