@@ -35,9 +35,9 @@ export async function createPendulum(
 function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
 
     const anchorPivot = new Ammo.btVector3(0.5, 0,0 );
-    const anchorAxis = new Ammo.btVector3(0, 0, 0);
+    const anchorAxis = new Ammo.btVector3(0, 1, 0);
     const armPivot = new Ammo.btVector3(0,armLength/2, 0 );
-    const armAxis = new Ammo.btVector3(0, 0,0 );
+    const armAxis = new Ammo.btVector3(0, 1,0 );
     let hingeConstraint = new Ammo.btHingeConstraint(
         rigidBody1,
         rigidBody2,

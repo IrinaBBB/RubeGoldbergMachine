@@ -218,6 +218,15 @@ function addSceneObjects() {
         {x: Math.PI/2, y: 0, z: Math.PI/2},
         false
     );
+    /** sperrer til ballene */
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 9, y: 0.5, z: 10},
+        {x: -34, y: 55, z: -53},
+        {x: Math.PI/2, y: Math.PI/2, z: 0},
+        false
+    );
 
     /** sperrer til ballene */
     createAmmoBox(
@@ -405,6 +414,12 @@ function addSceneObjects() {
     );
 
     createBalloon(1,{x: -45, y: 59, z: -55});
+    createBalloon(1,{x: -46, y: 59, z: -55});
+    createBalloon(1,{x: -46, y: 59, z: -55});
+    createBalloon(1,{x: -46, y: 59, z: -55});
+    createBalloon(1,{x: -46, y: 59, z: -55});
+    createBalloon(1,{x: -46, y: 59, z: -55});
+    createBalloon(1,{x: -46, y: 59, z: -55});
     createBalloon(1,{x: -46, y: 59, z: -55});
     createBalloon(1,{x: -43, y: 59, z: -55});
     createBalloon(1,{x: -40, y: 59, z: -55});
