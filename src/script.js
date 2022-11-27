@@ -5,14 +5,14 @@ import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 import {
-    createThreeScene,
+    createThreeScene, g_camera,
     handleKeys,
     onWindowResize,
     renderScene,
     updateThree,
 } from './helpers/myThreeHelper.js';
 
-import { createAmmoWorld, updatePhysics } from './helpers/myAmmoHelper.js';
+import {createAmmoRigidBody, createAmmoWorld, updatePhysics} from './helpers/myAmmoHelper.js';
 
 import {
     g_animationMixers,
@@ -30,6 +30,7 @@ import {createPlank} from './shapes/plankSphere.js';
 import {createGLTFRakett, rocket} from "./shapes/rakett";
 import {createBalloon} from "./shapes/balloon";
 import {createExplosion, explode} from "./shapes/eksplosjon";
+import {Fireworks} from "fireworks-js";
 
 
 /**
@@ -285,7 +286,7 @@ function addSceneObjects() {
         0,
         0xffff00,
         {x: 40, y: 0.2, z: 10},
-        {x:-15, y: 25, z: -45},
+        {x:-15, y: 25, z: -55},
         {x: Math.PI/ 90, y: 0, z: Math.PI/-4},
         true
     );
@@ -293,7 +294,7 @@ function addSceneObjects() {
         0,
         0xffff00,
         {x: 15, y: 0.2, z: 8},
-        {x:-37, y: 39, z: -45},
+        {x:-37, y: 39, z: -52},
         {x: 0, y: 0, z: 0},
         true
     );
@@ -569,6 +570,20 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
      */
     renderScene();
 
+    const container = document.querySelector('.container')
+    const fireworks = new Fireworks(container, {rocketsPoint: {
+            min: 0,
+            max: 100
+        }}style={
+        top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            position: 'fixed',
+            background: '#000'
+    });
+    fireworks.start()
+
     stats.end();
 }
 
@@ -615,7 +630,6 @@ export async function main() {
      */
     document.addEventListener('keyup', handleKeyUp, false);
     document.addEventListener('keydown', handleKeyDown, false);
-
 
     /*const tween = new TWEEN.Tween({ x: -15, y: 5, z: 30 })
         .to({ x: -15, y: 20, z: 10 }, 10000)

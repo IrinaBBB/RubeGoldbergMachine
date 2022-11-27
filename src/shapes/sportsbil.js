@@ -19,7 +19,7 @@ window.splashCount = 0;
 
 export function createGLTFSportsbil(
     mass = 50,
-    position = {x:-29.09, y: 40, z: -45}, //8,23,30
+    position = {x:-29.2, y: 40, z: -52}, //8,23,30
     scale = {
         x: 0.015, y: 0.015, z: 0.015
     },
