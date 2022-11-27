@@ -1,3 +1,5 @@
+/** Lånt av https://github.com/mrdoob/three.js/blob/master/examples/webgl_modifier_tessellation.html*/
+
 import * as THREE from 'three';
 import { TessellateModifier } from 'three/addons/modifiers/TessellateModifier.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';

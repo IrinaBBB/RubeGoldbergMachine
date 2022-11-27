@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+/** Lånt av https://github.com/crashmax-dev/fireworks-js/#fireworks-js */
+
 import { Fireworks } from "fireworks-js";
 
 const container = document.querySelector('.container')

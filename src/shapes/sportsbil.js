@@ -1,8 +1,6 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { addMeshToScene } from '../helpers/myThreeHelper';
 import {
-    applyImpulse,
     createAmmoRigidBody,
     g_ammoPhysicsWorld,
     g_rigidBodies,
@@ -12,7 +10,6 @@ import {
     COLLISION_GROUP_MOVABLE,
     COLLISION_GROUP_PLANE,
     COLLISION_GROUP_SPHERE,
-    g_animationMixers,
 } from '../helpers/threeAmmoShapes';
 
 window.splashCount = 0;
@@ -25,9 +22,6 @@ export function createGLTFSportsbil(
     rotation = { x: 0, y: 0, z: 0 }
 ) {
     window.loader = new GLTFLoader();
-    //const dracoLoader = new DRACOLoader();
-    //dracoLoader.setDecoderPath('/draco/');
-    //loader.setDRACOLoader(dracoLoader);
     loader.load(
         '../../../../assets/models/sportsbil/sportcar_017.glb',
         (glb) => {
@@ -63,8 +57,6 @@ export function createGLTFSportsbil(
 
             let shape = new Ammo.btBoxShape(new Ammo.btVector3(100, 10, 70 )); //70, 70, 70
             shape.setMargin( 0.05 );
-            //const shape = new Ammo.btSphereShape(25);
-            //shape.getMargin(0.05);
 
             let rigidBody = createAmmoRigidBody(
                 shape,

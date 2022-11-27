@@ -1,6 +1,5 @@
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
-import {DRACOLoader} from "three/addons/loaders/DRACOLoader";
-import {applyImpulse, createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../helpers/myAmmoHelper";
+import {createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../helpers/myAmmoHelper";
 import {addMeshToScene} from "../helpers/myThreeHelper";
 import {
     COLLISION_GROUP_BOX,
@@ -8,7 +7,7 @@ import {
     COLLISION_GROUP_PLANE,
     COLLISION_GROUP_SPHERE
 } from "../helpers/threeAmmoShapes";
-import {TWEEN} from "three/addons/libs/tween.module.min";
+
 export let rocket;
 
 window.splashCount = 0;
@@ -24,13 +23,7 @@ export function createGLTFRakett(
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
     rotation = { x: 0, y: Math.PI / 2, z: 0 }
 ) {
-
-    //window.dominoSoundCount = 0;
     window.loader = new GLTFLoader();
-
-    //const dracoLoader = new DRACOLoader();
-    //dracoLoader.setDecoderPath('/draco/');
-    //loader.setDRACOLoader(dracoLoader);
     loader.load( "https://www.stivaliserna.com/assets/rocket/rocket.gltf",
         (gltf) => {
             rocket = gltf.scene;
@@ -38,7 +31,6 @@ export function createGLTFRakett(
             rocket.scale.set(scale.x, scale.y, scale.z);
             rocket.position.set(position.x, position.y, position.z);
             rocket.rotation.set(rotation.x, rotation.y, rotation.z);
-            //addMeshToScene(rocket);
             console.log(gltf.scene.animations);
             rocket.name = 'rocket';
 
@@ -88,22 +80,8 @@ export function createGLTFRakett(
                     );
                     audio.play().then();
                     window.splashCount++;
-
-                    /*const tween = new TWEEN.Tween({ x: -15, y: 5, z: 30 })
-                        .to({ x: -15, y: 20, z: 10 }, 10000)
-                        .easing(TWEEN.Easing.Exponential.Out)
-                        .onUpdate( function (position) {
-                            rocket.position.y = position.y;
-                            rocket.position.z = position.z;
-                        });
-                    tween.start()*/
                 }
-                //applyImpulse(rocket, 100, {x:100})
-                //applyImpulse(mesh.userData.physicsBody, 100, { x: 10, y: 10, z: 0 });
-
             };
-
-            //rocket.userData.physicsBody = rigidBody;
             addMeshToScene(rocket);
             g_rigidBodies.push(rocket);
             rigidBody.threeMesh = rocket;
