@@ -327,7 +327,7 @@ function addSceneObjects() {
     /** Nightmare Mushroom */
     createGLTFMushroom();
 
-    /**Pendulum
+    /**Pendulum*/
     createPendulum({x: -55, y: 77, z: -40}, 20, 1);
     createPendulum({x: -53, y: 77, z: -40}, 40, 2);
     createPendulum({x: -51, y: 77, z: -40}, 30, 3);
@@ -337,8 +337,8 @@ function addSceneObjects() {
     createPendulum({x: -51, y: 77, z: -38}, 35, 1);
     createPendulum({x: -53, y: 77, z: -38}, 21, 4);
     createPendulum({x: -55, y: 77, z: -38}, 34, 3);
-    createPendulum({x: -46, y: 77, z: -40}, 19, 3);*/
-    createPendulum({x: -45, y: 77, z: -38}, 25, 5);
+    createPendulum({x: -46, y: 77, z: -40}, 19, 3);
+    createPendulum({x: -45, y: 77, z: -38}, 20, 10);
 
 
     //Vegg med klosser
