@@ -87,7 +87,7 @@ export function createGLTFFish(
                     audio.play().then();
                     window.splashCount++;
                 }
-                applyImpulse(mesh.userData.physicsBody, 100, { x: 0, y: 1, z: 0 });
+                applyImpulse(mesh.userData.physicsBody, 10, { x: 0, y: 1, z: 0 });
             };
 
             addMeshToScene(fish);
