@@ -25,7 +25,7 @@ import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
 import {createGLTFDomino, domino} from './shapes/domino';
 import { createGLTFSportsbil } from './shapes/sportsbil';
-import {createPendulum, pushPendulumArm} from './shapes/pendulum';
+import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
 import {createGLTFRakett, rocket} from "./shapes/rakett";
 import {createBalloon} from "./shapes/balloon";
