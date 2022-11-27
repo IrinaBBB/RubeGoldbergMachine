@@ -40,14 +40,14 @@ export function createThreeScene() {
      * Camera
      */
     g_camera = new THREE.PerspectiveCamera(
-        75,
+        80,
         window.innerWidth / window.innerHeight,
         0.1,
         10000
     );
-    g_camera.position.x = 40;
-    g_camera.position.y = 70;
-    g_camera.position.z = 50;
+    g_camera.position.x = 70;
+    g_camera.position.y = 75;
+    g_camera.position.z = 60;
 
     /**
      * Trackball controls

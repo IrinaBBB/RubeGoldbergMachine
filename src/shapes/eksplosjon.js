@@ -9,23 +9,20 @@ import {
     COLLISION_GROUP_SPHERE
 } from "../helpers/threeAmmoShapes";
 import * as THREE from "three";
+import scene from "three/addons/offscreen/scene";
 export let explosionMesh;
-let explode = false;
+export let explode = false;
 
-export function createExplosion(
-    mass = 50,
-    position = { x: -15, y: 5, z: 35 },
-    scale = {
-        x: 0.1,
-        y: 0.1,
-        z: 0.1,
-    },
-    quaternion = { x: 0, y: 0, z: 0, w: 1 },
-    rotation = { x: 0, y: 0, z: 0 }
-) {
+export function createExplosion(){
+    const uniforms = {
+        amplitude: {value: 0.0},
+    };
+
     //window.dominoSoundCount = 0;
     let explosionBox = new THREE.BoxBufferGeometry(15,15,15);
-
+    explosionBox.position.x = -15;
+    explosionBox.position.y = 10;
+    explosionBox.position.z = 40;
     const tessellateModifier = new TessellateModifier(8,6);
     explosionBox = tessellateModifier.modify(explosionBox);
 
@@ -40,7 +37,7 @@ export function createExplosion(
 
     for (let f = 0; f < numFaces; f ++) {
         const index = 9 * f;
-        const h = 0.5 + Math.random(0.5);
+        const h = 0.5 + Math.random();
         color.setHSL(h, s, l);
 
         let dirX = Math.random() * 2 - 1;
@@ -65,12 +62,13 @@ export function createExplosion(
 
     const shaderMaterial = new THREE.ShaderMaterial({
         uniforms: uniforms,
-        vertexShader: vertShader,
-        fragmentShader: fragShader,
+        vertexShader: document.getElementById('vertShader').textContent,
+        fragmentShader: document.getElementById('fragShader').textContent,
     });
 
     explosionMesh = new THREE.Mesh( explosionBox, shaderMaterial);
-    addMeshToScene(explosionMesh);
+    scene.add(explosionMesh);
+    //addMeshToScene(explosionMesh);
     explosionMesh.name = 'explosionMesh';
 
     let transform = new Ammo.btTransform();
@@ -116,7 +114,7 @@ export function createExplosion(
             audio.play().then();
             window.splashCount++;
             explode = true;
-            if(explode)uniforms.amplitude.value += 1.0;
+
         }
         //applyImpulse(mesh.userData.physicsBody, 100, { x: 0, y: 1, z: 0 });
     };

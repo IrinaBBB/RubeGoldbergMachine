@@ -3,8 +3,6 @@ import * as THREE from 'three';
 import Stats from 'stats.js';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {TessellateModifier} from "three/addons/modifiers/TessellateModifier";
-import {vertShader, fragShader, uniforms} from './helpers/shaders.js';
 
 import {
     createThreeScene,
@@ -31,7 +29,7 @@ import {createPendulum} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
 import {createGLTFRakett, rocket} from "./shapes/rakett";
 import {createBalloon} from "./shapes/balloon";
-import {createExplosion} from "./shapes/eksplosjon";
+import {createExplosion, explode} from "./shapes/eksplosjon";
 
 
 /**
@@ -286,9 +284,17 @@ function addSceneObjects() {
     createAmmoBox(
         0,
         0xffff00,
-        {x: 30, y: 0.2, z: 2},
-        {x: 8, y: 11.5, z: -25.5},
-        {x: Math.PI / 4, y: Math.PI / 2, z: 0},
+        {x: 40, y: 0.2, z: 10},
+        {x:-15, y: 25, z: -45},
+        {x: Math.PI/ 90, y: 0, z: Math.PI/-4},
+        true
+    );
+    createAmmoBox(
+        0,
+        0xffff00,
+        {x: 15, y: 0.2, z: 8},
+        {x:-37, y: 39, z: -45},
+        {x: 0, y: 0, z: 0},
         true
     );
 
@@ -532,6 +538,7 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
     });
     let deltaTime = g_clock.getDelta();
 
+    if(explode)uniforms.amplitude.value += 1.0;
 
     stats.begin();
 
