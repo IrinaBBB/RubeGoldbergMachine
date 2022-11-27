@@ -18,13 +18,11 @@ import {
 window.splashCount = 0;
 
 export function createGLTFSportsbil(
-    mass = 50,
-    position = {x:-29.3, y: 40, z: -52}, //8,23,30
-    scale = {
-        x: 0.015, y: 0.015, z: 0.015
-    },
+    mass = 100,
+    position = {x: -17, y: 20, z: -22}, //8,23,30
+    scale = {x: 0.05, y: 0.05, z: 0.05},
     quaternion = { x: 0, y: 0, z: 0, w: 1 },
-    rotation = { x: 0, y: Math.PI/2, z: 0 }
+    rotation = { x: 0, y: 0, z: 0 }
 ) {
     window.loader = new GLTFLoader();
     //const dracoLoader = new DRACOLoader();
@@ -62,7 +60,7 @@ export function createGLTFSportsbil(
             let motionState = new Ammo.btDefaultMotionState( transform );
 
 
-            let shape = new Ammo.btBoxShape(new Ammo.btVector3(70, 70, 70 )); //70, 70, 70
+            let shape = new Ammo.btBoxShape(new Ammo.btVector3(100, 100, 100 )); //70, 70, 70
             shape.setMargin( 0.05 );
             //const shape = new Ammo.btSphereShape(25);
             //shape.getMargin(0.05);

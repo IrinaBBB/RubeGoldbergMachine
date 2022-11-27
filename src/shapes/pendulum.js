@@ -1,7 +1,6 @@
 import { addMeshToScene } from '../helpers/myThreeHelper';
 import * as THREE from 'three';
 import {
-    applyImpulse,
     createAmmoRigidBody,
     g_ammoPhysicsWorld,
     g_rigidBodies, IMPULSE_FORCE,
@@ -35,9 +34,9 @@ export async function createPendulum(
 function addPendulumConstraint(rigidBody1, rigidBody2, armLength) {
 
     const anchorPivot = new Ammo.btVector3(0.5, 0,0 );
-    const anchorAxis = new Ammo.btVector3(0, 1, 0);
+    const anchorAxis = new Ammo.btVector3(1, 0, 0);
     const armPivot = new Ammo.btVector3(0,armLength/2, 0 );
-    const armAxis = new Ammo.btVector3(0, 1,0 );
+    const armAxis = new Ammo.btVector3(0, 0,0 );
     let hingeConstraint = new Ammo.btHingeConstraint(
         rigidBody1,
         rigidBody2,
@@ -113,14 +112,13 @@ async function createPendulumArm(height = 50, radius = 0.5) {
     window.PendulumSoundCount = 0;
 
     armMesh.collisionResponse = (arMesh) => {
-        //pushPendulumArm(arMesh)
-        applyImpulse(arMesh.userData.physicsBody,10, {x:20, y: 0, z: 20});
-        if (window.PendulumSoundCount< 1) {
-            const audio = new Audio('../../../../assets/sounds/bonk.mp3');
-            audio.play().then();
-            window.dominoSoundCount++;
+        pushPendulumArm(arMesh, {x:15, y:0, z:0})
+        //if (window.PendulumSoundCount< 1) {
+        //const audio = new Audio('../../../../assets/sounds/bonk.mp3');
+        //audio.play().then();
+          //  window.dominoSoundCount++;
         }
-    }
+    //};
 
     //Ballen
     const cubeTextureLoader = new THREE.TextureLoader();
@@ -196,15 +194,14 @@ async function getPendulumMaterial() {
     return material;
 }
 
-export function pushPendulumArm(mesh) {
+export function pushPendulumArm(mesh, direction) {
     if (!mesh.userData.physicsBody)
         return;
     const rigidBody = mesh.userData.physicsBody;
     rigidBody.activate(true);
     // Gir impuls ytterst på armen:
     const armWidth = mesh.geometry.parameters.width;
-    mesh.userData.physicsBody, 10, { x: 0, y: 1, z: 0 }
-    //const relativeVector = new Ammo.btVector3(, 0, 0);
-    //const impulseVector = new Ammo.btVector3(50*direction.x, 0, 100*direction.z);
-    applyImpulse(mesh.userData.physicsBody,10, {x:armWidth/2, y: 0, z: 0});
+    const relativeVector = new Ammo.btVector3(armWidth/2, 0, 0);
+    const impulseVector = new Ammo.btVector3(50*direction.x, 0, 100*direction.z);
+    rigidBody.applyImpulse(impulseVector, relativeVector);
 }
