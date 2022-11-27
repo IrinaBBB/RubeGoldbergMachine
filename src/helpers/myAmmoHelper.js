@@ -201,6 +201,19 @@ function checkCollisions(deltaTime) {
                             if (typeof threeMesh1.collisionResponse === 'function')
                                 threeMesh1.collisionResponse(threeMesh1);
                         }
+                        if ((threeMesh0.name === 'movable' && threeMesh1.name === 'pendulumArm') ||
+                            threeMesh1.name === 'pendulumArm' && threeMesh0.name === 'movable') {
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
+                        if ((threeMesh0.name === 'fish' && threeMesh1.name === 'pendulumArm') ||
+                            threeMesh1.name === 'pendulumArm' && threeMesh0.name === 'fish') {
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
                         if ((threeMesh0.name === 'pendulumArm' && threeMesh1.name === 'mushroom') ||
                             threeMesh1.name === 'mushroom' && threeMesh0.name === 'pendulumArm') {
                             if (typeof threeMesh0.collisionResponseSplash === 'function')
@@ -214,22 +227,9 @@ function checkCollisions(deltaTime) {
                                 threeMesh0.collisionResponseSplash(threeMesh0);
                             if (typeof threeMesh1.collisionResponseSplash === 'function')
                                 threeMesh1.collisionResponseSplash(threeMesh1);
-                            const tween = new TWEEN.Tween({ x: -15, y: 5, z: 30 })
-                                .to({ x: -15, y: 20, z: 10 }, 10000)
-                                .easing(TWEEN.Easing.Exponential.Out)
-                                .onUpdate( function (position) {
-                                    rocket.position.y = position.y;
-                                    rocket.position.z = position.z;
-                                });
-                            tween.start()
                         }
 
-                        if ((threeMesh0.name === 'movable' && threeMesh1.name === 'pendulumArm') ||
-                            threeMesh1.name === 'pendulumArm' && threeMesh0.name === 'movable') {
-                            if (typeof threeMesh0.collisionResponse === 'function')
-                                threeMesh0.collisionResponse(threeMesh0);
-                            if (typeof threeMesh1.collisionResponse === 'function')
-                                threeMesh1.collisionResponse(threeMesh1);
+
                         }
                         if ((threeMesh0.name === 'movable' && threeMesh1.name === 'balloon') ||
                             threeMesh1.name === 'balloon' && threeMesh0.name === 'movable') {

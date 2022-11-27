@@ -5,7 +5,7 @@ import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 import {
-    createThreeScene, g_camera,
+    createThreeScene,
     handleKeys,
     onWindowResize,
     renderScene,
