@@ -162,13 +162,13 @@ async function createPendulumArm(height = 50, radius = 0.5) {
     g_ammoPhysicsWorld.addRigidBody(
         rigidBody,
         COLLISION_GROUP_PENDULUM_SPHERE_BALL,
-        COLLISION_GROUP_PENDULUM_SPHERE_BALL
-         |
+        COLLISION_GROUP_PENDULUM_SPHERE_BALL|
         COLLISION_GROUP_SPHERE |
         COLLISION_GROUP_PLANE |
-        COLLISION_GROUP_MOVABLE |
-        COLLISION_GROUP_BOX
-    );
+        COLLISION_GROUP_MOVABLE
+
+
+
 
     armMesh.collisionResponseSplash = (mesh) => {
         if (window.splashCount < 1) {
