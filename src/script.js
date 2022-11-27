@@ -25,11 +25,10 @@ import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
 import {createGLTFDomino, domino} from './shapes/domino';
 import { createGLTFSportsbil } from './shapes/sportsbil';
-import {createPendulum} from './shapes/pendulum';
+import {createPendulum, pushPendulumArm} from './shapes/pendulum';
 import {createPlank} from './shapes/plankSphere.js';
 import {createGLTFRakett, rocket} from "./shapes/rakett";
 import {createBalloon} from "./shapes/balloon";
-import {createExplosion, explode} from "./shapes/eksplosjon";
 import {Fireworks} from "fireworks-js";
 
 
@@ -157,7 +156,7 @@ function addSceneObjects() {
     );
 
     /** Purple cube that starts chain reaction */
-    createMovable(0x550099, {x: -55, y: 55, z: 55});
+    createMovable(0x550099, {x: -52, y: 55, z: 55});
 
     /** Small Bed */
     createAmmoBox(
@@ -347,8 +346,7 @@ function addSceneObjects() {
     createPendulum({x: -53, y: 77, z: -38}, 21, 4);
     createPendulum({x: -55, y: 77, z: -38}, 34, 3);
     createPendulum({x: -46, y: 77, z: -40}, 19, 3);*/
-    createPendulum({x: -45, y: 77, z: -38}, 25, 5);
-
+   createPendulum({x: -48, y: 77, z: -38}, 25, 5).then(r => {});
 
     //Vegg med klosser
     for (var z = 12; z > 6; z -= 2) {
@@ -470,8 +468,6 @@ function addSceneObjects() {
     /** Rakett */
     createGLTFRakett()
 
-    /** Testboks for eksplosjon*/
-    createExplosion()
 
 }
 
@@ -565,8 +561,6 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
         animate(currentTime, myThreeScene, myAmmoPhysicsWorld);
     });
     let deltaTime = g_clock.getDelta();
-
-    if(explode)uniforms.amplitude.value += 1.0;
 
     stats.begin();
 

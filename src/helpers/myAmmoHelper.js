@@ -177,9 +177,30 @@ function checkCollisions(deltaTime) {
                             if (typeof threeMesh1.collisionResponse === 'function')
                                 threeMesh1.collisionResponse(threeMesh1);
                         }
+                        if ((threeMesh0.name === 'movable' && threeMesh1.name === 'pendulumArm') ||
+                            threeMesh1.name === 'pendulumArm' && threeMesh0.name === 'movable') {
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
+                        if ((threeMesh0.name === 'movable' && threeMesh1.name === 'pendulumWeight') ||
+                            threeMesh1.name === 'pendulumWeight' && threeMesh0.name === 'movable') {
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
 
                         if ((threeMesh0.name === 'movable' && threeMesh1.name === 'domino') ||
                             threeMesh1.name === 'domino' && threeMesh0.name === 'movable') {
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
+                        if ((threeMesh0.name === 'domino' && threeMesh1.name === 'fish') ||
+                            threeMesh1.name === 'fish' && threeMesh0.name === 'domino') {
                             if (typeof threeMesh0.collisionResponse === 'function')
                                 threeMesh0.collisionResponse(threeMesh0);
                             if (typeof threeMesh1.collisionResponse === 'function')
@@ -193,7 +214,28 @@ function checkCollisions(deltaTime) {
                             if (typeof threeMesh1.collisionResponseSplash === 'function')
                                 threeMesh1.collisionResponseSplash(threeMesh1);
                         }
+                        if ((threeMesh0.name === 'pendulumArm' && threeMesh1.name === 'mushroom') ||
+                            threeMesh1.name === 'mushroom' && threeMesh0.name === 'pendulumArm') {
+                            if (typeof threeMesh0.collisionResponseSplash === 'function')
+                                threeMesh0.collisionResponseSplash(threeMesh0);
+                            if (typeof threeMesh1.collisionResponseSplash === 'function')
+                                threeMesh1.collisionResponseSplash(threeMesh1);
+                        }
+                        if ((threeMesh0.name === 'pendulumWeight' && threeMesh1.name === 'mushroom') ||
+                            threeMesh1.name === 'mushroom' && threeMesh0.name === 'pendulumWeight') {
+                            if (typeof threeMesh0.collisionResponseSplash === 'function')
+                                threeMesh0.collisionResponseSplash(threeMesh0);
+                            if (typeof threeMesh1.collisionResponseSplash === 'function')
+                                threeMesh1.collisionResponseSplash(threeMesh1);
+                        }
 
+                        if ((threeMesh0.name === 'fish' && threeMesh1.name === 'balloon') ||
+                            threeMesh1.name === 'balloon' && threeMesh0.name === 'fish') {
+                            if (typeof threeMesh0.collisionResponseSplash === 'function')
+                                threeMesh0.collisionResponseSplash(threeMesh0);
+                            if (typeof threeMesh1.collisionResponseSplash === 'function')
+                                threeMesh1.collisionResponseSplash(threeMesh1);
+                        }
                         if ((threeMesh0.name === 'pendulumWeight' && threeMesh1.name === 'fish') ||
                             threeMesh1.name === 'fish' && threeMesh0.name === 'pendulumWeight') {
                             if (typeof threeMesh0.collisionResponse === 'function')
@@ -245,8 +287,8 @@ function checkCollisions(deltaTime) {
                                 threeMesh1.collisionResponse(threeMesh1);
                         }
 
-                        if ((threeMesh0.name === 'balloon' && threeMesh1.name === 'plank') ||
-                            threeMesh1.name === 'plank' && threeMesh0.name === 'balloon') {
+                        if ((threeMesh0.name === 'balloon' && threeMesh1.name === 'sportsbil') ||
+                            threeMesh1.name === 'sportsbil' && threeMesh0.name === 'balloon') {
                             if (typeof threeMesh0.collisionResponse === 'function')
                                 threeMesh0.collisionResponse(threeMesh0);
                             if (typeof threeMesh1.collisionResponse === 'function')
