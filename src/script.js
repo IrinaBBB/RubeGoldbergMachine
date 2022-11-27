@@ -281,7 +281,7 @@ function addSceneObjects() {
 
 
 
-    /** Track for car */
+    /** Track for car
     createAmmoBox(
         0,
         0xffff00,
@@ -297,7 +297,7 @@ function addSceneObjects() {
         {x:-37, y: 39, z: -52},
         {x: 0, y: 0, z: 0},
         true
-    );
+    );*/
 
     /** Dominoes **/
     createGLTFDomino(
@@ -386,13 +386,13 @@ function addSceneObjects() {
     );
 
 
-    createPlank({
+    /*createPlank({
             x: 6, y: 6, z: 6
         },
         {x: -17, y: 20, z: -24},
         500,
         {x: 0, y: 0, z: 0},
-        {x: 0, y: 0, z: 0, w: 1});
+        {x: 0, y: 0, z: 0, w: 1});*/
 
     /**Planke fra senga**/
     createAmmoBox(
@@ -408,6 +408,18 @@ function addSceneObjects() {
     createBalloon(1,{x: -46, y: 59, z: -55});
     createBalloon(1,{x: -43, y: 59, z: -55});
     createBalloon(1,{x: -40, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
+    createBalloon(1,{x: -44, y: 59, z: -55});
     createBalloon(1,{x: -44, y: 59, z: -55});
     createBalloon(1,{x: -44, y: 59, z: -55});
     createBalloon(1,{x: -44, y: 59, z: -55});

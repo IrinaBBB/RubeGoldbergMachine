@@ -1,6 +1,7 @@
 import { addMeshToScene } from '../helpers/myThreeHelper';
 import * as THREE from 'three';
 import {
+    applyImpulse,
     createAmmoRigidBody,
     g_ammoPhysicsWorld,
     g_rigidBodies, IMPULSE_FORCE,
@@ -167,10 +168,19 @@ async function createPendulumArm(height = 50, radius = 0.5) {
         COLLISION_GROUP_PLANE |
         COLLISION_GROUP_MOVABLE |
         COLLISION_GROUP_BOX
-
-
-
     );
+
+    armMesh.collisionResponseSplash = (mesh) => {
+        if (window.splashCount < 1) {
+            const audio = new Audio(
+                '../../../../assets/sounds/splash.mp3'
+            );
+            audio.play().then();
+            window.splashCount++;
+        }
+        applyImpulse(mesh.userData.physicsBody, 10, { x: 0, y: 1, z: 0 });
+    };
+
     addMeshToScene(armMesh);
     g_rigidBodies.push(armMesh);
     rigidBody.threeMesh = armMesh;
