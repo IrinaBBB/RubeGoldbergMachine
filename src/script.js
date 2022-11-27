@@ -28,8 +28,8 @@ import { createGLTFSportsbil } from './shapes/sportsbil';
 import {createPendulum} from './shapes/pendulum';
 import {createGLTFRakett} from "./shapes/rakett";
 import {createBalloon} from "./shapes/balloon";
-import {uniforms2} from "./shapes/eksplosjon";
-import {createText} from "three/addons/webxr/Text2D";
+import {createGLTFBell} from "./shapes/bell";
+
 
 
 /**
@@ -286,27 +286,6 @@ function addSceneObjects() {
         false
     );
 
-
-
-
-    /** Track for car
-    createAmmoBox(
-        0,
-        0xffff00,
-        {x: 40, y: 0.2, z: 10},
-        {x:-15, y: 25, z: -55},
-        {x: Math.PI/ 90, y: 0, z: Math.PI/-4},
-        true
-    );
-    createAmmoBox(
-        0,
-        0xffff00,
-        {x: 15, y: 0.2, z: 8},
-        {x:-37, y: 39, z: -52},
-        {x: 0, y: 0, z: 0},
-        true
-    );*/
-
     /** Dominoes **/
     createGLTFDomino(
         50,
@@ -405,6 +384,7 @@ function addSceneObjects() {
     /** Rakett */
     createGLTFRakett()
 
+    createGLTFBell()
 }
 
 
@@ -537,8 +517,8 @@ export async function main() {
     stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild(stats.dom);
 
-    const time = Date.now() * 0.001;
-    uniforms2.amplitude.value = 1.0 + Math.sin( time * 0.5 );
+    //const time = Date.now() * 0.001;
+    //uniforms2.amplitude.value = 1.0 + Math.sin( time * 0.5 );
 
     /**
      * Call handleKeyUp and handleKeyDown on keyUp/keyDown
