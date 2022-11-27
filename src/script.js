@@ -23,13 +23,13 @@ import {
 } from './helpers/threeAmmoShapes.js';
 import { createGLTFMushroom } from './shapes/mushroom.js';
 import { createGLTFFish } from './shapes/fish';
-import {createGLTFDomino, domino} from './shapes/domino';
+import {createGLTFDomino} from './shapes/domino';
 import { createGLTFSportsbil } from './shapes/sportsbil';
 import {createPendulum} from './shapes/pendulum';
-import {createPlank} from './shapes/plankSphere.js';
-import {createGLTFRakett, rocket} from "./shapes/rakett";
+import {createGLTFRakett} from "./shapes/rakett";
 import {createBalloon} from "./shapes/balloon";
-import {Fireworks} from "fireworks-js";
+import {uniforms2} from "./shapes/eksplosjon";
+import {createText} from "three/addons/webxr/Text2D";
 
 
 /**
@@ -335,18 +335,7 @@ function addSceneObjects() {
     /** Nightmare Mushroom */
     createGLTFMushroom();
 
-    /**Pendulum
-    createPendulum({x: -55, y: 77, z: -40}, 20, 1);
-    createPendulum({x: -53, y: 77, z: -40}, 40, 2);
-    createPendulum({x: -51, y: 77, z: -40}, 30, 3);
-    createPendulum({x: -49, y: 77, z: -40}, 25, 4);
-    createPendulum({x: -47, y: 77, z: -40}, 20, 2);
-    createPendulum({x: -49, y: 77, z: -38}, 30, 3);
-    createPendulum({x: -51, y: 77, z: -38}, 35, 1);
-    createPendulum({x: -53, y: 77, z: -38}, 21, 4);
-    createPendulum({x: -55, y: 77, z: -38}, 34, 3);
-    createPendulum({x: -46, y: 77, z: -40}, 19, 3);*/
-   createPendulum({x: -48, y: 77, z: -38}, 25, 5).then(r => {});
+    createPendulum({x: -48, y: 77, z: -38}, 25, 5).then(r => {});
 
     //Vegg med klosser
     for (var z = 12; z > 6; z -= 2) {
@@ -392,15 +381,6 @@ function addSceneObjects() {
         true
     );
 
-
-    /*createPlank({
-            x: 6, y: 6, z: 6
-        },
-        {x: -17, y: 20, z: -24},
-        500,
-        {x: 0, y: 0, z: 0},
-        {x: 0, y: 0, z: 0, w: 1});*/
-
     /**Planke fra senga**/
     createAmmoBox(
         0,
@@ -411,63 +391,19 @@ function addSceneObjects() {
         true
     );
 
-    createBalloon(1,{x: -45, y: 59, z: -55});
-    createBalloon(1,{x: -46, y: 59, z: -55});
-    createBalloon(1,{x: -46, y: 59, z: -55});
-    createBalloon(1,{x: -46, y: 59, z: -55});
-    createBalloon(1,{x: -46, y: 59, z: -55});
-    createBalloon(1,{x: -46, y: 59, z: -55});
-    createBalloon(1,{x: -46, y: 59, z: -55});
-    createBalloon(1,{x: -46, y: 59, z: -55});
-    createBalloon(1,{x: -43, y: 59, z: -55});
-    createBalloon(1,{x: -40, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
-    createBalloon(1,{x: -44, y: 59, z: -55});
+    /** Balloons */
+    for (let i = 0; i <= 70; i++){
+        createBalloon(1,{x: -44, y: 59, z: -55});
+    }
+
     /** Fish */
     createGLTFFish();
 
     /** Taxi */
     createGLTFSportsbil()
 
-    /** Sykkel */
-    //createGLTFSykkel();
-
-    /** kaffekopp */
-    //createOBJCoffeMug()
-
     /** Rakett */
     createGLTFRakett()
-
 
 }
 
@@ -600,6 +536,9 @@ function animate(currentTime, myThreeScene, myAmmoPhysicsWorld) {
 export async function main() {
     stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild(stats.dom);
+
+    const time = Date.now() * 0.001;
+    uniforms2.amplitude.value = 1.0 + Math.sin( time * 0.5 );
 
     /**
      * Call handleKeyUp and handleKeyDown on keyUp/keyDown

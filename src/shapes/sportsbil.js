@@ -40,6 +40,7 @@ export function createGLTFSportsbil(
                 if (window.splashCount < 1) {
                     const audio = new Audio('../../../../assets/sounds/engine.mp3');
                     audio.play().then();
+                    audio.setVolume(4);
                     window.splashCount++;
                 }
             };
@@ -60,7 +61,7 @@ export function createGLTFSportsbil(
             let motionState = new Ammo.btDefaultMotionState( transform );
 
 
-            let shape = new Ammo.btBoxShape(new Ammo.btVector3(70, 10, 70 )); //70, 70, 70
+            let shape = new Ammo.btBoxShape(new Ammo.btVector3(100, 10, 70 )); //70, 70, 70
             shape.setMargin( 0.05 );
             //const shape = new Ammo.btSphereShape(25);
             //shape.getMargin(0.05);

@@ -1,126 +1,104 @@
-import {applyImpulse, createAmmoRigidBody, g_ammoPhysicsWorld, g_rigidBodies} from "../helpers/myAmmoHelper";
+import * as THREE from 'three';
+import { TessellateModifier } from 'three/addons/modifiers/TessellateModifier.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import {addMeshToScene} from "../helpers/myThreeHelper";
-import {TessellateModifier} from "three/addons/modifiers/TessellateModifier";
-import {vertShader, fragShader, uniforms } from "../helpers/shaders";
-import {
-    COLLISION_GROUP_BOX,
-    COLLISION_GROUP_MOVABLE,
-    COLLISION_GROUP_PLANE,
-    COLLISION_GROUP_SPHERE
-} from "../helpers/threeAmmoShapes";
-import * as THREE from "three";
-import scene from "three/addons/offscreen/scene";
-export let explosionMesh;
-export let explode = false;
 
-export function createExplosion(){
-    const uniforms = {
-        amplitude: {value: 0.0},
-    };
 
-    //window.dominoSoundCount = 0;
-    let explosionBox = new THREE.BoxBufferGeometry(15,15,15);
-    explosionBox.position.x = -15;
-    explosionBox.position.y = 10;
-    explosionBox.position.z = 40;
-    const tessellateModifier = new TessellateModifier(8,6);
-    explosionBox = tessellateModifier.modify(explosionBox);
+export let meshText;
+export let uniforms2 = {
 
-    const numFaces = explosionBox.attributes.position.count / 3;
+    amplitude: { value: 0.0 }
 
-    const colors = new Float32Array(numFaces * 3 * 3);
-    const vel = new Float32Array( numFaces * 3 * 3);
+};
+
+//const loader = new FontLoader();
+  //  loader.load( 'three/fonts/helvetiker_bold.typeface.json', function ( font ) {
+
+//} );
+
+export function createText( font ) {
+
+    //
+
+    let text = new TextGeometry( 'THE END!', {
+
+        font: font,
+
+        size: 40,
+        height: 5,
+        curveSegments: 3,
+
+        bevelThickness: 2,
+        bevelSize: 1,
+        bevelEnabled: true
+
+    } );
+
+    text.center();
+
+    const tessellateModifier = new TessellateModifier( 8, 6 );
+
+    text = tessellateModifier.modify( text );
+
+    //
+
+    const numFaces = text.attributes.position.count / 3;
+
+    const colors = new Float32Array( numFaces * 3 * 3 );
+    const displacement = new Float32Array( numFaces * 3 * 3 );
 
     const color = new THREE.Color();
-    const l = 0.5;
-    const s = 1.0;
 
-    for (let f = 0; f < numFaces; f ++) {
+    for ( let f = 0; f < numFaces; f ++ ) {
+
         const index = 9 * f;
-        const h = 0.5 + Math.random();
-        color.setHSL(h, s, l);
 
-        let dirX = Math.random() * 2 - 1;
-        let dirY = Math.random() * 2 - 1;
-        let dirZ = Math.random() * 2 - 1;
+        const h = 0.2 * Math.random();
+        const s = 0.5 + 0.5 * Math.random();
+        const l = 0.5 + 0.5 * Math.random();
 
-        for (let i = 0; i < 3; i ++){
-            colors[ index + (3 * i)] = color.r;
-            colors[index + (3 * i) + 1] = color.g;
-            colors[index + (3 * i) + 2] = color.b;
+        color.setHSL( h, s, l );
 
-            vel[ index + (3 * i)] = dirX;
-            vel[ index + (3 * i) + 1] = dirY;
-            vel[ index + (3 * i) + 2] = dirZ;
+        const d = 10 * ( 0.5 - Math.random() );
+
+        for ( let i = 0; i < 3; i ++ ) {
+
+            colors[ index + ( 3 * i ) ] = color.r;
+            colors[ index + ( 3 * i ) + 1 ] = color.g;
+            colors[ index + ( 3 * i ) + 2 ] = color.b;
+
+            displacement[ index + ( 3 * i ) ] = d;
+            displacement[ index + ( 3 * i ) + 1 ] = d;
+            displacement[ index + ( 3 * i ) + 2 ] = d;
+
         }
+
     }
 
-    explosionBox.setAttribute( 'customColor', new THREE.BufferAttribute(colors, 3));
-    explosionBox.setAttribute('vel', new THREE.BufferAttribute(vel, 3));
+    text.setAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+    text.setAttribute( 'displacement', new THREE.BufferAttribute( displacement, 3 ) );
 
-    console.log(explosionBox);
+    //
 
-    const shaderMaterial = new THREE.ShaderMaterial({
-        uniforms: uniforms,
-        vertexShader: document.getElementById('vertShader').textContent,
-        fragmentShader: document.getElementById('fragShader').textContent,
-    });
 
-    explosionMesh = new THREE.Mesh( explosionBox, shaderMaterial);
-    scene.add(explosionMesh);
-    //addMeshToScene(explosionMesh);
-    explosionMesh.name = 'explosionMesh';
 
-    let transform = new Ammo.btTransform();
-    transform.setIdentity();
-    transform.setOrigin(
-        new Ammo.btVector3(position.x, position.y, position.z)
-    );
-    transform.setRotation(
-        new Ammo.btQuaternion(
-            quaternion.x,
-            quaternion.y,
-            quaternion.z,
-            quaternion.w
-        )
-    );
+    const shaderMaterial = new THREE.ShaderMaterial( {
 
-    const shape = new Ammo.btBoxShape(new Ammo.btVector3(70, 130, 50));
-    //shape.getMargin(0.05);
+        uniforms: uniforms2,
+        vertexShader: document.getElementById( 'vertexshader' ).textContent,
+        fragmentShader: document.getElementById( 'fragmentshader' ).textContent
 
-    let rigidBody = createAmmoRigidBody(
-        shape,
-        explosionMesh,
-        0.5,
-        50,
-        position,
-        mass
-    );
-    //domino.userData.physicsBody = rigidBody;
-    g_ammoPhysicsWorld.addRigidBody(
-        rigidBody,
-        COLLISION_GROUP_BOX,
-        COLLISION_GROUP_SPHERE |
-        COLLISION_GROUP_BOX |
-        COLLISION_GROUP_MOVABLE |
-        COLLISION_GROUP_PLANE
-    );
+    } );
 
-    explosionMesh.collisionResponseSplash = (mesh) => {
-        if (window.splashCount < 1) {
-            const audio = new Audio(
-                '../../../../assets/sounds/explosion.mp3'
-            );
-            audio.play().then();
-            window.splashCount++;
-            explode = true;
+    //
 
-        }
-        //applyImpulse(mesh.userData.physicsBody, 100, { x: 0, y: 1, z: 0 });
-    };
+    meshText = new THREE.Mesh( text, shaderMaterial );
 
-    explosionMesh.userData.physicsBody = rigidBody;
-    //addMeshToScene(domino);
-    g_rigidBodies.push(explosionMesh);
-    rigidBody.threeMesh = explosionMesh;
+    addMeshToScene( meshText );
+
+    const container = document.getElementById( 'container' );
+    container.appendChild( renderer.domElement );
+
 }
+
