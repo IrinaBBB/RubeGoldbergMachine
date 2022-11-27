@@ -286,6 +286,13 @@ function checkCollisions(deltaTime) {
                             if (typeof threeMesh1.collisionResponse === 'function')
                                 threeMesh1.collisionResponse(threeMesh1);
                         }
+                        if ((threeMesh0.name === 'pendulumWeight' && threeMesh1.name === 'balloon') ||
+                            threeMesh1.name === 'balloon' && threeMesh0.name === 'pendulumWeight') {
+                            if (typeof threeMesh0.collisionResponse === 'function')
+                                threeMesh0.collisionResponse(threeMesh0);
+                            if (typeof threeMesh1.collisionResponse === 'function')
+                                threeMesh1.collisionResponse(threeMesh1);
+                        }
 
                         if ((threeMesh0.name === 'balloon' && threeMesh1.name === 'sportsbil') ||
                             threeMesh1.name === 'sportsbil' && threeMesh0.name === 'balloon') {

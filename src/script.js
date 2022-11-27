@@ -283,7 +283,7 @@ function addSceneObjects() {
         {x: 40, y: 0.5, z: 30},
         {x: -10, y:11, z: -33},
         {x: 0, y: 0, z: Math.PI/2},
-        true
+        false
     );
 
 
