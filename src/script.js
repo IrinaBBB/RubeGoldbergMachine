@@ -200,14 +200,14 @@ function addSceneObjects() {
     );
 
     /** sperrer til ballene */
-    createAmmoBox(
-        0,
-        0xffff00,
-        {x: 19, y: 0.5, z: 8},
-        {x: -39, y: 55, z: -53},
-        {x: Math.PI/2, y: 0, z: 0},
-        false
-    );
+    //createAmmoBox(
+      //  0,
+       // 0xffff00,
+        //{x: 19, y: 0.5, z: 8},
+        //{x: -39, y: 55, z: -53},
+        //{x: Math.PI/2, y: 0, z: 0},
+        //true
+    //);
 
     /** sperrer til ballene */
     createAmmoBox(
@@ -338,7 +338,7 @@ function addSceneObjects() {
     createPendulum({x: -53, y: 77, z: -38}, 21, 4);
     createPendulum({x: -55, y: 77, z: -38}, 34, 3);
     createPendulum({x: -46, y: 77, z: -40}, 19, 3);*/
-    createPendulum({x: -45, y: 77, z: -38}, 20, 2);
+    createPendulum({x: -45, y: 77, z: -38}, 25, 5);
 
 
     //Vegg med klosser
